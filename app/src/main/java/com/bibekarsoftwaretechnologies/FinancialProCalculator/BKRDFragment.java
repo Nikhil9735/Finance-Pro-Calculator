@@ -489,7 +489,7 @@ public class BKRDFragment extends Fragment {
             return false;
         }
 
-        // Parse input1 after confirming it's not empty
+        // Parse input1 after confirming it's not emptynikhil
         float input1;
         try {
             input1 = Float.parseFloat(input1Str); // Safe float parsing
