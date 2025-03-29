@@ -24,7 +24,7 @@ public class BKRDFragment extends Fragment {
 
     private EditText editTextNumber1, editTextNumber2, editTextNumber3, editTextRepaymenetEmi;
     private Spinner spinner, interestRecievedDropdown, simpleLoanCalculateDropdown;
-    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, textViewTerm, totalDepositHeading,
+    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, errorTextEditTextNumber2, textViewTerm, totalDepositHeading,
             totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
             totalInterestResult, maturityAmountHeading, maturityAmountResult, editTextRepaymenetEmiHeading;
     private MainViewModel mainViewModel;
@@ -47,6 +47,7 @@ public class BKRDFragment extends Fragment {
         editTextNumber1 = view.findViewById(R.id.editTextNumber1);
         errorTextEditTextNumber1 = view.findViewById(R.id.errorTextEditTextNumber1);
         editTextNumber2 = view.findViewById(R.id.editTextNumber2);
+        errorTextEditTextNumber2 = view.findViewById(R.id.errorTextEditTextNumber2);
         editTextNumber3 = view.findViewById(R.id.editTextNumber3);
         spinner = view.findViewById(R.id.spinner_row_count);
         TextView interestRecievedText = view.findViewById(R.id.interestRecievedText); // Add this
@@ -198,6 +199,10 @@ public class BKRDFragment extends Fragment {
 
         // Set OnClickListener for the Calculate button
         Button buttonCalculate = view.findViewById(R.id.button_calculate);
+
+        CommonMethod.addClearErrorTextWatcher(editTextNumber1, errorTextEditTextNumber1);
+        CommonMethod.addClearErrorTextWatcher(editTextNumber2, errorTextEditTextNumber2);
+
         buttonCalculate.setOnClickListener(v -> calculateRD());
 
         // Observe visibility for resultBox
@@ -496,10 +501,6 @@ public class BKRDFragment extends Fragment {
 
             // Validate input1 based on the operation
             if (operation.equals("Bank Recurring Deposit (RD)")) {
-                if (input1 % 10 != 0) {
-                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount should be in multiple of 10.");
-                    return false;
-                }
                 if (input1 <= 0) {
                     CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount cannot be zero.");
                     return false;
@@ -519,6 +520,37 @@ public class BKRDFragment extends Fragment {
         } catch (NumberFormatException e) {
             CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
             return false;
+        }
+
+
+        // Skip validation for input2 (editText2) if operation is MSSC
+        if (operation.equals("Bank Recurring Deposit (RD)")) {
+            // Validate input2 (editText2)
+            if (input2Str.isEmpty()) {
+                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                return false;
+            }
+
+            // Parse input2 after confirming it's not empty
+            float input2;
+            try {
+                input2 = Float.parseFloat(input2Str);
+
+                // Validate input2 based on the operation
+                if (input2 == 0) {
+                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
+                    return false;
+                } else if ((operation.equals("Recurring Deposit (RD)") && input2 > 20) || (operation.equals("Time Deposit (TD)") && input2 > 15)) {
+                    String errorMsg = operation.equals("Recurring Deposit (RD)") ?
+                            "Annual interest rate Should not exceed 20%." :
+                            "Annual interest rate Should not exceed 15%.";
+                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, errorMsg);
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                return false;
+            }
         }
         
         return true;
