@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/wndowBgScreen"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <!-- Heading TextView -->
+    <TextView
+        android:id="@+id/text_color_scheme_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact"
+        android:textSize="19sp"
+        style="@style/textColor"
+        android:fontFamily="@font/bold"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/selected_theme_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        style="@style/selectedTextColor"
+        android:text="@string/contactDiaNote"
+        android:textColor="@color/red"
+        android:fontFamily="@font/regular"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:hint="@string/seggestionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/suggestionName" />
+
+    <EditText
+        android:lines="4"
+        android:hint="@string/seggestionMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/suggestionMessage" />
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonSend"
+        android:fontFamily="@font/bold"
+        style="@style/textColor"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackground" />
+</LinearLayout>

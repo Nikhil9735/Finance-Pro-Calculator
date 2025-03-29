@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SettingsActivity">
+
+    <!-- AppBar for Toolbar and TabLayout -->
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        android:theme="@style/Base.Theme.MathOperation"
+        app:titleTextColor="?attr/colorPrimaryFixed" />
+
+    <!-- Section Heading for App, positioned below the Toolbar -->
+    <TextView
+        android:id="@+id/app_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/App"
+        android:textSize="10dp"
+        style="@style/textColor"
+        android:fontFamily="@font/bold"
+        android:padding="16dp"
+        android:layout_below="@id/toolbar" />
+
+    <!-- Menu Item for Color Scheme -->
+    <LinearLayout
+        android:id="@+id/btn_color_scheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/app_section">
+
+        <!-- Horizontal layout for icon and "Color Scheme" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_theme"
+                android:contentDescription="@string/color_scheme_text"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <!-- Add this TextView to display selected theme -->
+                <TextView
+                    android:id="@+id/color_scheme_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/color_scheme_text"
+                    android:textSize="16sp"
+                    android:contentDescription="@string/color_scheme_text"
+                    style="@style/textColor" />
+
+                <TextView
+                    android:id="@+id/selected_theme_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    style="@style/selectedTextColor"
+                    android:text="System (Default)"
+                    android:fontFamily="@font/regular" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Menu Item for Language Option -->
+    <LinearLayout
+        android:id="@+id/btn_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/btn_color_scheme">
+
+        <!-- Horizontal layout for icon and "Language" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_lang"
+                android:contentDescription="@string/language_text"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <!-- Add this TextView to display selected language -->
+                <TextView
+                    style="@style/textColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/language_text"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/selected_language_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    style="@style/selectedTextColor"
+                    android:text="English"
+                    android:fontFamily="@font/regular" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Section Heading for About -->
+    <TextView
+        android:id="@+id/about_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/About"
+        android:textSize="10dp"
+        style="@style/textColor"
+        android:fontFamily="@font/bold"
+        android:padding="16dp"
+        android:layout_below="@id/btn_language"/>
+
+    <!-- Menu Item for Suggestion -->
+    <LinearLayout
+        android:id="@+id/btn_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/about_section">
+
+        <!-- Horizontal layout for icon and "Suggestion" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_contact"
+                android:contentDescription="@string/contact"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/contact"
+                    android:textSize="16sp"
+                    android:contentDescription="@string/contact"
+                    style="@style/textColor" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Menu Item for Privacy Policy -->
+    <LinearLayout
+        android:id="@+id/btn_privacy_policy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/btn_suggestion">
+
+        <!-- Horizontal layout for icon and "Privacy Policy" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_privacy_policy"
+                android:contentDescription="@string/privacy_policy"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/privacy_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/privacy_policy"
+                    android:textSize="16sp"
+                    android:contentDescription="@string/privacy_policy"
+                    style="@style/textColor" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Menu Item for Version -->
+    <LinearLayout
+        android:id="@+id/btn_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/btn_privacy_policy">
+
+        <!-- Horizontal layout for icon and "Version" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_version"
+                android:contentDescription="@string/version_num"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/app_name"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="16sp"
+                    android:contentDescription="@string/app_name"
+                    style="@style/textColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    style="@style/selectedTextColor"
+                    android:text="@string/version_num"
+                    android:fontFamily="@font/regular" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Developed By Section -->
+    <LinearLayout
+        android:id="@+id/developedby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                style="@style/selectedTextColor"
+                android:layout_gravity="center"
+                android:text="@string/developedby"
+                android:fontFamily="@font/regular" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:text="@string/DeveloperName"
+                android:textSize="13sp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/privacy_policy"
+                style="@style/textColor" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

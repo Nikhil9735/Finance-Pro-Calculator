@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSecondary">
+
+    <!-- RadioButton Box fixed at the top -->
+    <LinearLayout
+        android:id="@+id/radioButtonBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curve_box"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:padding="9dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentTop="true">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/returnRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Return"
+            android:fontFamily="@font/regular"
+            android:textSize="15sp"/>
+
+        <RadioButton
+            android:id="@+id/growthRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Growth"
+            android:fontFamily="@font/regular"
+            android:textSize="15sp"/>
+    </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chartBox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/radioButtonBox"
+        android:layout_centerInParent="true"
+        android:background="@drawable/curve_box"
+        android:elevation="4dp"
+        android:layout_margin="16dp">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</LinearLayout>

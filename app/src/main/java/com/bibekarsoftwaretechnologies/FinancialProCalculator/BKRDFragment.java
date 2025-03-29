@@ -1,0 +1,526 @@
+package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import java.text.DecimalFormat;
+
+public class BKRDFragment extends Fragment {
+
+    private EditText editTextNumber1, editTextNumber2, editTextNumber3, editTextRepaymenetEmi;
+    private Spinner spinner, interestRecievedDropdown, simpleLoanCalculateDropdown;
+    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, textViewTerm, totalDepositHeading,
+            totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
+            totalInterestResult, maturityAmountHeading, maturityAmountResult, editTextRepaymenetEmiHeading;
+    private MainViewModel mainViewModel;
+    private LinearLayout resultBox, simpleLoanDropdownLayout;
+    private Button findInterestRate;
+
+    // Other class-level fields
+    private float totalInterest = 0;
+    private float totalDeposit = 0;
+    private float maturityAmount = 0;
+    private float yearlyInterest = 0;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_bkrd, container, false);
+
+        // Initialize views
+        editTextNumber1 = view.findViewById(R.id.editTextNumber1);
+        errorTextEditTextNumber1 = view.findViewById(R.id.errorTextEditTextNumber1);
+        editTextNumber2 = view.findViewById(R.id.editTextNumber2);
+        editTextNumber3 = view.findViewById(R.id.editTextNumber3);
+        spinner = view.findViewById(R.id.spinner_row_count);
+        TextView interestRecievedText = view.findViewById(R.id.interestRecievedText); // Add this
+        interestRecievedDropdown = view.findViewById(R.id.interestRecievedDropdown);
+        simpleLoanCalculateDropdown = view.findViewById(R.id.simpleLoanCalculateDropdown);
+        textViewHeading = view.findViewById(R.id.textViewHeading);
+        editText1Heading = view.findViewById(R.id.editText1Heading);
+        editText2Heading = view.findViewById(R.id.editText2Heading);
+        findInterestRate = view.findViewById(R.id.findInterestRate);
+        textViewTerm = view.findViewById(R.id.textViewTerm);
+        editTextRepaymenetEmiHeading = view.findViewById(R.id.editTextRepaymenetEmiHeading);
+        editTextRepaymenetEmi = view.findViewById(R.id.editTextRepaymenetEmi);
+        yearlyInterestHeading = view.findViewById(R.id.yearlyInterestHeading);
+        yearlyInterestResult = view.findViewById(R.id.yearlyInterestResult);
+        totalDepositHeading = view.findViewById(R.id.totalDepositHeading);
+        totalDepositResult = view.findViewById(R.id.totalDepositResult);
+        totalInterestHeading = view.findViewById(R.id.totalInterestHeading);
+        totalInterestResult = view.findViewById(R.id.totalInterestResult);
+        maturityAmountHeading = view.findViewById(R.id.maturityAmountHeading);
+        maturityAmountResult = view.findViewById(R.id.maturityAmountResult);
+        simpleLoanDropdownLayout = view.findViewById(R.id.simpleLoanDropdownLayout);
+        resultBox = view.findViewById(R.id.resultBox);
+
+        // Initialize ViewModel
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
+        // Observe the operation and update UI accordingly
+        mainViewModel.getOperation().observe(getViewLifecycleOwner(), operation -> {
+            textViewHeading.setText(operation);
+            editText1Heading.setText("Loan Amount");
+            if (operation != null) {
+                switch (operation) {
+                    case "Simple Loan":
+                        simpleLoanDropdownLayout.setVisibility(View.VISIBLE);
+                        simpleLoanCalculateDropdown.setVisibility(View.VISIBLE);
+                        setupSpinner(spinner, R.array.term_options); // Load FD options
+                        setupSpinner(simpleLoanCalculateDropdown, R.array.simpleLoanDropdownOption);
+
+                        // Add OnItemSelectedListener to simpleLoanCalculateDropdown
+                        simpleLoanCalculateDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                // Get the selected item from the dropdown
+                                String selectedOption = parent.getItemAtPosition(position).toString();
+
+                                // Update the heading text
+                                textViewHeading.setText(selectedOption);
+
+                                switch (selectedOption) {
+                                    case "Monthly Repayment (EMI)":
+                                        resetFields();
+                                        editText1Heading.setText("Loan Amount");
+                                        textViewTerm.setText("Loan Period");
+                                        totalDepositHeading.setText("Principal Paid (P)");
+                                        yearlyInterestHeading.setText("Monthly Repayment (EMI)");
+                                        totalInterestHeading.setText("Interest Paid (I)");
+                                        maturityAmountHeading.setText("Total Repayments Paid (P + I)");
+                                        yearlyInterestHeading.setVisibility(View.VISIBLE);
+                                        yearlyInterestResult.setVisibility(View.VISIBLE);
+                                        editText2Heading.setVisibility(View.VISIBLE);
+                                        editTextNumber2.setVisibility(View.VISIBLE);
+                                        textViewTerm.setVisibility(View.VISIBLE);
+                                        editTextNumber3.setVisibility(View.VISIBLE);
+                                        spinner.setVisibility(View.VISIBLE);
+                                        findInterestRate.setVisibility(View.VISIBLE);
+                                        editTextRepaymenetEmiHeading.setVisibility(View.GONE);
+                                        editTextRepaymenetEmi.setVisibility(View.GONE);
+                                        break;
+
+                                    case "Loan Amount":
+                                        resetFields();
+                                        editText1Heading.setText("Monthly Repayment (EMI)");
+                                        yearlyInterestHeading.setVisibility(View.GONE);
+                                        yearlyInterestResult.setVisibility(View.GONE);
+                                        totalDepositHeading.setText("Loan Amount (P)");
+                                        totalInterestHeading.setText("Interest Paid (I)");
+                                        maturityAmountHeading.setText("Total Repayments Paid (P + I)");
+                                        editText2Heading.setVisibility(View.VISIBLE);
+                                        editTextNumber2.setVisibility(View.VISIBLE);
+                                        textViewTerm.setVisibility(View.VISIBLE);
+                                        editTextNumber3.setVisibility(View.VISIBLE);
+                                        spinner.setVisibility(View.VISIBLE);
+                                        findInterestRate.setVisibility(View.VISIBLE);
+                                        editTextRepaymenetEmiHeading.setVisibility(View.GONE);
+                                        editTextRepaymenetEmi.setVisibility(View.GONE);
+                                        break;
+
+                                    case "Annual Interest Rate (%)":
+                                        resetFields();
+                                        editText1Heading.setText("Loan Amount");
+                                        totalDepositHeading.setText("Principal Paid (P)");
+                                        yearlyInterestHeading.setText("Annual Interest Rate (%)");
+                                        editText2Heading.setVisibility(View.GONE);
+                                        editTextNumber2.setVisibility(View.GONE);
+                                        findInterestRate.setVisibility(View.GONE);
+                                        textViewTerm.setVisibility(View.VISIBLE);
+                                        editTextNumber3.setVisibility(View.VISIBLE);
+                                        spinner.setVisibility(View.VISIBLE);
+                                        yearlyInterestHeading.setVisibility(View.VISIBLE);
+                                        yearlyInterestResult.setVisibility(View.VISIBLE);
+                                        editTextRepaymenetEmiHeading.setVisibility(View.VISIBLE);
+                                        editTextRepaymenetEmi.setVisibility(View.VISIBLE);
+                                        break;
+                                    case "Loan Term":
+                                        resetFields();
+                                        totalDepositHeading.setText("Principal Paid (P)");
+                                        yearlyInterestHeading.setText("Loan Term");
+                                        editText2Heading.setVisibility(View.VISIBLE);
+                                        editTextNumber2.setVisibility(View.VISIBLE);
+                                        findInterestRate.setVisibility(View.VISIBLE);
+                                        editTextRepaymenetEmiHeading.setVisibility(View.VISIBLE);
+                                        editTextRepaymenetEmi.setVisibility(View.VISIBLE);
+                                        textViewTerm.setVisibility(View.GONE);
+                                        editTextNumber3.setVisibility(View.GONE);
+                                        spinner.setVisibility(View.GONE);
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                                // Do nothing
+                            }
+                        });
+                        break;
+                    case "Bank Recurring Deposit (RD)":
+                        editText1Heading.setText("Monthly Deposit Amount");
+                        setupSpinner(spinner, R.array.term_options); // Load RD options
+                        interestRecievedDropdown.setVisibility(View.GONE);
+                        interestRecievedText.setVisibility(View.GONE);
+                        break;
+                    case "Fixed Deposit - STDR (Cumulative)":
+                        editText1Heading.setText("Lump Sum Deposit Amount");
+                        setupSpinner(spinner, R.array.term_options_for_fd); // Load FD options
+                        interestRecievedDropdown.setVisibility(View.GONE);
+                        interestRecievedText.setVisibility(View.GONE);
+                        break;
+                    case "Fixed Deposit - TDR (Interest Payout)":
+                        editText1Heading.setText("Lump Sum Deposit Amount");
+                        yearlyInterestHeading.setVisibility(View.VISIBLE);
+                        yearlyInterestResult.setVisibility(View.VISIBLE);
+                        setupSpinner(spinner, R.array.term_options_for_fd);
+                        setupSpinner(interestRecievedDropdown, R.array.interestRecievedDropdownOption);
+                        interestRecievedDropdown.setVisibility(View.VISIBLE);
+                        interestRecievedText.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+        // Set OnClickListener for the Calculate button
+        Button buttonCalculate = view.findViewById(R.id.button_calculate);
+        buttonCalculate.setOnClickListener(v -> calculateRD());
+
+        // Observe visibility for resultBox
+        mainViewModel.getResultBoxVisibility().observe(getViewLifecycleOwner(), visible -> {
+            resultBox.setVisibility(visible ? View.VISIBLE : View.GONE);
+        });
+
+        // Set OnClickListener for the Reset button
+        Button buttonReset = view.findViewById(R.id.button_reset);
+        buttonReset.setOnClickListener(v -> resetFields());
+
+        // Set OnClickListener for findInterestRate
+        TextView findInterestRate = view.findViewById(R.id.findInterestRate);
+        findInterestRate.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TabActivity.class);
+            intent.putExtra("operation", "All Bank Interest Rate (%)");
+            startActivity(intent);
+        });
+
+        return view;
+    }
+
+    private void setupSpinner(Spinner targetSpinner, int arrayResource) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getActivity(),
+                arrayResource,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        targetSpinner.setAdapter(adapter);
+    }
+
+    private void calculateRD() {
+        String operation = mainViewModel.getOperation().getValue();
+
+        // Call the validation method
+        if (!validateInputsNum(operation)) {
+            return; // Exit if validation fails
+        }
+
+        // Format the results
+        DecimalFormat df = new DecimalFormat("##,##,##0.00");
+        mainViewModel.hideKeyboard(requireContext());
+
+        try {
+            // Get user inputs
+            float principal = Float.parseFloat(editTextNumber1.getText().toString());
+
+            int term = 0;
+            if (editTextNumber3.getVisibility() == View.VISIBLE) {
+                term = editTextNumber3.getText().toString().isEmpty() ? 0 : Integer.parseInt(editTextNumber3.getText().toString());
+            }
+
+            float annualInterestRate = 0.0f;
+            if (editTextNumber2.getVisibility() == View.VISIBLE) {
+                annualInterestRate = editTextNumber2.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextNumber2.getText().toString());
+            }
+
+            // Check visibility of userEnterEMI field before parsing
+            float userEnterEMI = 0.0f;
+            if (editTextRepaymenetEmi.getVisibility() == View.VISIBLE) {
+                userEnterEMI = editTextRepaymenetEmi.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextRepaymenetEmi.getText().toString());
+            }
+
+            // Get the selected term unit
+            String selectedTermUnit = ""; // Declare as String
+            if (spinner.getVisibility() == View.VISIBLE) {
+                selectedTermUnit = spinner.getSelectedItem().toString(); // Directly get the selected item as a String
+            }
+
+            String selectedOption = ""; // Declare as String
+            if (simpleLoanCalculateDropdown.getVisibility() == View.VISIBLE) {
+                selectedOption = simpleLoanCalculateDropdown.getSelectedItem().toString();
+            }
+
+            // Convert term to months based on the selected unit
+            float termInMonths;
+            if (selectedTermUnit.equals("Years")) {
+                termInMonths = term * 12; // Convert years to months
+            } else if (selectedTermUnit.equals("Months")) {
+                termInMonths = term; // Term is already in months
+            } else if (selectedTermUnit.equals("Days")) {
+                termInMonths = term / 30f; // Approximate days to months
+            } else {
+                termInMonths = term; // Default to months
+            }
+
+            // Reset values
+            totalInterest = 0;
+            totalDeposit = 0;
+            maturityAmount = 0;
+            yearlyInterest = 0;
+            String  loanTermResultText= "";
+
+            if (operation != null) {
+                switch (operation) {
+                    case "Bank Recurring Deposit (RD)":
+                        // Calculate total deposit
+                        totalDeposit = principal * termInMonths; // term is in months
+
+                        // Calculate maturity amount and total interest
+                        float monthlyInterestRate = (annualInterestRate / 100) / 12;
+                        maturityAmount = (float) (principal * ((Math.pow(1 + monthlyInterestRate, termInMonths) - 1) / monthlyInterestRate) * (1 + monthlyInterestRate));
+                        totalInterest = maturityAmount - totalDeposit;
+                        break;
+
+                    case "Fixed Deposit - STDR (Cumulative)":
+                        // Calculate maturity amount for FD
+                        int compoundingFrequency = 4; // Quarterly compounding
+                        float rate = annualInterestRate / 100; // Convert percentage to decimal
+                        maturityAmount = (float) (principal * Math.pow(1 + (rate / compoundingFrequency), compoundingFrequency * (termInMonths / 12)));
+                        totalInterest = maturityAmount - principal;
+                        totalDeposit = principal;
+                        break;
+
+                    case "Fixed Deposit - TDR (Interest Payout)":
+                        // Get the selected interest payout frequency
+                        String interestPayoutFrequency = interestRecievedDropdown.getSelectedItem().toString();
+                        if (interestPayoutFrequency.equals("Monthly")) {
+                            yearlyInterestHeading.setText("Monthly Interest");
+                            // Calculate monthly interest
+                            float monthlyInterestRateTDR = (annualInterestRate / 100) / 12;
+                            float monthlyInterest = principal * monthlyInterestRateTDR; // Monthly interest payout
+                            totalDeposit = principal; // Monthly interest payout
+                            yearlyInterestResult.setText("Rs. " + df.format(monthlyInterest));
+                            // Calculate total interest based on term in months
+                            totalInterest = monthlyInterest * termInMonths;
+                        } else if (interestPayoutFrequency.equals("Quarterly")) {
+                            yearlyInterestHeading.setText("Quarterly Interest");
+                            // Calculate quarterly interest
+                            float quarterlyInterestRate = (annualInterestRate / 100) / 4;
+                            float quarterlyInterest = principal * quarterlyInterestRate; // Quarterly interest payout
+
+                            // Calculate total interest based on term in quarters
+                            float termInQuarters = termInMonths / 3; // Convert months to quarters
+                            totalInterest = quarterlyInterest * termInQuarters;
+                            totalDeposit = principal; // Monthly interest payout
+
+                            // Set totalDeposit based on term
+                            if (termInMonths < 3) {
+                                yearlyInterestResult.setText("Rs. " + df.format(quarterlyInterest * termInQuarters));
+                            } else {
+                                yearlyInterestResult.setText("Rs. " + df.format(quarterlyInterest));
+                            }
+                        }
+
+                        // Calculate maturity amount
+                        maturityAmount = principal + totalInterest;
+                        break;
+
+                    case "Simple Loan":
+
+                        // Calculate monthly interest rate
+                        float monthlyInterestRateSimpleLoan = (annualInterestRate / 100) / 12;
+
+                        switch (selectedOption) {
+                            case "Monthly Repayment (EMI)":
+                                // Calculate EMI
+                                float emi = (float) (principal * (monthlyInterestRateSimpleLoan * Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths)) / (Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths) - 1));
+
+                                // Calculate total interest
+                                totalInterest = (emi * termInMonths) - principal;
+                                totalDeposit = principal;
+                                yearlyInterest = emi;
+                                // Set results
+                                maturityAmount = emi * termInMonths; // Interest Paid (I)
+
+                                yearlyInterestResult.setText("Rs. " + df.format(yearlyInterest));
+                                break;
+
+                            case "Loan Amount":
+                                // Calculate loan amount based on EMI, interest rate, and term
+                                float emiInput = principal; // Assume principal is the EMI input
+                                float loanAmount = (float) ((emiInput * (Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths) - 1)) / (monthlyInterestRateSimpleLoan * Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths)));
+
+                                // Set results
+                                totalDeposit = loanAmount; // Loan amount
+                                totalInterest = (emiInput * termInMonths) - loanAmount; // Total interest paid
+                                maturityAmount = totalDeposit + totalInterest; // Interest paid (I)
+                                break;
+
+                            case "Annual Interest Rate (%)":
+
+                                // Iterative calculation for monthly interest rate
+                                float low = 0; // Lower bound for interest rate
+                                float high = 1; // Upper bound for interest rate (100%)
+                                float precision = 0.000001f; // Precision for convergence
+
+                                while (high - low > precision) {
+                                    float mid = (low + high) / 2;
+                                    float calculatedEmi = principal * (mid * (float) Math.pow(1 + mid, termInMonths)) / ((float) Math.pow(1 + mid, termInMonths) - 1);
+
+                                    if (calculatedEmi < userEnterEMI) {
+                                        low = mid;
+                                    } else {
+                                        high = mid;
+                                    }
+                                }
+
+                                monthlyInterestRate = (low + high) / 2; // Monthly interest rate
+
+                                // Calculate annual interest rate
+                                float aannualInterestRate = monthlyInterestRate * 12 * 100;
+
+                                // Calculate total interest and maturity amount
+                                totalDeposit = principal; // Principal Paid (P)
+                                yearlyInterestResult.setText(df.format(aannualInterestRate) +"%");
+                                totalInterest = (userEnterEMI * termInMonths) - principal; // Interest Paid (I)
+                                maturityAmount = userEnterEMI * termInMonths; // Total Repayments Paid (P + I)
+                                break;
+
+                            case "Loan Term":
+                                // Calculate monthly interest rate
+                                float monthlyInterestRateLoanTerm = (annualInterestRate / 100) / 12;
+
+                                // Calculate loan term in months using the formula
+                                float emiLoanTerm = userEnterEMI; // User-entered EMI
+                                float numerator = (float) Math.log(emiLoanTerm / (emiLoanTerm - principal * monthlyInterestRateLoanTerm));
+                                float denominator = (float) Math.log(1 + monthlyInterestRateLoanTerm);
+                                float loanTermInMonths = numerator / denominator;
+
+                                // Round loan term to the nearest whole number of months
+                                int totalMonths = (int) Math.round(loanTermInMonths);
+
+                                // Convert total months to years and months
+                                int years = totalMonths / 12;
+                                int months = totalMonths % 12;
+
+                                // Format the result as "X Years & Y Months (Z Months)"
+                                String loanTermResult;
+                                if (years == 0) {
+                                    loanTermResult = months + " Months (" + totalMonths + " Months)";
+                                } else if (months == 0) {
+                                    loanTermResult = years + " Years (" + totalMonths + " Months)";
+                                } else {
+                                    loanTermResult = years + " Years & " + months + " Months (" + totalMonths + " Months)";
+                                }
+
+                                totalDeposit = principal;
+                                yearlyInterestResult.setText(loanTermResult);
+                                totalInterest = (emiLoanTerm * totalMonths) - principal; // Interest Paid (I)
+                                maturityAmount = emiLoanTerm * totalMonths; // Total Repayments Paid (P + I)
+                                break;
+                        }
+                    break;
+                }
+            }
+
+            totalDepositResult.setText("Rs. " + df.format(totalDeposit));
+            totalInterestResult.setText("Rs. " + df.format(totalInterest));
+            maturityAmountResult.setText("Rs. " + df.format(maturityAmount));
+
+            // Update results in ViewModel
+            mainViewModel.setUserInputs(0, 0, principal, totalDeposit, totalInterest, maturityAmount);
+
+            // Show result and chart box
+            mainViewModel.setResultBoxVisibility(true);
+            mainViewModel.setChartBoxVisibility(true);
+
+        } catch (NumberFormatException e) {
+            Toast.makeText(requireContext(), "Invalid input. Please enter numeric values.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void resetFields() {
+        mainViewModel.hideKeyboard(requireContext());
+        // Clear all input fields and results
+        editTextNumber1.setText("");
+        editTextNumber2.setText("");
+        editTextNumber3.setText("");
+        totalDepositResult.setText("");
+        totalInterestResult.setText("");
+        maturityAmountResult.setText("");
+        spinner.setSelection(0); // Reset spinner to default position
+        editTextRepaymenetEmi.setText("");
+
+        mainViewModel.setChartBoxVisibility(false);
+        mainViewModel.setResultBoxVisibility(false);
+        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton); // Reset Growth radio button
+    }
+
+    private boolean validateInputsNum(String operation) {
+        String input1Str = editTextNumber1.getText().toString();
+        String input2Str = editTextNumber2.getText().toString();
+        
+        if (input1Str.isEmpty()) {
+            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, operation.equals("Bank Recurring Deposit (RD)") ?
+                    "Please enter a monthly deposit amount." : "Please enter a lumpsum deposit amount.");
+            return false;
+        }
+
+        // Parse input1 after confirming it's not empty
+        float input1;
+        try {
+            input1 = Float.parseFloat(input1Str); // Safe float parsing
+
+            // Validate input1 based on the operation
+            if (operation.equals("Bank Recurring Deposit (RD)")) {
+                if (input1 % 10 != 0) {
+                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount should be in multiple of 10.");
+                    return false;
+                }
+                if (input1 <= 0) {
+                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount cannot be zero.");
+                    return false;
+                }
+            } else if (operation.equals("Time Deposit (TD)")) {
+                if (input1 % 100 != 0) {
+                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount should be in multiple of 100.");
+                    return false;
+                }
+                if (input1 < 1000) {
+                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount must be at least Rs. 1000.");
+                    return false;
+                }
+            } else if (operation.equals("Mahila Samman Savings Certificate (MSSC)")) {
+                // No specific validation for input1 in MSSC
+            }
+        } catch (NumberFormatException e) {
+            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+            return false;
+        }
+        
+        return true;
+    }
+}

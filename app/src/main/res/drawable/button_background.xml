@@ -1,0 +1,25 @@
+<!-- res/drawable/button_background.xml -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#66FFFFFF"> <!-- Semi-transparent white ripple effect -->
+
+    <!-- Define the shape of the ripple effect -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:radius="4dp"/>
+            <solid android:color="#FFFFFF"/>
+        </shape>
+    </item>
+
+    <!-- Define the main background shape for the button -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0b57d0"/> <!-- Button color -->
+            <corners android:radius="4dp"/> <!-- Rounded corners -->
+            <padding
+                android:left="12dp"
+                android:right="12dp"
+                android:top="6dp"
+                android:bottom="6dp"/>
+        </shape>
+    </item>
+</ripple>

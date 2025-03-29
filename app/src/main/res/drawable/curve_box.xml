@@ -1,0 +1,21 @@
+<!-- res/drawable/rounded_box.xml -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#D3D3D3"> <!-- Semi-transparent white ripple effect -->
+
+    <!-- Define the shape of the ripple effect -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:radius="9dp"/>
+            <solid android:color="#D3D3D3"/>
+        </shape>
+    </item>
+
+    <!-- Define the main background shape for the button -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorOnBackground" />
+            <corners android:radius="9dp" /> <!-- Adjust radius for desired curve -->
+        </shape>
+    </item>
+</ripple>
+

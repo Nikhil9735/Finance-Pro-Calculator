@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#000</color>
+    <color name="colorSecondary">#fff</color>
+    <color name="colorAccent">#2196F3</color>
+
+    <color name="line_grey">#c8c5d0</color>
+    <color name="selectedText">#666666</color>
+    <color name="darkGrey">#242424</color>
+    <color name="red">#F44336</color>
+    <color name="tabbg">#D3D3D3</color>
+    <color name="textBoxbg">#E0F7FA</color>
+    <color name="headingTextGrey">#808080</color>
+
+    <color name="blue">#0b57d0</color>
+    <color name="darkGreen">#008877</color>
+
+    <color name="activeColor">#FF4081</color>  <!-- Example color -->
+    <color name="inactiveColor">#000000</color>  <!-- Example color -->
+    <color name="ripple_color">#80FFFFFF</color>
+
+    <color name="blue2">#2596BE</color>
+    <color name="orange">#e28743</color>
+
+</resources>

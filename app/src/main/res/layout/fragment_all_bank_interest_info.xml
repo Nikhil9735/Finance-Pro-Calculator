@@ -1,0 +1,104 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSecondary"
+    android:scrollbars="none"
+    android:padding="16dp">
+
+    <!-- Container for EditTexts and Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/curve_box"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/denominatorHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore Indian Bank Interest Rates"
+            android:textSize="20sp"
+            android:textColor="@color/darkGreen"
+            android:fontFamily="@font/bold"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This application allows you to explore and compare the interest rates (%) offered by 44 banks in India, neatly categorized for your convenience."
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Public Sector Banks Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Public Sector Banks"
+            android:textSize="18sp"
+            style="@style/textColor"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Placeholder for Public Sector Banks -->
+        <TextView
+            android:id="@+id/publicSectorBanks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Private Sector Banks Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Private Sector Banks"
+            android:textSize="18sp"
+            style="@style/textColor"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Placeholder for Private Sector Banks -->
+        <TextView
+            android:id="@+id/privateSectorBanks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Small Finance Banks Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Finance Banks"
+            android:textSize="18sp"
+            style="@style/textColor"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Placeholder for Small Finance Banks -->
+        <TextView
+            android:id="@+id/smallFinanceBanks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+</ScrollView>

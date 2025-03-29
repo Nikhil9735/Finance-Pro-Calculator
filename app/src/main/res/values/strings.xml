@@ -1,0 +1,157 @@
+<resources>
+    <string name="app_name">Financial Pro Calculator</string>
+    <!-- Drawer Activity -->
+    <string name="slogan_text">Smart Solutions for Every Finance Need</string>
+    <string name="settings">Settings</string>
+    <string name="share">Share</string>
+    <string name="share_message">Install %1$s Smart Solutions for Every Finance Need.\n\n%s</string>
+    <string name="rate">Rate</string>
+    <string name="more">More</string>
+
+    <string name="btncalculate">CALCULATE</string>
+    <string name="btnclear">CLEAR</string>
+    <string name="btnbankinterest">SEARCH (%)</string>
+
+    <!-- Setting Activity -->
+    <string name="color_scheme_text">Color Scheme</string>
+    <string name="language_text">Language</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact">Contact</string>
+    <string name="contactDiaNote">Note: You can send me sponsorship requests, suggestions, or ask for help using this contact form.</string>
+    <string name="system_default">System (Default)</string>
+    <string name="version_num">1.0.0+20241222</string>
+    <string name="ok">OK</string>
+    <string name="App">App</string>
+    <string name="About">About</string>
+    <string name="developedby">Developed by</string>
+    <string name="DeveloperName">Nirvay Software Technologies</string>
+
+    <!-- Dialog Activity -->
+    <string name="App_Language">App Language</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="marathi">Marathi</string>
+    <string name="buttonSend">Send</string>
+    <string name="seggestionName">Type Your Name</string>
+    <string name="seggestionMessage">Type Your Message</string>
+
+    <!-- hold button name -->
+    <string name="nav_open">Menu</string>
+    <string name="nav_close">Back</string>
+
+    <string name="arrow_down">Expand</string>
+    <string name="arrow_up">Collapse</string>
+
+    <string-array name="year_options">
+        <item>1 Year</item>
+        <item>2 Years</item>
+        <item>3 Years</item>
+        <item>5 Years</item>
+    </string-array>
+
+    <string-array name="ageGroupDropdown">
+        <item>Adult (Below 60 Years)</item>
+        <item>Senior Citizen (60 Years and Above)</item>
+    </string-array>
+
+    <string-array name="selectBankDropdown">
+        <item>AU Small Finance Bank</item>
+        <item>Axis Bank</item>
+        <item>Bandhan Bank</item>
+        <item>Bank of Baroda</item>
+        <item>Bank of India</item>
+        <item>Bank of Maharashtra</item>
+        <item>Canara Bank</item>
+        <item>Capital Small Finance Bank</item>
+        <item>Central Bank of India</item>
+        <item>City Union Bank</item>
+        <item>CSB Bank</item>
+        <item>DCB Bank</item>
+        <item>Dhanlaxmi Bank</item>
+        <item>Equitas Small Finance Bank</item>
+        <item>ESAF Small Finance Bank</item>
+        <item>Federal Bank</item>
+        <item>HDFC Bank</item>
+        <item>ICICI Bank</item>
+        <item>IDBI Bank</item>
+        <item>IDFC FIRST Bank</item>
+        <item>Indian Bank</item>
+        <item>Indian Overseas Bank</item>
+        <item>IndusInd Bank</item>
+        <item>Jammu &amp; Kashmir Bank</item>
+        <item>Jana Small Finance Bank</item>
+        <item>Karur Vysya Bank</item>
+        <item>Karnataka Bank</item>
+        <item>Kotak Mahindra Bank</item>
+        <item>Nainital Bank</item>
+        <item>North East Small Finance Bank</item>
+        <item>Punjab &amp; Sind Bank</item>
+        <item>Punjab National Bank</item>
+        <item>RBL Bank</item>
+        <item>South Indian Bank</item>
+        <item>Shivalik Small Finance Bank</item>
+        <item>State Bank of India</item>
+        <item>Suryoday Small Finance Bank</item>
+        <item>Tamilnad Mercantile Bank</item>
+        <item>Union Bank of India</item>
+        <item>UCO Bank</item>
+        <item>Ujjivan Small Finance Bank</item>
+        <item>Unity Small Finance Bank</item>
+        <item>YES Bank</item>
+        <item>Utkarsh Small Finance Bank</item>
+    </string-array>
+
+
+    <!-- Employee Salary Calculator-->
+    <string name="EmpCTC">Cost to Company (CTC)</string>
+    <string name="EmpBonus">Bonus Included in CTC (Optional)</string>
+    <string name="EmpAmountRadio">Amount</string>
+    <string name="EmpPercentage">Percentage</string>
+    <string name="EmpAmount">Amount</string>
+    <string name="EmpMomthlyTax">Monthly Professional Tax</string>
+    <string name="EmpMonthlyEmployerPF">Monthly Employer PF</string>
+    <string name="EmpMonthlyEmployeePF">Monthly Employee PF</string>
+    <string name="EmpMonthlyAddiDiduction1">Monthly Additional Deduction 1 (Optional)</string>
+    <string name="EmpMonthlyAddiDiduction2">Monthly Additional Deduction 2 (Optional)</string>
+    <string name="AddDeductionBtn">ADD DEDUCTION</string>
+    <string name="SalarySummeryHed">Salary Summary</string>
+    <string name="SalarySummeryTotalMonthlyDeduction">Total Monthly Deductions</string>
+    <string name="SalarySummeryTotalAnnualDeductions">Total Annual Deductions</string>
+    <string name="SalarySummeryTakeHomeMonthlySalary">Take Home Monthly Salary</string>
+    <string name="SalarySummeryTakeHomeAnnualSalary">Take Home Annual Salary</string>
+
+    <string name="IncrementSummeryHeding">Increment Summary</string>
+    <string name="EmpIncrementPercentage">Increment Percentage(%)</string>
+    <string name="IncrementSummeryCurrentCTCHeading">Current CTC</string>
+    <string name="IncrementSummeryMonthlyIncrementAmountHeading">Monthly Increment Amount</string>
+    <string name="IncrementSummeryAnnualIncrementAmountHeading">Annual Increment Amount</string>
+    <string name="IncrementSummeryNewCTCAfterIncrementHeading">New CTC after Increment</string>
+
+
+    <string-array name="term_options">
+        <item>Years</item>
+        <item>Months</item>
+    </string-array>
+
+    <string-array name="term_options_for_fd">
+        <item>Years</item>
+        <item>Months</item>
+        <item>Days</item>
+    </string-array>
+
+    <string-array name="interestRecievedDropdownOption">
+        <item>Monthly</item>
+        <item>Quarterly</item>
+    </string-array>
+
+    <string-array name="simpleLoanDropdownOption">
+        <item>Monthly Repayment (EMI)</item>
+        <item>Loan Amount</item>
+        <item>Annual Interest Rate (%)</item>
+        <item>Loan Term</item>
+
+    </string-array>
+
+</resources>

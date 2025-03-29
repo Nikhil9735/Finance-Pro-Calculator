@@ -1,0 +1,412 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSecondary"
+    android:scrollbars="vertical"> <!-- Use vertical scroll bar -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="?attr/colorSecondary"> <!-- Light grey background -->
+
+    <LinearLayout
+        android:id="@+id/simpleLoanDropdownLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/curve_box"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textViewHeadingLoan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simple Loan"
+            android:textSize="20sp"
+            android:textColor="@color/darkGreen"
+            android:fontFamily="@font/bold"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:id="@+id/loanCalculate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginStart="4dp"
+                android:text="Calculate : "
+                android:gravity="center_horizontal|end"
+                android:textSize="15sp"
+                android:fontFamily="@font/regular"
+                android:textColor="#808080"
+                android:layout_below="@id/textViewHeading" />
+
+            <Spinner
+                android:id="@+id/simpleLoanCalculateDropdown"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"
+                android:textSize="18sp"
+                android:textColor="@color/darkGreen"
+                android:fontFamily="@font/bold"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <!-- Container for EditTexts and Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/curve_box"
+            android:padding="10dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/textViewHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bank Recurring Deposit (RD)"
+                android:textSize="20sp"
+                android:textColor="@color/darkGreen"
+                android:fontFamily="@font/bold"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/editText1Heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="4dp"
+                android:text="Monthly Deposit Amount"
+                android:textSize="15sp"
+                android:fontFamily="@font/regular"
+                android:textColor="#808080"
+                android:layout_below="@id/textViewHeading" />
+
+            <EditText
+                android:id="@+id/editTextNumber1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Rs."
+                android:inputType="numberDecimal"
+                android:textAlignment="textStart"
+                android:digits="0123456789."
+                android:fontFamily="@font/regular"
+                android:maxLength="13"
+                app:backgroundTint="@drawable/edit_text_line_color"/>
+
+            <TextView
+                android:id="@+id/errorTextEditTextNumber1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#FF0000"
+                android:fontFamily="@font/regular"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
+                android:id="@+id/editText2Heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="4dp"
+                android:text="Annual Interest Rate (%)"
+                android:textSize="15sp"
+                android:fontFamily="@font/regular"
+                android:textColor="#808080"
+                android:layout_below="@id/textViewHeading" />
+
+            <LinearLayout
+                android:id="@+id/annualInterestLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/editTextNumber2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="%"
+                    android:layout_weight="1"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="textStart"
+                    android:digits="0123456789."
+                    android:fontFamily="@font/regular"
+                    android:maxLength="13"
+                    app:backgroundTint="@drawable/edit_text_line_color"/>
+
+                <Button
+                    android:id="@+id/findInterestRate"
+                    android:text="SEARCH INTEREST %"
+                    style="@style/ButtonStyle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/regular"
+                    android:background="@drawable/curve_box"
+                    android:layout_marginEnd="8dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewTerm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="4dp"
+                android:text="Time Period"
+                android:fontFamily="@font/regular"
+                android:textSize="15sp"
+                android:textColor="#808080" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/editTextNumber3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint=""
+                    android:layout_weight="1"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="textStart"
+                    android:digits="0123456789."
+                    android:fontFamily="@font/regular"
+                    android:maxLength="13"
+                    app:backgroundTint="@drawable/edit_text_line_color"/>
+
+                <Spinner
+                    android:id="@+id/spinner_row_count"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown"
+                    android:textSize="18sp"
+                    android:textColor="@color/darkGreen"
+                    android:fontFamily="@font/bold"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/interestRecievedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="You prefer to get interest"
+                android:fontFamily="@font/regular"
+                android:textSize="15sp"
+                android:textColor="#808080"
+                android:visibility="gone"/>
+
+            <Spinner
+                android:id="@+id/interestRecievedDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"
+                android:textSize="18sp"
+                android:textColor="@color/darkGreen"
+                android:fontFamily="@font/bold"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/editTextRepaymenetEmiHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="4dp"
+                android:text="Monthly Repayments (EMI)"
+                android:textSize="15sp"
+                android:fontFamily="@font/regular"
+                android:textColor="#808080"
+                android:layout_below="@id/textViewHeading"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/editTextRepaymenetEmi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Rs."
+                android:inputType="numberDecimal"
+                android:textAlignment="textStart"
+                android:digits="0123456789."
+                android:fontFamily="@font/regular"
+                android:maxLength="13"
+                app:backgroundTint="@drawable/edit_text_line_color"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp">
+
+                <Button
+                    android:id="@+id/button_calculate"
+                    style="@style/ButtonStyle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:text="@string/btncalculate"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/regular"
+                    android:background="@drawable/curve_box"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/button_reset"
+                    style="@style/ButtonStyle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:text="@string/btnclear"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/regular"
+                    android:background="@drawable/curve_box"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Container for Result TextViews -->
+        <LinearLayout
+            android:id="@+id/resultBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/curve_box"
+            android:padding="16dp"
+            android:layout_marginBottom="15dp"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/resultHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculation Summary"
+                android:fontFamily="@font/bold"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/totalDepositHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Total Deposits"
+                android:fontFamily="@font/regular"
+                android:textSize="15sp"
+                android:textColor="#808080"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/totalDepositResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:fontFamily="@font/regular"
+                android:textSize="17sp"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/yearlyInterestHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Yearly Interest"
+                android:visibility="gone"
+                android:fontFamily="@font/regular"
+                android:textSize="15sp"
+                android:textColor="#808080"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/yearlyInterestResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:visibility="gone"
+                android:fontFamily="@font/regular"
+                android:textSize="20sp"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center_horizontal"/>
+
+
+            <TextView
+                android:id="@+id/totalInterestHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Total Interest"
+                android:fontFamily="@font/regular"
+                android:textSize="15sp"
+                android:textColor="#808080"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/totalInterestResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:fontFamily="@font/regular"
+                android:textSize="23sp"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/maturityAmountHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Maturity Amount"
+                android:fontFamily="@font/regular"
+                android:textSize="15sp"
+                android:textColor="#808080"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/maturityAmountResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:fontFamily="@font/regular"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

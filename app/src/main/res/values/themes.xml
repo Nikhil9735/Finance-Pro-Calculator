@@ -1,0 +1,61 @@
+<resources>
+    <!-- Base application theme -->
+    <style name="Base.Theme.MathOperation" parent="Theme.Material3.Light">
+        <!-- Make sure the app uses a fullscreen layout -->
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Optional: Make the status bar transparent -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="colorPrimary">@color/darkGreen</item>
+        <item name="colorPrimaryFixed">@color/black</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/darkGreen</item> <!-- Accent color -->
+        <item name="colorSecondary">@color/tabbg</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:colorFocusedHighlight">@color/textBoxbg</item>
+        <item name="android:windowBackground">@color/white</item> <!-- Main activity background color -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="logoDrawable">@drawable/splashlogo_light</item>
+    </style>
+
+    <style name="bgScreen">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="textColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="headingTextColor">
+        <item name="android:textColor">@color/headingTextGrey</item>
+    </style>
+
+    <style name="wndowBgScreen">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="selectedTextColor">
+        <item name="android:textColor">@color/selectedText</item>
+    </style>
+
+    <style name="icColor">
+        <item name="android:tint">@color/selectedText</item>
+    </style>
+
+    <!-- button -->
+    <style name="ButtonStyle1" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/darkGreen</item> <!-- Example: Orange -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Example: White text -->
+    </style>
+
+    <style name="ButtonStyle2" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/blue</item> <!-- Example: Green -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Example: Black text -->
+    </style>
+
+</resources>

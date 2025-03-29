@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/android:colorFocusedHighlight" /> <!-- Light blue background when focused -->
+    <corners android:radius="4dp" /> <!-- Rounded corners -->
+    <stroke android:color="@color/darkGreen" android:width="4dp" /> <!-- Dark blue border when focused -->
+</shape>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- Year Column -->
+    <TextView
+        android:id="@+id/textYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Year"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:textColor="#000000" />
+
+    <!-- Amount Deposited Column -->
+    <TextView
+        android:id="@+id/textAmountDeposited"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Amount Deposited"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:textColor="#000000" />
+
+    <!-- Interest Earned Column -->
+    <TextView
+        android:id="@+id/textInterestEarned"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Interest Earned"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:textColor="#000000" />
+
+    <!-- Year-End Balance Column -->
+    <TextView
+        android:id="@+id/textYearEndBalance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Year-End Balance"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:textColor="#000000" />
+</LinearLayout>
