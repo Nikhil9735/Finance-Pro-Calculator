@@ -204,7 +204,7 @@
                     android:layout_weight="1"
                     android:inputType="numberDecimal"
                     android:textAlignment="textStart"
-                    android:digits="0123456789."
+                    android:digits="0123456789"
                     android:fontFamily="@font/regular"
                     android:maxLength="13"
                     app:backgroundTint="@drawable/edit_text_line_color"/>
@@ -221,6 +221,15 @@
                     android:fontFamily="@font/bold"
                     android:gravity="center"/>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/errorTextEditTextNumber3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#FF0000"
+                android:fontFamily="@font/regular"
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:id="@+id/interestRecievedText"

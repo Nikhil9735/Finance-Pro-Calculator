@@ -24,7 +24,7 @@ public class BKRDFragment extends Fragment {
 
     private EditText editTextNumber1, editTextNumber2, editTextNumber3, editTextRepaymenetEmi;
     private Spinner spinner, interestRecievedDropdown, simpleLoanCalculateDropdown;
-    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, errorTextEditTextNumber2, textViewTerm, totalDepositHeading,
+    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, errorTextEditTextNumber2, textViewTerm, errorTextEditTextNumber3, totalDepositHeading,
             totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
             totalInterestResult, maturityAmountHeading, maturityAmountResult, editTextRepaymenetEmiHeading;
     private MainViewModel mainViewModel;
@@ -58,6 +58,7 @@ public class BKRDFragment extends Fragment {
         editText2Heading = view.findViewById(R.id.editText2Heading);
         findInterestRate = view.findViewById(R.id.findInterestRate);
         textViewTerm = view.findViewById(R.id.textViewTerm);
+        errorTextEditTextNumber3 = view.findViewById(R.id.errorTextEditTextNumber3);
         editTextRepaymenetEmiHeading = view.findViewById(R.id.editTextRepaymenetEmiHeading);
         editTextRepaymenetEmi = view.findViewById(R.id.editTextRepaymenetEmi);
         yearlyInterestHeading = view.findViewById(R.id.yearlyInterestHeading);
@@ -487,71 +488,132 @@ public class BKRDFragment extends Fragment {
     private boolean validateInputsNum(String operation) {
         String input1Str = editTextNumber1.getText().toString();
         String input2Str = editTextNumber2.getText().toString();
-        
-        if (input1Str.isEmpty()) {
-            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, operation.equals("Bank Recurring Deposit (RD)") ?
-                    "Please enter a monthly deposit amount." : "Please enter a lumpsum deposit amount.");
-            return false;
+        String input3Str = editTextNumber3.getText().toString();
+        String termUnit = spinner.getSelectedItem().toString();
+
+
+        if (operation != null) {
+            switch (operation) {
+                case "Simple Loan":
+
+                    break;
+                case "Bank Recurring Deposit (RD)":
+
+                    try {
+                        if (input1Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a monthly deposit amount.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input1 = Float.parseFloat(input1Str);
+                        if (input1 <= 0) {
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount cannot be zero.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+
+                    try {
+                        if (input2Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                            return false;
+                        }
+
+                        float input2 = Float.parseFloat(input2Str);
+                        if (input2 == 0) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
+                            return false;
+                        } else if (input2 > 100){
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not be more than 100%.");
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                        return false;
+                    }
+
+                    try {
+                        if (input3Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter term period.");
+                            return false;
+                        }
+
+                        float input3 = Float.parseFloat(input3Str);
+                        if ((input3 < 6) && termUnit.equals("Months")) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                        return false;
+                    }
+
+                    break;
+                case "Fixed Deposit - STDR (Cumulative)":
+
+                    break;
+                case "Fixed Deposit - TDR (Interest Payout)":
+
+                    break;
+            }
         }
 
-        // Parse input1 after confirming it's not emptynikhil
-        float input1;
-        try {
-            input1 = Float.parseFloat(input1Str); // Safe float parsing
-
-            // Validate input1 based on the operation
-            if (operation.equals("Bank Recurring Deposit (RD)")) {
-                if (input1 <= 0) {
-                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount cannot be zero.");
-                    return false;
-                }
-            } else if (operation.equals("Time Deposit (TD)")) {
-                if (input1 % 100 != 0) {
-                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount should be in multiple of 100.");
-                    return false;
-                }
-                if (input1 < 1000) {
-                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount must be at least Rs. 1000.");
-                    return false;
-                }
-            } else if (operation.equals("Mahila Samman Savings Certificate (MSSC)")) {
-                // No specific validation for input1 in MSSC
-            }
-        } catch (NumberFormatException e) {
-            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
-            return false;
-        }
+//        // Parse input1 after confirming it's not emptynikhil
+//        float input1;
+//        try {
+//            input1 = Float.parseFloat(input1Str); // Safe float parsing
+//
+//            // Validate input1 based on the operation
+//            if (operation.equals("Bank Recurring Deposit (RD)")) {
+//
+//            } else if (operation.equals("Time Deposit (TD)")) {
+//                if (input1 % 100 != 0) {
+//                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount should be in multiple of 100.");
+//                    return false;
+//                }
+//                if (input1 < 1000) {
+//                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount must be at least Rs. 1000.");
+//                    return false;
+//                }
+//            } else if (operation.equals("Mahila Samman Savings Certificate (MSSC)")) {
+//                // No specific validation for input1 in MSSC
+//            }
+//        } catch (NumberFormatException e) {
+//            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+//            return false;
+//        }
 
 
-        // Skip validation for input2 (editText2) if operation is MSSC
-        if (operation.equals("Bank Recurring Deposit (RD)")) {
-            // Validate input2 (editText2)
-            if (input2Str.isEmpty()) {
-                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
-                return false;
-            }
-
-            // Parse input2 after confirming it's not empty
-            float input2;
-            try {
-                input2 = Float.parseFloat(input2Str);
-
-                // Validate input2 based on the operation
-                if (input2 == 0) {
-                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
-                    return false;
-                } else if ((operation.equals("Recurring Deposit (RD)") && input2 > 20) || (operation.equals("Time Deposit (TD)") && input2 > 15)) {
-                    String errorMsg = operation.equals("Recurring Deposit (RD)") ?
-                            "Annual interest rate Should not exceed 20%." :
-                            "Annual interest rate Should not exceed 15%.";
-                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, errorMsg);
-                    return false;
-                }
-            } catch (NumberFormatException e) {
-                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
-                return false;
-            }
-        }
+//        // Skip validation for input2 (editText2) if operation is MSSC
+//        if (operation.equals("Bank Recurring Deposit (RD)")) {
+//            // Validate input2 (editText2)
+//
+//            // Parse input2 after confirming it's not empty
+//            float input2;
+//            try {
+//                input2 = Float.parseFloat(input2Str);
+//
+//                // Validate input2 based on the operation
+//                if (input2 == 0) {
+//                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
+//                    return false;
+//                } else if ((operation.equals("Recurring Deposit (RD)") && input2 > 20) || (operation.equals("Time Deposit (TD)") && input2 > 15)) {
+//                    String errorMsg = operation.equals("Recurring Deposit (RD)") ?
+//                            "Annual interest rate Should not exceed 20%." :
+//                            "Annual interest rate Should not exceed 15%.";
+//                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, errorMsg);
+//                    return false;
+//                }
+//            } catch (NumberFormatException e) {
+//                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+//                return false;
+//            }
+//        }
         
         return true;
     }
