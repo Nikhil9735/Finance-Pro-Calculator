@@ -203,6 +203,7 @@ public class BKRDFragment extends Fragment {
 
         CommonMethod.addClearErrorTextWatcher(editTextNumber1, errorTextEditTextNumber1);
         CommonMethod.addClearErrorTextWatcher(editTextNumber2, errorTextEditTextNumber2);
+        CommonMethod.addClearErrorTextWatcher(editTextNumber3, errorTextEditTextNumber3);
 
         buttonCalculate.setOnClickListener(v -> calculateRD());
 
@@ -521,35 +522,42 @@ public class BKRDFragment extends Fragment {
                     try {
                         if (input2Str.isEmpty()) {
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                            mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
 
                         float input2 = Float.parseFloat(input2Str);
                         if (input2 == 0) {
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
+                            mainViewModel.setResultBoxVisibility(false);
                             return false;
                         } else if (input2 > 100){
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not be more than 100%.");
+                            mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
                         CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
                     try {
                         if (input3Str.isEmpty()) {
                             CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter term period.");
+                            mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
 
                         float input3 = Float.parseFloat(input3Str);
                         if ((input3 < 6) && termUnit.equals("Months")) {
                             CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+                            mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
                         CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
