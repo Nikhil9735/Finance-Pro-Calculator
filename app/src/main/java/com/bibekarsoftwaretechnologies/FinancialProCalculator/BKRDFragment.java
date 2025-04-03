@@ -564,8 +564,137 @@ public class BKRDFragment extends Fragment {
                     break;
                 case "Fixed Deposit - STDR (Cumulative)":
 
+                    try {
+                        if (input1Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a lumpsum deposit amount.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input1 = Float.parseFloat(input1Str);
+                        if (input1 <= 0) {
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+
+                    try {
+                        if (input2Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input2 = Float.parseFloat(input2Str);
+                        if (input2 == 0) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        } else if (input2 > 100){
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not be more than 100%.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+
+                    try {
+                        if (input3Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter term period.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input3 = Float.parseFloat(input3Str);
+                        if ( input3 == 0 || (input3 < 6) && (termUnit.equals("Months") || termUnit.equals("Days")) || ((input3 < 180) && termUnit.equals("Days"))) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        } else if (input3 >= 20  && termUnit.equals("Years")) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
                     break;
                 case "Fixed Deposit - TDR (Interest Payout)":
+
+                    try {
+                        if (input1Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a lumpsum deposit amount.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input1 = Float.parseFloat(input1Str);
+                        if (input1 <= 0) {
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+
+                    try {
+                        if (input2Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input2 = Float.parseFloat(input2Str);
+                        if (input2 == 0) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        } else if (input2 > 100){
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not be more than 100%.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+
+                    try {
+                        if (input3Str.isEmpty()) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter term period.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+
+                        float input3 = Float.parseFloat(input3Str);
+                        if ( input3 == 0 || ((input3 < 6) && termUnit.equals("Months")) || ((input3 > 180) && termUnit.equals("Days"))) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        } else if (input3 >= 20) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        }
+                    } catch (NumberFormatException e) {
+                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
 
                     break;
             }
