@@ -501,6 +501,7 @@ public class BKRDFragment extends Fragment {
                 case "Fixed Deposit - TDR (Interest Payout)":
 
                     try {
+                        // Validate Deposit Amount
                         if (input1Str.isEmpty()) {
                             CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a lumpsum deposit amount.");
                             mainViewModel.setResultBoxVisibility(false);
@@ -509,17 +510,18 @@ public class BKRDFragment extends Fragment {
 
                         float input1 = Float.parseFloat(input1Str);
                         if (input1 <= 0) {
-                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero.");
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero or negative.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
-                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a valid deposit amount.");
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
                     try {
+                        // Validate Interest Rate
                         if (input2Str.isEmpty()) {
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
                             mainViewModel.setResultBoxVisibility(false);
@@ -531,36 +533,55 @@ public class BKRDFragment extends Fragment {
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
-                        } else if (input2 > 100){
-                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not be more than 100%.");
+                        } else if (input2 > 100) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not exceed 100%.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
-                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter a valid interest rate.");
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
                     try {
+                        // Validate Term Period
                         if (input3Str.isEmpty()) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter term period.");
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter a term period.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
 
                         float input3 = Float.parseFloat(input3Str);
-                        if ( input3 == 0 || ((input3 < 6) && termUnit.equals("Months")) || ((input3 > 180) && termUnit.equals("Days"))) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+
+                        // Define minimum & maximum limits based on term unit
+                        int minLimit = termUnit.equals("Days") ? 7 : 1; // 7 days min for Days, 1 for Year/Month
+                        int maxLimit = termUnit.equals("Years") ? 20 : termUnit.equals("Months") ? 240 : 7300;
+
+                        // Minimum term validation
+                        if (input3 < minLimit) {
+                            String minErrorMessage = termUnit.equals("Days") ? "Term must be a minimum of 7 days." :
+                                    termUnit.equals("Years") ? "Term must be at least 1 year." :
+                                            "Term must be at least 1 month.";
+
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, minErrorMessage);
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
-                        } else if (input3 >= 20) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
+                        }
+
+
+                        // Maximum term validation
+                        if (input3 > maxLimit) {
+                            String maxErrorMessage = termUnit.equals("Years") ? "Term should not exceed 20 years." :
+                                    termUnit.equals("Months") ? "Term should not exceed 240 months (20 yr)." :
+                                            "Term should not exceed 7300 days (20 yr).";
+
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, maxErrorMessage);
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
-                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter a valid term period.");
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
@@ -569,6 +590,7 @@ public class BKRDFragment extends Fragment {
                 case "Fixed Deposit - STDR (Cumulative)":
 
                     try {
+                        // Validate Deposit Amount
                         if (input1Str.isEmpty()) {
                             CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a lumpsum deposit amount.");
                             mainViewModel.setResultBoxVisibility(false);
@@ -577,17 +599,18 @@ public class BKRDFragment extends Fragment {
 
                         float input1 = Float.parseFloat(input1Str);
                         if (input1 <= 0) {
-                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero.");
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero or negative.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
-                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter valid numbers.");
+                        CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a valid deposit amount.");
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
                     try {
+                        // Validate Interest Rate
                         if (input2Str.isEmpty()) {
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
                             mainViewModel.setResultBoxVisibility(false);
@@ -599,39 +622,58 @@ public class BKRDFragment extends Fragment {
                             CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Interest rate should not be zero %.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
-                        } else if (input2 > 100){
-                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not be more than 100%.");
+                        } else if (input2 > 100) {
+                            CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not exceed 100%.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
-                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter valid numbers.");
+                        CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter a valid interest rate.");
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
                     try {
+                        // Validate Term Period
                         if (input3Str.isEmpty()) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter term period.");
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter a term period.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
 
                         float input3 = Float.parseFloat(input3Str);
-                        if ( input3 == 0 || (input3 < 6) && (termUnit.equals("Months") || termUnit.equals("Days")) || ((input3 < 180) && termUnit.equals("Days"))) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+
+                        // Define minimum & maximum limits based on term unit
+                        int minLimit = termUnit.equals("Years") ? 1 : termUnit.equals("Months") ? 6 : 180;
+                        int maxLimit = termUnit.equals("Years") ? 20 : termUnit.equals("Months") ? 240 : 7300;
+
+                        // Minimum term validation
+                        if (input3 < minLimit) {
+                            String minErrorMessage = termUnit.equals("Years") ? "Term must be at least 1 year." :
+                                    termUnit.equals("Months") ? "Term must be at least 6 months." :
+                                            "Term must be at least 180 days.";
+
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, minErrorMessage);
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
-                        } else if (input3 > 20  && termUnit.equals("Years")) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
+                        }
+
+                        // Maximum term validation
+                        if (input3 > maxLimit) {
+                            String maxErrorMessage = termUnit.equals("Years") ? "Term should not exceed 20 years." :
+                                    termUnit.equals("Months") ? "Term should not exceed 240 months (20 yr)." :
+                                            "Term should not exceed 7300 days (20 yr).";
+
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, maxErrorMessage);
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                     } catch (NumberFormatException e) {
-                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                        CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Invalid input. Please enter a valid number.");
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
+
                     break;
                 case "Bank Recurring Deposit (RD)":
 
