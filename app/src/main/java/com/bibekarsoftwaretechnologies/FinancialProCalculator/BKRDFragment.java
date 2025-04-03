@@ -498,18 +498,18 @@ public class BKRDFragment extends Fragment {
                 case "Simple Loan":
 
                     break;
-                case "Bank Recurring Deposit (RD)":
+                case "Fixed Deposit - TDR (Interest Payout)":
 
                     try {
                         if (input1Str.isEmpty()) {
-                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a monthly deposit amount.");
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a lumpsum deposit amount.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
 
                         float input1 = Float.parseFloat(input1Str);
                         if (input1 <= 0) {
-                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount cannot be zero.");
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
@@ -550,8 +550,12 @@ public class BKRDFragment extends Fragment {
                         }
 
                         float input3 = Float.parseFloat(input3Str);
-                        if ((input3 < 6) && termUnit.equals("Months")) {
+                        if ( input3 == 0 || ((input3 < 6) && termUnit.equals("Months")) || ((input3 > 180) && termUnit.equals("Days"))) {
                             CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
+                            mainViewModel.setResultBoxVisibility(false);
+                            return false;
+                        } else if (input3 >= 20) {
+                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
@@ -629,18 +633,18 @@ public class BKRDFragment extends Fragment {
                         return false;
                     }
                     break;
-                case "Fixed Deposit - TDR (Interest Payout)":
+                case "Bank Recurring Deposit (RD)":
 
                     try {
                         if (input1Str.isEmpty()) {
-                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a lumpsum deposit amount.");
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a monthly deposit amount.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
 
                         float input1 = Float.parseFloat(input1Str);
                         if (input1 <= 0) {
-                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Lumpsum Deposit amount cannot be zero.");
+                            CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Deposit amount cannot be zero.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
@@ -681,12 +685,8 @@ public class BKRDFragment extends Fragment {
                         }
 
                         float input3 = Float.parseFloat(input3Str);
-                        if ( input3 == 0 || ((input3 < 6) && termUnit.equals("Months")) || ((input3 > 180) && termUnit.equals("Days"))) {
+                        if ((input3 < 6) && termUnit.equals("Months")) {
                             CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
-                            mainViewModel.setResultBoxVisibility(false);
-                            return false;
-                        } else if (input3 >= 20) {
-                            CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
