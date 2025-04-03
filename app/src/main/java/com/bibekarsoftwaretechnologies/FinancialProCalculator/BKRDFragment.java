@@ -622,7 +622,7 @@ public class BKRDFragment extends Fragment {
                             CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term must be a minimum of 6 months.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
-                        } else if (input3 >= 20  && termUnit.equals("Years")) {
+                        } else if (input3 > 20  && termUnit.equals("Years")) {
                             CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Term should not exceed 20 years.");
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
