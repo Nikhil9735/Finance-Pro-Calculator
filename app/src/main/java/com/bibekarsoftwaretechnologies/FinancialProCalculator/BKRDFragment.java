@@ -24,7 +24,7 @@ public class BKRDFragment extends Fragment {
 
     private EditText editTextNumber1, editTextNumber2, editTextNumber3, editTextRepaymenetEmi;
     private Spinner spinner, interestRecievedDropdown, simpleLoanCalculateDropdown;
-    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, errorTextEditTextNumber2, textViewTerm, errorTextEditTextNumber3, totalDepositHeading,
+    private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, errorTextEditTextNumber2, textViewTerm, errorTextEditTextNumber3, errorTextEditTextNumber4, totalDepositHeading,
             totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
             totalInterestResult, maturityAmountHeading, maturityAmountResult, editTextRepaymenetEmiHeading;
     private MainViewModel mainViewModel;
@@ -61,6 +61,7 @@ public class BKRDFragment extends Fragment {
         errorTextEditTextNumber3 = view.findViewById(R.id.errorTextEditTextNumber3);
         editTextRepaymenetEmiHeading = view.findViewById(R.id.editTextRepaymenetEmiHeading);
         editTextRepaymenetEmi = view.findViewById(R.id.editTextRepaymenetEmi);
+        errorTextEditTextNumber4 = view.findViewById(R.id.errorTextEditTextNumber4);
         yearlyInterestHeading = view.findViewById(R.id.yearlyInterestHeading);
         yearlyInterestResult = view.findViewById(R.id.yearlyInterestResult);
         totalDepositHeading = view.findViewById(R.id.totalDepositHeading);
@@ -144,6 +145,7 @@ public class BKRDFragment extends Fragment {
                                         editText2Heading.setVisibility(View.GONE);
                                         editTextNumber2.setVisibility(View.GONE);
                                         findInterestRate.setVisibility(View.GONE);
+                                        errorTextEditTextNumber3.setVisibility(View.GONE);
                                         textViewTerm.setVisibility(View.VISIBLE);
                                         editTextNumber3.setVisibility(View.VISIBLE);
                                         spinner.setVisibility(View.VISIBLE);
@@ -151,6 +153,7 @@ public class BKRDFragment extends Fragment {
                                         yearlyInterestResult.setVisibility(View.VISIBLE);
                                         editTextRepaymenetEmiHeading.setVisibility(View.VISIBLE);
                                         editTextRepaymenetEmi.setVisibility(View.VISIBLE);
+                                        errorTextEditTextNumber4.setVisibility(View.VISIBLE);
                                         break;
                                     case "Loan Term":
                                         resetFields();
@@ -504,11 +507,17 @@ public class BKRDFragment extends Fragment {
         String input1Str = editTextNumber1.getText().toString();
         String input2Str = editTextNumber2.getText().toString();
         String input3Str = editTextNumber3.getText().toString();
+        String input4Str = editTextRepaymenetEmi.getText().toString();
         String termUnit = spinner.getSelectedItem().toString();
 
         String selectedOption = ""; // Declare as String
         if (simpleLoanCalculateDropdown.getVisibility() == View.VISIBLE) {
             selectedOption = simpleLoanCalculateDropdown.getSelectedItem().toString();
+        }
+
+        float userEnterEMI = 0.0f;
+        if (editTextRepaymenetEmi.getVisibility() == View.VISIBLE) {
+            userEnterEMI = editTextRepaymenetEmi.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextRepaymenetEmi.getText().toString());
         }
 
         if (operation != null) {
@@ -679,7 +688,83 @@ public class BKRDFragment extends Fragment {
                             break;
 
                         case "Annual Interest Rate (%)":
+                            try {
+                                // Validate Deposit Amount
+                                if (input1Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a loan amount.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
 
+                                float input1 = Float.parseFloat(input1Str);
+                                if (input1 <= 0) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Loan amount cannot be zero.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a valid loan amount.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Term Period
+                                if (input3Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter a loan period.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input3 = Float.parseFloat(input3Str);
+
+                                // Define minimum & maximum limits based on term unit (Only Years & Months)
+                                int minLimit = termUnit.equals("Years") ? 1 : 1;  // 1 year for Years, 6 months for Months
+                                int maxLimit = termUnit.equals("Years") ? 40 : 480;  // 20 years for Years, 240 months for Months
+
+                                // Minimum term validation
+                                if (input3 < minLimit) {
+                                    String minErrorMessage = termUnit.equals("Years") ? "Loan Period should not be zero." :
+                                            "Loan Period must be at least 1 months.";  // Only Months case remains
+
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, minErrorMessage);
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                // Maximum term validation
+                                if (input3 > maxLimit) {
+                                    String maxErrorMessage = termUnit.equals("Years") ? "Term should not exceed 40 years." :
+                                            "Term should not exceed 480 months (40 yr).";  // Only Months case remains
+
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, maxErrorMessage);
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Interest Rate
+                                if (input4Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter an annual interest rate.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                if (userEnterEMI > 100) {
+                                    CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Annual Interest Rate must not exceed 100%.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter a valid interest rate.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
                             break;
 
                         case "Loan Term":
