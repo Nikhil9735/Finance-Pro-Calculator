@@ -328,14 +328,23 @@ public class BKRDFragment extends Fragment {
                                 break;
 
                             case "Loan Amount":
-                                // Calculate loan amount based on EMI, interest rate, and term
-                                float emiInput = principal; // Assume principal is the EMI input
-                                float loanAmount = (float) ((emiInput * (Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths) - 1)) / (monthlyInterestRateSimpleLoan * Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths)));
+                                float emiInput = principal; // principal is used as EMI input
+                                float loanAmount;
 
-                                // Set results
-                                totalDeposit = loanAmount; // Loan amount
-                                totalInterest = (emiInput * termInMonths) - loanAmount; // Total interest paid
-                                maturityAmount = totalDeposit + totalInterest; // Interest paid (I)
+                                if (monthlyInterestRateSimpleLoan == 0f) {
+                                    // If interest rate is 0%, Loan = EMI * Term
+                                    loanAmount = emiInput * termInMonths;
+                                    totalInterest = 0;
+                                } else {
+                                    // Use EMI-based formula for loan amount
+                                    loanAmount = (float) ((emiInput * (Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths) - 1)) /
+                                            (monthlyInterestRateSimpleLoan * Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths)));
+                                    totalInterest = (emiInput * termInMonths) - loanAmount;
+                                }
+
+                                totalDeposit = loanAmount;
+                                maturityAmount = totalDeposit + totalInterest;
+
                                 break;
 
                             case "Annual Interest Rate (%)":
