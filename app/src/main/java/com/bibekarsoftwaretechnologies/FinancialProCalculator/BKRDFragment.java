@@ -301,76 +301,28 @@ public class BKRDFragment extends Fragment {
 
             if (operation != null) {
                 switch (operation) {
-                    case "Bank Recurring Deposit (RD)":
-                        // Calculate total deposit
-                        totalDeposit = principal * termInMonths; // term is in months
-
-                        // Calculate maturity amount and total interest
-                        float monthlyInterestRate = (annualInterestRate / 100) / 12;
-                        maturityAmount = (float) (principal * ((Math.pow(1 + monthlyInterestRate, termInMonths) - 1) / monthlyInterestRate) * (1 + monthlyInterestRate));
-                        totalInterest = maturityAmount - totalDeposit;
-                        break;
-
-                    case "Fixed Deposit - STDR (Cumulative)":
-                        // Calculate maturity amount for FD
-                        int compoundingFrequency = 4; // Quarterly compounding
-                        float rate = annualInterestRate / 100; // Convert percentage to decimal
-                        maturityAmount = (float) (principal * Math.pow(1 + (rate / compoundingFrequency), compoundingFrequency * (termInMonths / 12)));
-                        totalInterest = maturityAmount - principal;
-                        totalDeposit = principal;
-                        break;
-
-                    case "Fixed Deposit - TDR (Interest Payout)":
-                        // Get the selected interest payout frequency
-                        String interestPayoutFrequency = interestRecievedDropdown.getSelectedItem().toString();
-                        if (interestPayoutFrequency.equals("Monthly")) {
-                            yearlyInterestHeading.setText("Monthly Interest");
-                            // Calculate monthly interest
-                            float monthlyInterestRateTDR = (annualInterestRate / 100) / 12;
-                            float monthlyInterest = principal * monthlyInterestRateTDR; // Monthly interest payout
-                            totalDeposit = principal; // Monthly interest payout
-                            yearlyInterestResult.setText("Rs. " + df.format(monthlyInterest));
-                            // Calculate total interest based on term in months
-                            totalInterest = monthlyInterest * termInMonths;
-                        } else if (interestPayoutFrequency.equals("Quarterly")) {
-                            yearlyInterestHeading.setText("Quarterly Interest");
-                            // Calculate quarterly interest
-                            float quarterlyInterestRate = (annualInterestRate / 100) / 4;
-                            float quarterlyInterest = principal * quarterlyInterestRate; // Quarterly interest payout
-
-                            // Calculate total interest based on term in quarters
-                            float termInQuarters = termInMonths / 3; // Convert months to quarters
-                            totalInterest = quarterlyInterest * termInQuarters;
-                            totalDeposit = principal; // Monthly interest payout
-
-                            // Set totalDeposit based on term
-                            if (termInMonths < 3) {
-                                yearlyInterestResult.setText("Rs. " + df.format(quarterlyInterest * termInQuarters));
-                            } else {
-                                yearlyInterestResult.setText("Rs. " + df.format(quarterlyInterest));
-                            }
-                        }
-
-                        // Calculate maturity amount
-                        maturityAmount = principal + totalInterest;
-                        break;
-
                     case "Simple Loan":
 
                         // Calculate monthly interest rate
-                        float monthlyInterestRateSimpleLoan = (annualInterestRate / 100) / 12;
+                        float monthlyInterestRateSimpleLoan = (annualInterestRate / 100f) / 12;
 
                         switch (selectedOption) {
                             case "Monthly Repayment (EMI)":
-                                // Calculate EMI
-                                float emi = (float) (principal * (monthlyInterestRateSimpleLoan * Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths)) / (Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths) - 1));
+                                float emi;
 
-                                // Calculate total interest
-                                totalInterest = (emi * termInMonths) - principal;
+                                if (monthlyInterestRateSimpleLoan == 0f) {
+                                    // If interest rate is 0, EMI = principal / term
+                                    emi = principal / termInMonths;
+                                    totalInterest = 0;
+                                } else {
+                                    emi = (float) (principal * (monthlyInterestRateSimpleLoan * Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths)) /
+                                            (Math.pow(1 + monthlyInterestRateSimpleLoan, termInMonths) - 1));
+                                    totalInterest = (emi * termInMonths) - principal;
+                                }
+
                                 totalDeposit = principal;
                                 yearlyInterest = emi;
-                                // Set results
-                                maturityAmount = emi * termInMonths; // Interest Paid (I)
+                                maturityAmount = emi * termInMonths;
 
                                 yearlyInterestResult.setText("Rs. " + df.format(yearlyInterest));
                                 break;
@@ -404,7 +356,7 @@ public class BKRDFragment extends Fragment {
                                     }
                                 }
 
-                                monthlyInterestRate = (low + high) / 2; // Monthly interest rate
+                                float monthlyInterestRate = (low + high) / 2; // Monthly interest rate
 
                                 // Calculate annual interest rate
                                 float aannualInterestRate = monthlyInterestRate * 12 * 100;
@@ -449,7 +401,60 @@ public class BKRDFragment extends Fragment {
                                 maturityAmount = emiLoanTerm * totalMonths; // Total Repayments Paid (P + I)
                                 break;
                         }
-                    break;
+                        break;
+
+                    case "Fixed Deposit - TDR (Interest Payout)":
+                        // Get the selected interest payout frequency
+                        String interestPayoutFrequency = interestRecievedDropdown.getSelectedItem().toString();
+                        if (interestPayoutFrequency.equals("Monthly")) {
+                            yearlyInterestHeading.setText("Monthly Interest");
+                            // Calculate monthly interest
+                            float monthlyInterestRateTDR = (annualInterestRate / 100) / 12;
+                            float monthlyInterest = principal * monthlyInterestRateTDR; // Monthly interest payout
+                            totalDeposit = principal; // Monthly interest payout
+                            yearlyInterestResult.setText("Rs. " + df.format(monthlyInterest));
+                            // Calculate total interest based on term in months
+                            totalInterest = monthlyInterest * termInMonths;
+                        } else if (interestPayoutFrequency.equals("Quarterly")) {
+                            yearlyInterestHeading.setText("Quarterly Interest");
+                            // Calculate quarterly interest
+                            float quarterlyInterestRate = (annualInterestRate / 100) / 4;
+                            float quarterlyInterest = principal * quarterlyInterestRate; // Quarterly interest payout
+
+                            // Calculate total interest based on term in quarters
+                            float termInQuarters = termInMonths / 3; // Convert months to quarters
+                            totalInterest = quarterlyInterest * termInQuarters;
+                            totalDeposit = principal; // Monthly interest payout
+
+                            // Set totalDeposit based on term
+                            if (termInMonths < 3) {
+                                yearlyInterestResult.setText("Rs. " + df.format(quarterlyInterest * termInQuarters));
+                            } else {
+                                yearlyInterestResult.setText("Rs. " + df.format(quarterlyInterest));
+                            }
+                        }
+
+                        // Calculate maturity amount
+                        maturityAmount = principal + totalInterest;
+                        break;
+
+                    case "Fixed Deposit - STDR (Cumulative)":
+                        // Calculate maturity amount for FD
+                        int compoundingFrequency = 4; // Quarterly compounding
+                        float rate = annualInterestRate / 100; // Convert percentage to decimal
+                        maturityAmount = (float) (principal * Math.pow(1 + (rate / compoundingFrequency), compoundingFrequency * (termInMonths / 12)));
+                        totalInterest = maturityAmount - principal;
+                        totalDeposit = principal;
+                        break;
+                    case "Bank Recurring Deposit (RD)":
+                        // Calculate total deposit
+                        totalDeposit = principal * termInMonths; // term is in months
+
+                        // Calculate maturity amount and total interest
+                        float monthlyInterestRate = (annualInterestRate / 100) / 12;
+                        maturityAmount = (float) (principal * ((Math.pow(1 + monthlyInterestRate, termInMonths) - 1) / monthlyInterestRate) * (1 + monthlyInterestRate));
+                        totalInterest = maturityAmount - totalDeposit;
+                        break;
                 }
             }
 
@@ -492,12 +497,188 @@ public class BKRDFragment extends Fragment {
         String input3Str = editTextNumber3.getText().toString();
         String termUnit = spinner.getSelectedItem().toString();
 
+        String selectedOption = ""; // Declare as String
+        if (simpleLoanCalculateDropdown.getVisibility() == View.VISIBLE) {
+            selectedOption = simpleLoanCalculateDropdown.getSelectedItem().toString();
+        }
 
         if (operation != null) {
             switch (operation) {
                 case "Simple Loan":
 
+                    switch (selectedOption) {
+                        case "Monthly Repayment (EMI)":
+                            try {
+                                // Validate Deposit Amount
+                                if (input1Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a loan amount.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input1 = Float.parseFloat(input1Str);
+                                if (input1 <= 0) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Loan amount cannot be zero.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a valid loan amount.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Interest Rate
+                                if (input2Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input2 = Float.parseFloat(input2Str);
+                                if (input2 > 100) {
+                                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not exceed 100%.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter a valid interest rate.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Term Period
+                                if (input3Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter a loan period.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input3 = Float.parseFloat(input3Str);
+
+                                // Define minimum & maximum limits based on term unit (Only Years & Months)
+                                int minLimit = termUnit.equals("Years") ? 1 : 1;  // 1 year for Years, 6 months for Months
+                                int maxLimit = termUnit.equals("Years") ? 40 : 480;  // 20 years for Years, 240 months for Months
+
+                                // Minimum term validation
+                                if (input3 < minLimit) {
+                                    String minErrorMessage = termUnit.equals("Years") ? "Loan Period should not be zero." :
+                                            "Loan Period must be at least 1 months.";  // Only Months case remains
+
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, minErrorMessage);
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                // Maximum term validation
+                                if (input3 > maxLimit) {
+                                    String maxErrorMessage = termUnit.equals("Years") ? "Term should not exceed 40 years." :
+                                            "Term should not exceed 480 months (40 yr).";  // Only Months case remains
+
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, maxErrorMessage);
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+                            break;
+
+                        case "Loan Amount":
+                            try {
+                                // Validate Deposit Amount
+                                if (input1Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a Monthly Repayment (EMI) amount.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input1 = Float.parseFloat(input1Str);
+                                if (input1 <= 0) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Monthly Repayment (EMI) amount cannot be zero.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a valid Monthly Repayment (EMI) amount.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Interest Rate
+                                if (input2Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input2 = Float.parseFloat(input2Str);
+                                if (input2 > 100) {
+                                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not exceed 100%.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter a valid interest rate.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Term Period
+                                if (input3Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter a loan period.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input3 = Float.parseFloat(input3Str);
+
+                                // Define minimum & maximum limits based on term unit (Only Years & Months)
+                                int minLimit = termUnit.equals("Years") ? 1 : 1;  // 1 year for Years, 6 months for Months
+                                int maxLimit = termUnit.equals("Years") ? 40 : 480;  // 20 years for Years, 240 months for Months
+
+                                // Minimum term validation
+                                if (input3 < minLimit) {
+                                    String minErrorMessage = termUnit.equals("Years") ? "Loan Period should not be zero." :
+                                            "Loan Period must be at least 1 months.";  // Only Months case remains
+
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, minErrorMessage);
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                // Maximum term validation
+                                if (input3 > maxLimit) {
+                                    String maxErrorMessage = termUnit.equals("Years") ? "Term should not exceed 40 years." :
+                                            "Term should not exceed 480 months (40 yr).";  // Only Months case remains
+
+                                    CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, maxErrorMessage);
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber3, errorTextEditTextNumber3, "Please enter valid numbers.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+                            break;
+
+                        case "Annual Interest Rate (%)":
+
+                            break;
+
+                        case "Loan Term":
+
+                            break;
+                    }
                     break;
+
                 case "Fixed Deposit - TDR (Interest Payout)":
 
                     try {
