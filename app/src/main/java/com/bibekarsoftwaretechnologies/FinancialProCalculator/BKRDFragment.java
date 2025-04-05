@@ -207,6 +207,7 @@ public class BKRDFragment extends Fragment {
         CommonMethod.addClearErrorTextWatcher(editTextNumber1, errorTextEditTextNumber1);
         CommonMethod.addClearErrorTextWatcher(editTextNumber2, errorTextEditTextNumber2);
         CommonMethod.addClearErrorTextWatcher(editTextNumber3, errorTextEditTextNumber3);
+        CommonMethod.addClearErrorTextWatcher(editTextRepaymenetEmi, errorTextEditTextNumber4);
 
         buttonCalculate.setOnClickListener(v -> calculateRD());
 
@@ -352,32 +353,51 @@ public class BKRDFragment extends Fragment {
 
                             case "Annual Interest Rate (%)":
 
-                                // Iterative calculation for monthly interest rate
-                                float low = 0; // Lower bound for interest rate
-                                float high = 1; // Upper bound for interest rate (100%)
-                                float precision = 0.000001f; // Precision for convergence
+                                float low = 0;
+                                float high = 10000f; // 10,000% monthly = 1,20,00,000% annual
+                                float precision = 0.000001f;
 
-                                while (high - low > precision) {
+                                int maxIterations = 1000; // prevent infinite loop
+                                int iterations = 0;
+
+                                while (high - low > precision && iterations < maxIterations) {
                                     float mid = (low + high) / 2;
-                                    float calculatedEmi = principal * (mid * (float) Math.pow(1 + mid, termInMonths)) / ((float) Math.pow(1 + mid, termInMonths) - 1);
+
+                                    double pow = Math.pow(1 + mid, termInMonths);
+
+                                    // overflow check
+                                    if (Double.isInfinite(pow) || Double.isNaN(pow)) {
+                                        break;
+                                    }
+
+                                    float calculatedEmi = (float)(principal * (mid * pow) / (pow - 1));
+
+                                    if (Float.isInfinite(calculatedEmi) || Float.isNaN(calculatedEmi)) {
+                                        break;
+                                    }
 
                                     if (calculatedEmi < userEnterEMI) {
                                         low = mid;
                                     } else {
                                         high = mid;
                                     }
+
+                                    iterations++;
                                 }
 
-                                float monthlyInterestRate = (low + high) / 2; // Monthly interest rate
-
-                                // Calculate annual interest rate
+                                float monthlyInterestRate = (low + high) / 2;
                                 float aannualInterestRate = monthlyInterestRate * 12 * 100;
 
-                                // Calculate total interest and maturity amount
-                                totalDeposit = principal; // Principal Paid (P)
-                                yearlyInterestResult.setText(df.format(aannualInterestRate) +"%");
-                                totalInterest = (userEnterEMI * termInMonths) - principal; // Interest Paid (I)
-                                maturityAmount = userEnterEMI * termInMonths; // Total Repayments Paid (P + I)
+                                if (Float.isInfinite(aannualInterestRate) || Float.isNaN(aannualInterestRate)) {
+                                    yearlyInterestResult.setText("Interest too high or input overflow");
+                                } else {
+                                    yearlyInterestResult.setText(df.format(aannualInterestRate) + "%");
+                                }
+
+                                totalDeposit = principal;
+                                totalInterest = (userEnterEMI * termInMonths) - principal;
+                                maturityAmount = userEnterEMI * termInMonths;
+
                                 break;
 
                             case "Loan Term":
@@ -750,18 +770,30 @@ public class BKRDFragment extends Fragment {
                             try {
                                 // Validate Interest Rate
                                 if (input4Str.isEmpty()) {
-                                    CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter an annual interest rate.");
+                                    CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter an Monthly Repayment (EMI).");
                                     mainViewModel.setResultBoxVisibility(false);
                                     return false;
                                 }
 
-                                if (userEnterEMI > 100) {
-                                    CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Annual Interest Rate must not exceed 100%.");
+                                if (userEnterEMI <= 0) {
+                                    CommonMethod.validateInputs(
+                                            editTextRepaymenetEmi,
+                                            errorTextEditTextNumber4,
+                                            "Monthly Repayment (EMI) cannot be zero or negative."
+                                    );
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                } else if (userEnterEMI >= 99_999_999_999L) {
+                                    CommonMethod.validateInputs(
+                                            editTextRepaymenetEmi,
+                                            errorTextEditTextNumber4,
+                                            "Monthly Repayment (EMI) cannot be more than ₹99,99,99,99,999.00."
+                                    );
                                     mainViewModel.setResultBoxVisibility(false);
                                     return false;
                                 }
                             } catch (NumberFormatException e) {
-                                CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter a valid interest rate.");
+                                CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter a valid Monthly Repayment (EMI).");
                                 mainViewModel.setResultBoxVisibility(false);
                                 return false;
                             }
