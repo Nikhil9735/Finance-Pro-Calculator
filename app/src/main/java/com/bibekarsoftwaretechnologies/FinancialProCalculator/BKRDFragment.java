@@ -1,6 +1,7 @@
 package com.bibekarsoftwaretechnologies.FinancialProCalculator;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -352,31 +353,51 @@ public class BKRDFragment extends Fragment {
                                 break;
 
                             case "Annual Interest Rate (%)":
+                                // Calculate absolute minimum EMI (principal only, 0% interest)
+                                float absoluteMinEMI = principal / termInMonths;
 
-                                float low = 0;
-                                float high = 10000f; // 10,000% monthly = 1,20,00,000% annual
-                                float precision = 0.000001f;
+                                // Validate EMI input
+                                if (userEnterEMI <= absoluteMinEMI) {
+                                    yearlyInterestHeading.setText("The current Monthly Repayment (EMI) amount is too low to repay the loan within the selected tenure.\n\n" +
+                                            "Please increase your Monthly Repayment (EMI) to at least ₹" + df.format(absoluteMinEMI));
+                                    break;
+                                } else if (userEnterEMI > principal * 2) { // Reasonable upper bound (5x principal)
+                                    yearlyInterestHeading.setText("The Monthly Repayment (EMI) amount entered is too high and unrealistic.\n\nMaximum suggested Monthly Repayment (EMI) is ₹" + df.format(principal * 2) +
+                                            ". Ensure your Monthly Repayment (EMI) stays under this threshold.");
+                                    break;
+                                }
 
-                                int maxIterations = 1000; // prevent infinite loop
+                                // Binary search setup with realistic bounds (0% to 2400% annual)
+                                double low = 0.0;          // 0% monthly (0% annual)
+                                double high = 200.0;       // 100% monthly (1200% annual)
+                                double precision = 0.0001; // 0.01% precision
+                                int maxIterations = 1000;
                                 int iterations = 0;
 
+                                // Binary search to find interest rate
                                 while (high - low > precision && iterations < maxIterations) {
-                                    float mid = (low + high) / 2;
+                                    double mid = (low + high) / 2;
+                                    double r = mid / 100.0; // Convert percentage to decimal
 
-                                    double pow = Math.pow(1 + mid, termInMonths);
+                                    double pow = Math.pow(1 + r, termInMonths);
 
-                                    // overflow check
+                                    // Handle overflow cases
                                     if (Double.isInfinite(pow) || Double.isNaN(pow)) {
-                                        break;
+                                        high = mid;
+                                        iterations++;
+                                        continue;
                                     }
 
-                                    float calculatedEmi = (float)(principal * (mid * pow) / (pow - 1));
+                                    double calculatedEMI = principal * (r * pow) / (pow - 1);
 
-                                    if (Float.isInfinite(calculatedEmi) || Float.isNaN(calculatedEmi)) {
-                                        break;
+                                    if (Double.isNaN(calculatedEMI) || Double.isInfinite(calculatedEMI)) {
+                                        high = mid;
+                                        iterations++;
+                                        continue;
                                     }
 
-                                    if (calculatedEmi < userEnterEMI) {
+                                    // Adjust search bounds
+                                    if (calculatedEMI < userEnterEMI) {
                                         low = mid;
                                     } else {
                                         high = mid;
@@ -385,15 +406,19 @@ public class BKRDFragment extends Fragment {
                                     iterations++;
                                 }
 
-                                float monthlyInterestRate = (low + high) / 2;
-                                float aannualInterestRate = monthlyInterestRate * 12 * 100;
+                                // Calculate annual interest rate
+                                double annualInterestRatee = ((low + high) / 2.0) * 12;
 
-                                if (Float.isInfinite(aannualInterestRate) || Float.isNaN(aannualInterestRate)) {
-                                    yearlyInterestResult.setText("Interest too high or input overflow");
+                                // Validate and display results
+                                if (annualInterestRatee >= 1200.0) {
+                                    yearlyInterestHeading.setTextColor(Color.RED);
+                                    yearlyInterestHeading.setText("Annual interest rate exceeds the maximum limit (1200%).\n" +
+                                            "Please reduce your Monthly Repayment (EMI) amount");
                                 } else {
-                                    yearlyInterestResult.setText(df.format(aannualInterestRate) + "%");
+                                    yearlyInterestHeading.setText(df.format(annualInterestRatee));
                                 }
 
+                                // Calculate financial summary
                                 totalDeposit = principal;
                                 totalInterest = (userEnterEMI * termInMonths) - principal;
                                 maturityAmount = userEnterEMI * termInMonths;
@@ -512,11 +537,19 @@ public class BKRDFragment extends Fragment {
         editTextNumber1.setText("");
         editTextNumber2.setText("");
         editTextNumber3.setText("");
-        totalDepositResult.setText("");
-        totalInterestResult.setText("");
-        maturityAmountResult.setText("");
         spinner.setSelection(0); // Reset spinner to default position
         editTextRepaymenetEmi.setText("");
+
+        totalDepositResult.setText("");
+        yearlyInterestResult.setText("");
+        totalInterestResult.setText("");
+        maturityAmountResult.setText("");
+
+
+        editTextNumber1.setError(null);
+        editTextNumber2.setError(null);
+        editTextNumber3.setError(null);
+        editTextRepaymenetEmi.setError(null);
 
         mainViewModel.setChartBoxVisibility(false);
         mainViewModel.setResultBoxVisibility(false);
@@ -800,6 +833,76 @@ public class BKRDFragment extends Fragment {
                             break;
 
                         case "Loan Term":
+                            try {
+                                // Validate Deposit Amount
+                                if (input1Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a loan amount.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input1 = Float.parseFloat(input1Str);
+                                if (input1 <= 0) {
+                                    CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Loan amount cannot be zero.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber1, errorTextEditTextNumber1, "Please enter a valid loan amount.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Interest Rate
+                                if (input2Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter an annual interest rate.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                float input2 = Float.parseFloat(input2Str);
+                                if (input2 > 100) {
+                                    CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Annual Interest Rate must not exceed 100%.");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextNumber2, errorTextEditTextNumber2, "Please enter a valid interest rate.");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
+
+                            try {
+                                // Validate Interest Rate
+                                if (input4Str.isEmpty()) {
+                                    CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter an Monthly Repayment (EMI).");
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+
+                                if (userEnterEMI <= 0) {
+                                    CommonMethod.validateInputs(
+                                            editTextRepaymenetEmi,
+                                            errorTextEditTextNumber4,
+                                            "Monthly Repayment (EMI) cannot be zero or negative."
+                                    );
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                } else if (userEnterEMI >= 99_999_999_999L) {
+                                    CommonMethod.validateInputs(
+                                            editTextRepaymenetEmi,
+                                            errorTextEditTextNumber4,
+                                            "Monthly Repayment (EMI) cannot be more than ₹99,99,99,99,999.00."
+                                    );
+                                    mainViewModel.setResultBoxVisibility(false);
+                                    return false;
+                                }
+                            } catch (NumberFormatException e) {
+                                CommonMethod.validateInputs(editTextRepaymenetEmi, errorTextEditTextNumber4, "Please enter a valid Monthly Repayment (EMI).");
+                                mainViewModel.setResultBoxVisibility(false);
+                                return false;
+                            }
 
                             break;
                     }
