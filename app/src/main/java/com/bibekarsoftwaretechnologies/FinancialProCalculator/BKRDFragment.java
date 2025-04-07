@@ -26,7 +26,7 @@ public class BKRDFragment extends Fragment {
     private EditText editTextNumber1, editTextNumber2, editTextNumber3, editTextRepaymenetEmi;
     private Spinner spinner, interestRecievedDropdown, simpleLoanCalculateDropdown;
     private TextView textViewHeading, editText1Heading, errorTextEditTextNumber1, editText2Heading, errorTextEditTextNumber2, textViewTerm, errorTextEditTextNumber3, errorTextEditTextNumber4, totalDepositHeading,
-            totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
+            annualInterestError, totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
             totalInterestResult, maturityAmountHeading, maturityAmountResult, editTextRepaymenetEmiHeading;
     private MainViewModel mainViewModel;
     private LinearLayout resultBox, simpleLoanDropdownLayout;
@@ -63,10 +63,11 @@ public class BKRDFragment extends Fragment {
         editTextRepaymenetEmiHeading = view.findViewById(R.id.editTextRepaymenetEmiHeading);
         editTextRepaymenetEmi = view.findViewById(R.id.editTextRepaymenetEmi);
         errorTextEditTextNumber4 = view.findViewById(R.id.errorTextEditTextNumber4);
-        yearlyInterestHeading = view.findViewById(R.id.yearlyInterestHeading);
-        yearlyInterestResult = view.findViewById(R.id.yearlyInterestResult);
+        annualInterestError = view.findViewById(R.id.annualInterestError);
         totalDepositHeading = view.findViewById(R.id.totalDepositHeading);
         totalDepositResult = view.findViewById(R.id.totalDepositResult);
+        yearlyInterestHeading = view.findViewById(R.id.yearlyInterestHeading);
+        yearlyInterestResult = view.findViewById(R.id.yearlyInterestResult);
         totalInterestHeading = view.findViewById(R.id.totalInterestHeading);
         totalInterestResult = view.findViewById(R.id.totalInterestResult);
         maturityAmountHeading = view.findViewById(R.id.maturityAmountHeading);
@@ -152,6 +153,7 @@ public class BKRDFragment extends Fragment {
                                         spinner.setVisibility(View.VISIBLE);
                                         yearlyInterestHeading.setVisibility(View.VISIBLE);
                                         yearlyInterestResult.setVisibility(View.VISIBLE);
+                                        annualInterestError.setVisibility(View.VISIBLE);
                                         editTextRepaymenetEmiHeading.setVisibility(View.VISIBLE);
                                         editTextRepaymenetEmi.setVisibility(View.VISIBLE);
                                         errorTextEditTextNumber4.setVisibility(View.VISIBLE);
@@ -356,17 +358,6 @@ public class BKRDFragment extends Fragment {
                                 // Calculate absolute minimum EMI (principal only, 0% interest)
                                 float absoluteMinEMI = principal / termInMonths;
 
-                                // Validate EMI input
-                                if (userEnterEMI <= absoluteMinEMI) {
-                                    yearlyInterestHeading.setText("The current Monthly Repayment (EMI) amount is too low to repay the loan within the selected tenure.\n\n" +
-                                            "Please increase your Monthly Repayment (EMI) to at least ₹" + df.format(absoluteMinEMI));
-                                    break;
-                                } else if (userEnterEMI > principal * 2) { // Reasonable upper bound (5x principal)
-                                    yearlyInterestHeading.setText("The Monthly Repayment (EMI) amount entered is too high and unrealistic.\n\nMaximum suggested Monthly Repayment (EMI) is ₹" + df.format(principal * 2) +
-                                            ". Ensure your Monthly Repayment (EMI) stays under this threshold.");
-                                    break;
-                                }
-
                                 // Binary search setup with realistic bounds (0% to 2400% annual)
                                 double low = 0.0;          // 0% monthly (0% annual)
                                 double high = 200.0;       // 100% monthly (1200% annual)
@@ -409,19 +400,31 @@ public class BKRDFragment extends Fragment {
                                 // Calculate annual interest rate
                                 double annualInterestRatee = ((low + high) / 2.0) * 12;
 
+                                setResultHeadingsVisibility(View.GONE);
+                                annualInterestError.setVisibility(View.VISIBLE);
+
                                 // Validate and display results
-                                if (annualInterestRatee >= 1200.0) {
-                                    yearlyInterestHeading.setTextColor(Color.RED);
-                                    yearlyInterestHeading.setText("Annual interest rate exceeds the maximum limit (1200%).\n" +
+                                if (userEnterEMI < absoluteMinEMI) {
+                                    annualInterestError.setText("The current Monthly Repayment (EMI) amount is too low to repay the loan within the selected tenure.\n\n" +
+                                            "Please increase your Monthly Repayment (EMI) to at least ₹" + df.format(absoluteMinEMI));
+                                    break;
+                                } else if (userEnterEMI > principal * 1) { // Reasonable upper bound (5x principal)
+                                    annualInterestError.setText("The Monthly Repayment (EMI) amount entered is too high and unrealistic.\n\nMaximum suggested Monthly Repayment (EMI) is ₹" + df.format(principal * 1) +
+                                            ". Ensure your Monthly Repayment (EMI) stays under this threshold.");
+                                    break;
+                                } else if (annualInterestRatee >= 1200.0) {
+                                    annualInterestError.setText("Annual interest rate exceeds the maximum limit (1200%).\n" +
                                             "Please reduce your Monthly Repayment (EMI) amount");
                                 } else {
-                                    yearlyInterestHeading.setText(df.format(annualInterestRatee));
+                                    annualInterestError.setText("");
+                                    annualInterestError.setVisibility(View.GONE);
+                                    // Calculate financial summary
+                                    totalDeposit = principal;
+                                    totalInterest = (userEnterEMI * termInMonths) - principal;
+                                    maturityAmount = userEnterEMI * termInMonths;
+                                    yearlyInterestResult.setText(df.format(annualInterestRatee));
+                                    setResultHeadingsVisibility(View.VISIBLE);
                                 }
-
-                                // Calculate financial summary
-                                totalDeposit = principal;
-                                totalInterest = (userEnterEMI * termInMonths) - principal;
-                                maturityAmount = userEnterEMI * termInMonths;
 
                                 break;
 
@@ -429,8 +432,12 @@ public class BKRDFragment extends Fragment {
                                 // Calculate monthly interest rate
                                 float monthlyInterestRateLoanTerm = (annualInterestRate / 100) / 12;
 
-                                // Calculate loan term in months using the formula
                                 float emiLoanTerm = userEnterEMI; // User-entered EMI
+
+                                // Check if EMI is too low
+                                absoluteMinEMI = (float) (principal * monthlyInterestRateLoanTerm);
+
+                                // Calculate loan term in months using the formula
                                 float numerator = (float) Math.log(emiLoanTerm / (emiLoanTerm - principal * monthlyInterestRateLoanTerm));
                                 float denominator = (float) Math.log(1 + monthlyInterestRateLoanTerm);
                                 float loanTermInMonths = numerator / denominator;
@@ -452,10 +459,24 @@ public class BKRDFragment extends Fragment {
                                     loanTermResult = years + " Years & " + months + " Months (" + totalMonths + " Months)";
                                 }
 
-                                totalDeposit = principal;
-                                yearlyInterestResult.setText(loanTermResult);
-                                totalInterest = (emiLoanTerm * totalMonths) - principal; // Interest Paid (I)
-                                maturityAmount = emiLoanTerm * totalMonths; // Total Repayments Paid (P + I)
+                                setResultHeadingsVisibility(View.GONE);
+                                annualInterestError.setVisibility(View.VISIBLE);
+
+                                if (emiLoanTerm <= absoluteMinEMI) {
+                                    // Set error message
+                                    annualInterestError.setText("The entered Monthly Repayment (EMI) amount is too low to calculate a valid loan term for the given loan amount.\n\n" +
+                                            "Please increase your Monthly Repayment (EMI) to at least ₹" + df.format(absoluteMinEMI) + " or reduce your Loan Amount.");
+                                    break;
+                                } else {
+                                    annualInterestError.setText("");
+                                    annualInterestError.setVisibility(View.GONE);
+                                    totalDeposit = principal;
+                                    yearlyInterestResult.setText(loanTermResult);
+                                    totalInterest = (emiLoanTerm * totalMonths) - principal; // Interest Paid (I)
+                                    maturityAmount = emiLoanTerm * totalMonths; // Total Repayments Paid (P + I)
+                                    setResultHeadingsVisibility(View.VISIBLE);
+                                }
+
                                 break;
                         }
                         break;
@@ -531,6 +552,20 @@ public class BKRDFragment extends Fragment {
         }
     }
 
+    private void setResultHeadingsVisibility(int visibility) {
+
+        totalDepositHeading.setVisibility(visibility);
+        yearlyInterestHeading.setVisibility(visibility);
+        totalInterestHeading.setVisibility(visibility);
+        maturityAmountHeading.setVisibility(visibility);
+
+        totalDepositResult.setVisibility(visibility);
+        yearlyInterestResult.setVisibility(visibility);
+        totalInterestResult.setVisibility(visibility);
+        maturityAmountResult.setVisibility(visibility);
+
+    }
+
     private void resetFields() {
         mainViewModel.hideKeyboard(requireContext());
         // Clear all input fields and results
@@ -544,6 +579,7 @@ public class BKRDFragment extends Fragment {
         yearlyInterestResult.setText("");
         totalInterestResult.setText("");
         maturityAmountResult.setText("");
+        annualInterestError.setText("");
 
 
         editTextNumber1.setError(null);
