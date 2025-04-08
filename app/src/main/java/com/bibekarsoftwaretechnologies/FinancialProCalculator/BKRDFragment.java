@@ -75,6 +75,8 @@ public class BKRDFragment extends Fragment {
         simpleLoanDropdownLayout = view.findViewById(R.id.simpleLoanDropdownLayout);
         resultBox = view.findViewById(R.id.resultBox);
 
+        AdHelper.loadBannerAd(this, view); // Load banner ad for fragment
+
         // Initialize ViewModel
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 

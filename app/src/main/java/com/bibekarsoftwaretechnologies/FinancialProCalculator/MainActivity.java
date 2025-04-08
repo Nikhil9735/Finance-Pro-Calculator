@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,12 +51,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize the Mobile Ads SDK
-        MobileAds.initialize(this, initializationStatus -> {});
-
-        // Load the Ad
-        AdView adView = findViewById(R.id.banner_ad_view);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        MobileAds.initialize(this, initializationStatus -> {
+            Log.d("Ads", "SDK initialized");
+        });
+        // Load banner ad
+        AdHelper.loadBannerAd(this);
 
         // Apply the saved theme mode before setting the content view
         ThemeUtils.applySavedTheme(this);
@@ -167,14 +167,20 @@ public class MainActivity extends AppCompatActivity {
         int colorIndex = 0;
 
         // Add buttons dynamically for each category
-        for (String[] category : categories) {
+        for (int i = 0; i < categories.length; i++) {
+            String[] category = categories[i];
             addCategoryHeader(category[0]); // Add category header (name)
             for (int j = 1; j < category.length; j++) {
-                // Assign each button a color manually from the list
                 String color = buttonColors[colorIndex++ % buttonColors.length];
-                addButton(category[j], color); // Add button with assigned color
+                addButton(category[j], color);
+            }
+
+            // ✅ Add AdView after BANK category (index 3 in your list)
+            if (i == 3) {
+                AdHelper.loadMidiumSquareAd(this, buttonContainer);
             }
         }
+
     }
 
     private void addCategoryHeader(String categoryName) {

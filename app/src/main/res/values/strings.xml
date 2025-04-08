@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Financial Pro Calculator</string>
+
+    <!-- Ads Activity -->
+    <string name="admob_square_ad_unit">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_banner_ad_unit">ca-app-pub-3940256099942544/6300978111</string> <!-- Test ID -->
+
     <!-- Drawer Activity -->
     <string name="slogan_text">Smart Solutions for Every Finance Need</string>
     <string name="settings">Settings</string>
