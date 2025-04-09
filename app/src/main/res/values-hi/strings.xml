@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="settings">सेटिंग्स</string>
+
+    <string name="share">कृपया ऐप शेयर करें</string>
+    <string name="rate">कृपया ऐप को रेट करें</string>
+    <string name="more">अन्य ऐप्स</string>
+
     <string name="color_scheme_text">ऐप थीम</string>
     <string name="light">लाइट मोड</string>
     <string name="dark">डार्क मोड</string>
@@ -14,10 +20,13 @@
     <string name="privacy_policy">गोपनीयता नीति</string>
 
     <string name="contact">संपर्क</string>
-    <string name="contactDiaNote">नोट: आप इस संपर्क फ़ॉर्म के माध्यम से मुझे प्रायोजन, सुझाव या सहायता के लिए संदेश भेज सकते हैं।</string>
+    <string name="contactDiaNote">नोट: आप इस संपर्क फ़ॉर्म के माध्यम से मुझे प्रायोजन अनुरोध, सुझाव भेज सकते हैं या सहायता मांग सकते हैं।</string>
 
     <string name="seggestionName">अपना नाम लिखें</string>
     <string name="seggestionMessage">अपना संदेश लिखें</string>
     <string name="buttonSend">भेजें</string>
+
+    <!-- Emp Cal -->
+    <string name="empSalary">कर्मचारी वेतन</string>
 
 </resources>

@@ -11,7 +11,7 @@
     <string name="share">Share</string>
     <string name="share_message">Install %1$s Smart Solutions for Every Finance Need.\n\n%s</string>
     <string name="rate">Rate</string>
-    <string name="more">More</string>
+    <string name="more">More Apps</string>
 
     <string name="btncalculate">CALCULATE</string>
     <string name="btnclear">CLEAR</string>
@@ -159,5 +159,7 @@
         <item>Loan Term</item>
 
     </string-array>
+
+    <string name="empSalary">Employee Salary</string>
 
 </resources>

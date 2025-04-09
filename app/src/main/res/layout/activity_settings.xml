@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/App"
-        android:textSize="10dp"
+        android:textSize="11dp"
         style="@style/textColor"
         android:fontFamily="@font/bold"
         android:padding="16dp"
@@ -68,7 +68,7 @@
                     android:layout_marginBottom="3dp"
                     android:fontFamily="@font/regular"
                     android:text="@string/color_scheme_text"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:contentDescription="@string/color_scheme_text"
                     style="@style/textColor" />
 
@@ -76,7 +76,7 @@
                     android:id="@+id/selected_theme_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="14.5sp"
                     style="@style/selectedTextColor"
                     android:text="System (Default)"
                     android:fontFamily="@font/regular" />
@@ -124,13 +124,13 @@
                     android:layout_marginBottom="3dp"
                     android:fontFamily="@font/regular"
                     android:text="@string/language_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
                 <TextView
                     android:id="@+id/selected_language_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="14.5sp"
                     style="@style/selectedTextColor"
                     android:text="System (Default)"
                     android:fontFamily="@font/regular" />
@@ -144,7 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/About"
-        android:textSize="10dp"
+        android:textSize="11dp"
         style="@style/textColor"
         android:fontFamily="@font/bold"
         android:padding="16dp"
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/regular"
                     android:text="@string/contact"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:contentDescription="@string/contact"
                     style="@style/textColor" />
             </LinearLayout>
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/regular"
                     android:text="@string/privacy_policy"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:contentDescription="@string/privacy_policy"
                     style="@style/textColor" />
             </LinearLayout>
@@ -279,7 +279,7 @@
                     android:fontFamily="@font/regular"
                     android:text="@string/app_name"
                     android:layout_marginBottom="3dp"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:contentDescription="@string/app_name"
                     style="@style/textColor" />
 

@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Effective Date: August 01, 2024"
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Welcome to the 'Animal Sounds' app! Your privacy is important to us. This Privacy Policy outlines how we handle your information and what steps we take to protect it."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="We do not collect any personal information from users of our app. The 'Animal Sounds' app does not gather, store, or process any personal data."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="The 'Animal Sounds' app does not require any permissions beyond the standard ones necessary to run the app. We do not access your device's camera, microphone, location, or other sensitive information."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Since we do not collect any personal data, there is no data to share. We do not share, sell, or trade any information with third parties."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -131,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="We are committed to ensuring the security of your information. However, since we do not collect any personal information, there is no data to protect."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="The 'Animal Sounds' app may contain links to third-party websites or services. We are not responsible for the privacy practices or content of these third parties. We encourage you to review the privacy policies of any third-party sites you visit."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this Privacy Policy periodically."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
@@ -179,14 +179,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="If you have any questions or concerns about this Privacy Policy, please contact us at:"
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="mobmasterofficial@gmail.com"
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="16dp" />
 
             <TextView
@@ -202,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="By using the 'Animal Sounds' app, you consent to the terms outlined in this Privacy Policy."
-                android:textSize="14sp"
+                android:textSize="14.5dp"
                 android:paddingBottom="5dp"/>
 
         </LinearLayout>

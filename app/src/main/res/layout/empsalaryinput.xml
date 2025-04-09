@@ -26,7 +26,7 @@
                 android:id="@+id/empSalaryHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Employee Salary"
+                android:text="@string/empSalary"
                 android:textSize="20sp"
                 android:textColor="@color/darkGreen"
                 android:fontFamily="@font/bold"
