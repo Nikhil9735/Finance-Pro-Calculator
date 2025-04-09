@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     style="@style/selectedTextColor"
-                    android:text="English"
+                    android:text="System (Default)"
                     android:fontFamily="@font/regular" />
             </LinearLayout>
         </LinearLayout>

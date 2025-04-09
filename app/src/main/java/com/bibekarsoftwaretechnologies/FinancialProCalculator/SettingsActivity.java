@@ -56,8 +56,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_color_scheme).setOnClickListener(v -> showColorSchemeDialog());
         findViewById(R.id.btn_language).setOnClickListener(v -> showLanguageDialog());
-        findViewById(R.id.btn_privacy_policy).setOnClickListener(v -> showPrivacyPolicyDialog());
         findViewById(R.id.btn_suggestion).setOnClickListener(v -> showSuggestionMailDialog());
+        findViewById(R.id.btn_privacy_policy).setOnClickListener(v -> showPrivacyPolicyDialog());
     }
 
     private void showColorSchemeDialog() {
@@ -104,6 +104,52 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    private void applySavedThemeToRadioButtons(RadioGroup radioGroup) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int savedThemeMode = sharedPreferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+        switch (savedThemeMode) {
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                radioGroup.check(R.id.radio_light);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                radioGroup.check(R.id.radio_dark);
+                break;
+            default:
+                radioGroup.check(R.id.radio_system);
+                break;
+        }
+    }
+
+    private void saveThemePreference(int mode) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("theme_mode", mode);
+        editor.apply();
+    }
+
+    private void updateSelectedThemeText() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int savedThemeMode = sharedPreferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+        String themeText;
+        switch (savedThemeMode) {
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                themeText = getString(R.string.light);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                themeText = getString(R.string.dark);
+                break;
+            default:
+                themeText = getString(R.string.system_default);
+                break;
+        }
+
+        if (selectedThemeTextView != null) {
+            selectedThemeTextView.setText(themeText);
+        }
+    }
+
     private void showLanguageDialog() {
         // Inflate the dialog layout
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_language, null);
@@ -126,12 +172,10 @@ public class SettingsActivity extends AppCompatActivity {
             int selectedId = radioGroup.getCheckedRadioButtonId();
             String languageCode = "en"; // Default language
 
-            if (selectedId == R.id.radio_spanish) {
-                languageCode = "es";
-            } else if (selectedId == R.id.radio_french) {
-                languageCode = "fr";
-            } else if (selectedId == R.id.radio_marathi) {
-                languageCode = "mr";
+            if (selectedId == R.id.radio_english) {
+                languageCode = "en";
+            } else if (selectedId == R.id.radio_hindi) {
+                languageCode = "hi";
             }
 
             // Save and apply the selected language
@@ -149,28 +193,61 @@ public class SettingsActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(params);
     }
 
-    private void showPrivacyPolicyDialog() {
-        // Inflate the dialog layout
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_privacy_policy, null);
+    private void applySavedLanguageToRadioButtons(RadioGroup radioGroup) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String savedLanguage = sharedPreferences.getString("language_code", "en");
 
-        // Create the AlertDialog using the default theme
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-        final AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_corners); // Keep this if you want custom corners
+        switch (savedLanguage) {
+            case "en":
+                radioGroup.check(R.id.radio_default_english);
+                break;
+            case "hi":
+                radioGroup.check(R.id.radio_hindi);
+                break;
+            default:
+                radioGroup.check(R.id.radio_english);
+                break;
+        }
+    }
 
-        // Get reference to the OK button
-        Button buttonOk = dialogView.findViewById(R.id.button_ok);
+    private void saveLanguagePreference(String languageCode) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("language_code", languageCode);
+        editor.apply();
+    }
 
-        // Set up the OK button
-        buttonOk.setOnClickListener(v -> dialog.dismiss());
+    private void updateLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
 
-        dialog.show();
-        // Get the dialog window
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        // Set the width to wrap content with a maximum value
-        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8); // Set width to 80% of screen width
-        dialog.getWindow().setAttributes(params);
+        // Recreate the activity to apply the changes smoothly
+        recreate();
+    }
+
+    private void updateSelectedLanguageText() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String savedLanguage = sharedPreferences.getString("language_code", "en");
+
+        String languageText;
+        switch (savedLanguage) {
+            case "en":
+                languageText = getString(R.string.system_default);
+                break;
+            case "hi":
+                languageText = getString(R.string.lang_hindi);
+                break;
+            default:
+                languageText = getString(R.string.system_default);
+                break;
+        }
+
+        if (selectedLanguageTextView != null) {
+            selectedLanguageTextView.setText(languageText);
+        }
     }
 
     private void showSuggestionMailDialog() {
@@ -210,112 +287,27 @@ public class SettingsActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(params);
     }
 
-    private void applySavedThemeToRadioButtons(RadioGroup radioGroup) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int savedThemeMode = sharedPreferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    private void showPrivacyPolicyDialog() {
+        // Inflate the dialog layout
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_privacy_policy, null);
 
-        switch (savedThemeMode) {
-            case AppCompatDelegate.MODE_NIGHT_NO:
-                radioGroup.check(R.id.radio_light);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_YES:
-                radioGroup.check(R.id.radio_dark);
-                break;
-            default:
-                radioGroup.check(R.id.radio_system);
-                break;
-        }
-    }
+        // Create the AlertDialog using the default theme
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_corners); // Keep this if you want custom corners
 
-    private void applySavedLanguageToRadioButtons(RadioGroup radioGroup) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String savedLanguage = sharedPreferences.getString("language_code", "en");
+        // Get reference to the OK button
+        Button buttonOk = dialogView.findViewById(R.id.button_ok);
 
-        switch (savedLanguage) {
-            case "mr":
-                radioGroup.check(R.id.radio_marathi);
-                break;
-            case "es":
-                radioGroup.check(R.id.radio_spanish);
-                break;
-            case "fr":
-                radioGroup.check(R.id.radio_french);
-                break;
-            default:
-                radioGroup.check(R.id.radio_english);
-                break;
-        }
-    }
+        // Set up the OK button
+        buttonOk.setOnClickListener(v -> dialog.dismiss());
 
-    private void saveThemePreference(int mode) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("theme_mode", mode);
-        editor.apply();
-    }
-
-    private void saveLanguagePreference(String languageCode) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("language_code", languageCode);
-        editor.apply();
-    }
-
-    private void updateLocale(String languageCode) {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-        // Recreate the activity to apply the changes smoothly
-        recreate();
-    }
-
-    private void updateSelectedThemeText() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int savedThemeMode = sharedPreferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-
-        String themeText;
-        switch (savedThemeMode) {
-            case AppCompatDelegate.MODE_NIGHT_NO:
-                themeText = getString(R.string.light);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_YES:
-                themeText = getString(R.string.dark);
-                break;
-            default:
-                themeText = getString(R.string.system_default);
-                break;
-        }
-
-        if (selectedThemeTextView != null) {
-            selectedThemeTextView.setText(themeText);
-        }
-    }
-
-    private void updateSelectedLanguageText() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String savedLanguage = sharedPreferences.getString("language_code", "en");
-
-        String languageText;
-        switch (savedLanguage) {
-            case "mr":
-                languageText = getString(R.string.marathi);
-                break;
-            case "es":
-                languageText = getString(R.string.spanish);
-                break;
-            case "fr":
-                languageText = getString(R.string.french);
-                break;
-            default:
-                languageText = getString(R.string.system_default);
-                break;
-        }
-
-        if (selectedLanguageTextView != null) {
-            selectedLanguageTextView.setText(languageText);
-        }
+        dialog.show();
+        // Get the dialog window
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        // Set the width to wrap content with a maximum value
+        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8); // Set width to 80% of screen width
+        dialog.getWindow().setAttributes(params);
     }
 }

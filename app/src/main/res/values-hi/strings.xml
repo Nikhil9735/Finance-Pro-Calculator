@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="color_scheme_text">ऐप थीम</string>
+    <string name="light">लाइट मोड</string>
+    <string name="dark">डार्क मोड</string>
+    <string name="ok">ठीक है</string>
+
+    <string name="language_text">भाषा</string>
+    <string name="App_Language">ऐप की भाषा</string>
+    <string name="system_default">सिस्टम (डिफ़ॉल्ट)</string>
+    <string name="lang_english">अंग्रेज़ी</string>
+    <string name="lang_hindi">हिंदी</string>
+
+    <string name="privacy_policy">गोपनीयता नीति</string>
+
+    <string name="contact">संपर्क</string>
+    <string name="contactDiaNote">नोट: आप इस संपर्क फ़ॉर्म के माध्यम से मुझे प्रायोजन, सुझाव या सहायता के लिए संदेश भेज सकते हैं।</string>
+
+    <string name="seggestionName">अपना नाम लिखें</string>
+    <string name="seggestionMessage">अपना संदेश लिखें</string>
+    <string name="buttonSend">भेजें</string>
+
+</resources>

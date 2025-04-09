@@ -19,7 +19,11 @@
 
     <!-- Setting Activity -->
     <string name="color_scheme_text">Color Scheme</string>
+
     <string name="language_text">Language</string>
+    <string name="lang_english">English</string>
+    <string name="lang_hindi">Hindi</string>
+
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact">Contact</string>
     <string name="contactDiaNote">Note: You can send me sponsorship requests, suggestions, or ask for help using this contact form.</string>
@@ -35,9 +39,6 @@
     <string name="App_Language">App Language</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
-    <string name="spanish">Spanish</string>
-    <string name="french">French</string>
-    <string name="marathi">Marathi</string>
     <string name="buttonSend">Send</string>
     <string name="seggestionName">Type Your Name</string>
     <string name="seggestionMessage">Type Your Message</string>
