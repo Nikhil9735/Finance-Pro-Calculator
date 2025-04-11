@@ -8,14 +8,17 @@
     <!-- Drawer Activity -->
     <string name="slogan_text">Smart Solutions for Every Finance Need</string>
     <string name="settings">Settings</string>
-    <string name="share">Share</string>
+    <string name="share">Send to Friends</string>
+    <string name="rate">Rate &amp; Review</string>
+    <string name="more">Check Out More Apps</string>
+    <string name="upgradeToPremium">Upgrade to Primium</string>
     <string name="share_message">Install %1$s Smart Solutions for Every Finance Need.\n\n%s</string>
-    <string name="rate">Rate</string>
-    <string name="more">More Apps</string>
 
     <string name="btncalculate">CALCULATE</string>
     <string name="btnclear">CLEAR</string>
     <string name="btnbankinterest">SEARCH (%)</string>
+    <string name="btnRadioReturn">Return</string>
+    <string name="btnRadioGrowth">Growth</string>
 
     <!-- Setting Activity -->
     <string name="color_scheme_text">Color Scheme</string>
@@ -109,24 +112,45 @@
         <item>Utkarsh Small Finance Bank</item>
     </string-array>
 
+    <!-- Edit box hint-->
+    <string name="Rs">Rs.</string>
+    <string name="percentageSymbol">%</string>
 
     <!-- Employee Salary Calculator-->
     <string name="EmpCTC">Cost to Company (CTC)</string>
+    <string name="EmpCTC_alert">Please enter your CTC.</string>
+    <string name="EmpCTC_zero_alert">CTC amount cannot be zero.ं</string>
+    <string name="EmpCTC_invalid_alert">Please enter valid CTC numbers.</string>
     <string name="EmpBonus">Bonus Included in CTC (Optional)</string>
-    <string name="EmpAmountRadio">Amount</string>
-    <string name="EmpPercentage">Percentage</string>
-    <string name="EmpAmount">Amount</string>
+    <string name="bonus_req_alert">Bonus field is mandatory when checked.</string>
+    <string name="bonus_invalid_alert">Please enter a valid bonus value.</string>
+    <string name="EmpAmount">Bonus Amount (Rs.)</string>
+    <string name="EmpPercentage">Bonus Percentage (%)</string>
+    <string name="Emp_Bonus_Percentage_alert">Bonus Percentage (%) must not exceed 100%.</string>
     <string name="EmpMomthlyTax">Monthly Professional Tax</string>
+    <string name="monthly_tax_req_alert">Monthly Professional Tax is mandatory.</string>
+    <string name="monthly_tax_invalid_alert">Please enter a valid Monthly Professional Tax value.</string>
     <string name="EmpMonthlyEmployerPF">Monthly Employer PF</string>
+    <string name="employer_pf_req_alert">Monthly Employer PF is mandatory.</string>
+    <string name="employer_pf_invalid_alert">Please enter a valid Monthly Employer PF value.</string>
     <string name="EmpMonthlyEmployeePF">Monthly Employee PF</string>
+    <string name="EmpMonthlyEmployeePF_req_alert">Monthly Employee PF is mandatory.</string>
+    <string name="EmpMonthlyEmployeePF_invalid_alert">Please enter a valid Monthly Employee PF value.</string>
+    <string name="EmpMonthlyAddiDiduction">Monthly Additional Deduction</string>
+    <string name="EmpMonthlyAddiDiductionOptional">(Optional)</string>
     <string name="EmpMonthlyAddiDiduction1">Monthly Additional Deduction 1 (Optional)</string>
     <string name="EmpMonthlyAddiDiduction2">Monthly Additional Deduction 2 (Optional)</string>
+    <string name="EmpMonthlyAddDiductionError">Maximum 5 deductions allowed</string>
     <string name="AddDeductionBtn">ADD DEDUCTION</string>
     <string name="SalarySummeryHed">Salary Summary</string>
     <string name="SalarySummeryTotalMonthlyDeduction">Total Monthly Deductions</string>
     <string name="SalarySummeryTotalAnnualDeductions">Total Annual Deductions</string>
     <string name="SalarySummeryTakeHomeMonthlySalary">Take Home Monthly Salary</string>
     <string name="SalarySummeryTakeHomeAnnualSalary">Take Home Annual Salary</string>
+    <string name="chartIndication1">Monthly Ded.</string>
+    <string name="chartIndication2">Annual Ded.</string>
+    <string name="chartIndication3">Monthly Salary</string>
+    <string name="chartIndication4">Annual Salary</string>
 
     <string name="IncrementSummeryHeding">Increment Summary</string>
     <string name="EmpIncrementPercentage">Increment Percentage(%)</string>
@@ -160,6 +184,17 @@
 
     </string-array>
 
-    <string name="empSalary">Employee Salary</string>
+    <!-- Emp Salary Cal -->
+    <string name="empSalary">Employee Salary</string>    <!-- Emp salary operation name -->
+    <string name="empSalaryTab">SALARY</string>    <!-- Emp salary tab name -->
+    <string name="empSalaryChartTab">SALARY CHART</string>    <!-- Emp salary tab name -->
+
+    <string name="empSalaryIncrement">Employee Salary Increment</string>
+    <string name="EmpAmountRadio">Amount (Rs.)</string>
+    <string name="EmpPercentageRadio">Percentage (%)</string>
+    <string name="empIncrementAmount">Employee Increment Amount</string>
+    <string name="empIncrementPercent">Employee Increment Percentage</string>
+
+
 
 </resources>

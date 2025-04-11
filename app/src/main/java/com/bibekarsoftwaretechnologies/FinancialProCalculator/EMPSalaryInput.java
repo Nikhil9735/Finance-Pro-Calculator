@@ -27,7 +27,7 @@ public class EMPSalaryInput extends Fragment {
 
     private EditText inputCTC, empSalaryBonusTextBox, empSalaryMonthlyTaxTextBox, empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployeePFTextBox, empSalaryAddiDeduction1TextBox, empSalaryAddiDeduction2TextBox;
     private Button calculateButton, buttonClear;
-    private TextView errorInputAmount, resultMonthlyDeduction, resultAnnualDeduction, resultTakeHomeMonthly, resultTakeHomeAnnual, errorAddDiduction;
+    private TextView empSalaryCTCError, empSalaryBonusError, empSalaryMonthlyTaxError, empSalaryMonthlyEmployerPFError, empSalaryMonthlyEmployeePFError, resultMonthlyDeduction, resultAnnualDeduction, resultTakeHomeMonthly, resultTakeHomeAnnual, errorAddDiduction;
     private CheckBox empSalaryBonusCheckBox;
     private RadioGroup empSalaryRadioGroup;
     private LinearLayout deductionsContainer, resultBox;
@@ -42,11 +42,16 @@ public class EMPSalaryInput extends Fragment {
 
         // Initialize the input fields and result TextViews
         inputCTC = view.findViewById(R.id.empSalaryCTCTextBox);
-        errorInputAmount = view.findViewById(R.id.errorInputAmount);
-        empSalaryMonthlyTaxTextBox = view.findViewById(R.id.empSalaryMonthlyTaxTextBox);
+        empSalaryCTCError = view.findViewById(R.id.empSalaryCTCError);
+        empSalaryBonusTextBox = view.findViewById(R.id.empSalaryBonusTextBox);
+        empSalaryBonusError = view.findViewById(R.id.empSalaryBonusError);
         empSalaryBonusCheckBox = view.findViewById(R.id.empSalaryBonusCheckBox);
+        empSalaryMonthlyTaxTextBox = view.findViewById(R.id.empSalaryMonthlyTaxTextBox);
+        empSalaryMonthlyTaxError = view.findViewById(R.id.empSalaryMonthlyTaxError);
         empSalaryMonthlyEmployerPFTextBox = view.findViewById(R.id.empSalaryMonthlyEmployerPFTextBox);
+        empSalaryMonthlyEmployerPFError = view.findViewById(R.id.empSalaryMonthlyEmployerPFError);
         empSalaryMonthlyEmployeePFTextBox = view.findViewById(R.id.empSalaryMonthlyEmployeePFTextBox);
+        empSalaryMonthlyEmployeePFError = view.findViewById(R.id.empSalaryMonthlyEmployeePFError);
         empSalaryAddiDeduction1TextBox = view.findViewById(R.id.empSalaryAddiDiduction1TextBox);
         empSalaryAddiDeduction2TextBox = view.findViewById(R.id.empSalaryAddiDiduction2TextBox);
         errorAddDiduction = view.findViewById(R.id.errorAddDiduction);
@@ -59,7 +64,6 @@ public class EMPSalaryInput extends Fragment {
 
         deductionsContainer = view.findViewById(R.id.deductionsContainer);
         TextView empSalaryHeading = view.findViewById(R.id.empSalaryHeading);
-        empSalaryBonusTextBox = view.findViewById(R.id.empSalaryBonusTextBox);
         empSalaryRadioGroup = view.findViewById(R.id.empSalaryRadioGroup);
         Button addDeductionButton = view.findViewById(R.id.addDeductionButton);
         resultBox = view.findViewById(R.id.resultBox);
@@ -68,19 +72,23 @@ public class EMPSalaryInput extends Fragment {
             if (deductionFieldCount < MAX_MPONTHLY_DEDUCTION_FIELDS) {
                 addNewMonthlyDeductionField();
             } else {
-                errorAddDiduction.setText("Maximum 5 deductions allowed");
-                Toast.makeText(getContext(), "Maximum 5 deductions allowed", Toast.LENGTH_SHORT).show();
+                errorAddDiduction.setText(getString(R.string.EmpMonthlyAddDiductionError));
+                Toast.makeText(getContext(), getString(R.string.EmpMonthlyAddDiductionError), Toast.LENGTH_SHORT).show();
             }
         });
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         mainViewModel.getOperation().observe(getViewLifecycleOwner(), operation -> empSalaryHeading.setText(operation));
 
-        CommonMethod.addClearErrorTextWatcher(inputCTC, errorInputAmount);
+        CommonMethod.addClearErrorTextWatcher(inputCTC, empSalaryCTCError);
+        CommonMethod.addClearErrorTextWatcher(empSalaryBonusTextBox, empSalaryBonusError);
+        CommonMethod.addClearErrorTextWatcher(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError);
+        CommonMethod.addClearErrorTextWatcher(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError);
+        CommonMethod.addClearErrorTextWatcher(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError);
 
         calculateButton.setOnClickListener(v -> {
             mainViewModel.hideKeyboard(requireContext());
-            mainViewModel.setOperation("Employee Salary");
+            mainViewModel.setOperation(getString(R.string.empSalary));
             // Call the validation method
             if (validateInputs()) {
                 calculateSalary();
@@ -100,10 +108,10 @@ public class EMPSalaryInput extends Fragment {
         empSalaryRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.empSalaryAmtRadioButton) {
                 empSalaryBonusTextBox.setText("");
-                empSalaryBonusTextBox.setHint("Rs.");
+                empSalaryBonusTextBox.setHint(getString(R.string.Rs));
             } else if (checkedId == R.id.empSalaryPercentageRadioButton) {
                 empSalaryBonusTextBox.setText("");
-                empSalaryBonusTextBox.setHint("%");
+                empSalaryBonusTextBox.setHint(getString(R.string.percentageSymbol));
             }
         });
 
@@ -113,10 +121,12 @@ public class EMPSalaryInput extends Fragment {
                 // Show RadioGroup when CheckBox is checked
                 empSalaryRadioGroup.setVisibility(View.VISIBLE);
                 empSalaryBonusTextBox.setVisibility(View.VISIBLE);
+                empSalaryBonusTextBox.setText("");
             } else {
                 // Hide RadioGroup when CheckBox is unchecked
                 empSalaryRadioGroup.setVisibility(View.GONE);
                 empSalaryBonusTextBox.setVisibility(View.GONE);
+                empSalaryBonusError.setVisibility(View.GONE);
                 // Optionally reset RadioGroup to default selection
                 empSalaryRadioGroup.check(R.id.empSalaryAmtRadioButton);
             }
@@ -129,23 +139,57 @@ public class EMPSalaryInput extends Fragment {
         // Validate the CTC input field
         String input1Str = inputCTC.getText().toString();
 
-        if (input1Str.isEmpty()) {
-            CommonMethod.validateInputs(inputCTC, errorInputAmount, "Please enter your CTC.");
+        try {
+            // Validate Deposit Amount
+            if (input1Str.isEmpty()) {
+                CommonMethod.validateInputs(inputCTC, empSalaryCTCError, getString(R.string.EmpCTC_alert));
+                inputCTC.requestFocus();
+                return false;
+            }
+
+            float input1 = Float.parseFloat(input1Str);
+            if (input1 <= 0) {
+                CommonMethod.validateInputs(inputCTC, empSalaryCTCError, getString(R.string.EmpCTC_zero_alert));
+                mainViewModel.setResultBoxVisibility(false);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            CommonMethod.validateInputs(inputCTC, empSalaryCTCError, getString(R.string.EmpCTC_invalid_alert));
             inputCTC.requestFocus();
             return false;
         }
 
-        try {
-            Float.parseFloat(input1Str);
-        } catch (NumberFormatException e) {
-            CommonMethod.validateInputs(inputCTC, errorInputAmount, "Please enter valid numbers.");
-            inputCTC.requestFocus();
-            return false;
+
+        // Validate bonus if the checkbox is checked
+        if (empSalaryBonusCheckBox.isChecked()) {
+            String bonusInput = empSalaryBonusTextBox.getText().toString();
+            try {
+                // Validate Interest Rate
+                if (bonusInput.isEmpty()) {
+                    CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.bonus_req_alert));
+                    empSalaryBonusTextBox.requestFocus();
+                    return false;
+                }
+
+                if (empSalaryRadioGroup.getCheckedRadioButtonId() == R.id.empSalaryPercentageRadioButton) {
+                    float input2 = Float.parseFloat(bonusInput);
+                    if (input2 > 100) {
+                        CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.Emp_Bonus_Percentage_alert));
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.bonus_invalid_alert));
+                empSalaryBonusTextBox.requestFocus();
+                return false;
+            }
         }
+
 
         // Validate empSalaryMonthlyTaxTextBox
         if (empSalaryMonthlyTaxTextBox.getText().toString().isEmpty()) {
-            empSalaryMonthlyTaxTextBox.setError("Monthly Tax is mandatory.");
+            CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.monthly_tax_req_alert));
             empSalaryMonthlyTaxTextBox.requestFocus();
             return false;
         }
@@ -153,14 +197,14 @@ public class EMPSalaryInput extends Fragment {
         try {
             Float.parseFloat(empSalaryMonthlyTaxTextBox.getText().toString());
         } catch (NumberFormatException e) {
-            empSalaryMonthlyTaxTextBox.setError("Please enter a valid Monthly Tax value.");
+            CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.monthly_tax_invalid_alert));
             empSalaryMonthlyTaxTextBox.requestFocus();
             return false;
         }
 
         // Validate empSalaryMonthlyEmployerPFTextBox
         if (empSalaryMonthlyEmployerPFTextBox.getText().toString().isEmpty()) {
-            empSalaryMonthlyEmployerPFTextBox.setError("Monthly Employer PF is mandatory.");
+            CommonMethod.validateInputs(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError, getString(R.string.employer_pf_req_alert));
             empSalaryMonthlyEmployerPFTextBox.requestFocus();
             return false;
         }
@@ -168,14 +212,14 @@ public class EMPSalaryInput extends Fragment {
         try {
             Float.parseFloat(empSalaryMonthlyEmployerPFTextBox.getText().toString());
         } catch (NumberFormatException e) {
-            empSalaryMonthlyEmployerPFTextBox.setError("Please enter a valid Monthly Employer PF value.");
+            CommonMethod.validateInputs(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError, getString(R.string.employer_pf_invalid_alert));
             empSalaryMonthlyEmployerPFTextBox.requestFocus();
             return false;
         }
 
         // Validate empSalaryMonthlyEmployeePFTextBox
         if (empSalaryMonthlyEmployeePFTextBox.getText().toString().isEmpty()) {
-            empSalaryMonthlyEmployeePFTextBox.setError("Monthly Employee PF is mandatory.");
+            CommonMethod.validateInputs(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError, getString(R.string.EmpMonthlyEmployeePF_req_alert));
             empSalaryMonthlyEmployeePFTextBox.requestFocus();
             return false;
         }
@@ -183,27 +227,9 @@ public class EMPSalaryInput extends Fragment {
         try {
             Float.parseFloat(empSalaryMonthlyEmployeePFTextBox.getText().toString());
         } catch (NumberFormatException e) {
-            empSalaryMonthlyEmployeePFTextBox.setError("Please enter a valid Monthly Employee PF value.");
+            CommonMethod.validateInputs(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError, getString(R.string.EmpMonthlyEmployeePF_invalid_alert));
             empSalaryMonthlyEmployeePFTextBox.requestFocus();
             return false;
-        }
-
-        // Validate bonus if the checkbox is checked
-        if (empSalaryBonusCheckBox.isChecked()) {
-            String bonusInput = empSalaryBonusTextBox.getText().toString();
-            if (bonusInput.isEmpty()) {
-                empSalaryBonusTextBox.setError("Bonus field is mandatory when checked.");
-                empSalaryBonusTextBox.requestFocus();
-                return false;
-            }
-
-            try {
-                Float.parseFloat(bonusInput);
-            } catch (NumberFormatException e) {
-                empSalaryBonusTextBox.setError("Please enter a valid bonus value.");
-                empSalaryBonusTextBox.requestFocus();
-                return false;
-            }
         }
 
         return true;
@@ -296,6 +322,12 @@ public class EMPSalaryInput extends Fragment {
         errorAddDiduction.setText("");
         empSalaryBonusCheckBox.setChecked(false);
 
+        inputCTC.setError(null);
+        empSalaryBonusTextBox.setError(null);
+        empSalaryMonthlyTaxTextBox.setError(null);
+        empSalaryMonthlyEmployerPFTextBox.setError(null);
+        empSalaryMonthlyEmployeePFTextBox.setError(null);
+
         // Clear results
         resultMonthlyDeduction.setText("");
         resultAnnualDeduction.setText("");
@@ -324,7 +356,7 @@ public class EMPSalaryInput extends Fragment {
 
         // Create a new TextView for heading
         TextView newHeading = new TextView(getContext());
-        newHeading.setText("Monthly Additional Deduction " + deductionFieldCount + " (Optional) ");
+        newHeading.setText(getString(R.string.EmpMonthlyAddiDiduction) +" "+ deductionFieldCount +" "+ getString(R.string.EmpMonthlyAddiDiductionOptional));
         newHeading.setTextColor(getResources().getColor(R.color.selectedText));
         newHeading.setTextSize(15.6f);
         newHeading.setPadding(4, 25, 0, 0);
@@ -338,7 +370,7 @@ public class EMPSalaryInput extends Fragment {
 
         // Create a new EditText for input
         EditText newEditText = new EditText(getContext());
-        newEditText.setHint("Rs.");
+        newEditText.setHint(getString(R.string.Rs));
         newEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         newEditText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         newEditText.setMaxLines(1);

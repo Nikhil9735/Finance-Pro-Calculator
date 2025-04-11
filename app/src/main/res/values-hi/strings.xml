@@ -2,9 +2,10 @@
 <resources>
     <string name="settings">सेटिंग्स</string>
 
-    <string name="share">कृपया ऐप शेयर करें</string>
-    <string name="rate">कृपया ऐप को रेट करें</string>
-    <string name="more">अन्य ऐप्स</string>
+    <string name="share">ऐप शेयर करें</string>
+    <string name="rate">ऐप को रेटिंग और रिव्यू दें</string>
+    <string name="more">हमारे अन्य ऐप्स देखें</string>
+    <string name="upgradeToPremium">प्रीमियम में अपग्रेड करें</string>
 
     <string name="color_scheme_text">ऐप थीम</string>
     <string name="light">लाइट मोड</string>
@@ -19,14 +20,69 @@
 
     <string name="privacy_policy">गोपनीयता नीति</string>
 
-    <string name="contact">संपर्क</string>
+    <string name="contact">हमसे संपर्क करें</string>
     <string name="contactDiaNote">नोट: आप इस संपर्क फ़ॉर्म के माध्यम से मुझे प्रायोजन अनुरोध, सुझाव भेज सकते हैं या सहायता मांग सकते हैं।</string>
 
     <string name="seggestionName">अपना नाम लिखें</string>
     <string name="seggestionMessage">अपना संदेश लिखें</string>
     <string name="buttonSend">भेजें</string>
 
-    <!-- Emp Cal -->
-    <string name="empSalary">कर्मचारी वेतन</string>
+    <!-- Edit box hint-->
+    <string name="Rs">₹</string>
+    <string name="percentageSymbol">%</string>
+
+    <!-- Button calculate,clear, % search,radio button-->
+    <string name="btncalculate">कैलकुलेट करेंं</string>
+    <string name="btnclear">क्लियर करेंं</string>
+    <string name="btnbankinterest">ब्याज खोजें (%)</string>
+    <string name="btnRadioReturn">रिटर्न</string>
+    <string name="btnRadioGrowth">वृद्धि</string>
+
+    <!-- Emp Salary Cal -->
+    <string name="empSalary">कर्मचारी सैलरी</string>    <!-- Emp salary operation name -->
+    <string name="empSalaryTab">कर्मचारी सैलरी</string>    <!-- Emp salary tab name -->
+    <string name="empSalaryChartTab">सैलरी चार्ट</string>    <!-- Emp salary tab name -->
+    <string name="EmpCTC">कंपनी की कुल लागत (CTC)</string>
+    <string name="EmpCTC_alert">कृपया अपनी कुल सैलरी (CTC) की राशि दर्ज करें</string>
+    <string name="EmpCTC_zero_alert">कृपया CTC राशि शून्य से अधिक दर्ज करें।</string>
+    <string name="EmpCTC_invalid_alert">कृपया सही CTC राशि दर्ज करें।</string>
+    <string name="EmpBonus">बोनस (यदि CTC में शामिल हो)</string>
+    <string name="bonus_req_alert">यदि आपने बोनस विकल्प चुना है, तो यह फ़ील्ड अनिवार्य है।</string>
+    <string name="bonus_invalid_alert">कृपया सही बोनस संख्या दर्ज करें।</string>
+    <string name="EmpAmount">बोनस राशि (₹)</string>
+    <string name="EmpPercentage">बोनस प्रतिशत (%)</string>
+    <string name="Emp_Bonus_Percentage_alert">बोनस प्रतिशत (%) 100% से अधिक नहीं हो सकता।</string>
+    <string name="EmpMomthlyTax">मासिक प्रोफेशनल टैक्स</string>
+    <string name="monthly_tax_req_alert">कृपया मासिक प्रोफेशनल टैक्स दर्ज करें।</string>
+    <string name="monthly_tax_invalid_alert">कृपया सही मासिक प्रोफेशनल टैक्स राशि दर्ज करें।</string>
+    <string name="EmpMonthlyEmployerPF">मासिक नियोक्ता भविष्य निधि (PF)</string>
+    <string name="employer_pf_req_alert">कृपया मासिक नियोक्ता पीएफ राशि दर्ज करें।</string>
+    <string name="employer_pf_invalid_alert">कृपया सही मासिक नियोक्ता राशि दर्ज करें।</string>
+    <string name="EmpMonthlyEmployeePF">मासिक कर्मचारी भविष्य निधि (PF)</string>
+    <string name="EmpMonthlyEmployeePF_req_alert">मासिक कर्मचारी भविष्य निधि (PF) राशि दर्ज करें।</string>
+    <string name="EmpMonthlyEmployeePF_invalid_alert">कृपया सही मासिक कर्मचारी राशि दर्ज करें।</string>
+    <string name="EmpMonthlyAddiDiduction">मासिक अतिरिक्त कटौती</string>
+    <string name="EmpMonthlyAddiDiductionOptional">(वैकल्पिक)</string>
+    <string name="EmpMonthlyAddiDiduction1">मासिक अतिरिक्त कटौती 1 (वैकल्पिक)</string>
+    <string name="EmpMonthlyAddiDiduction2">मासिक अतिरिक्त कटौती 2 (वैकल्पिक)</string>
+    <string name="EmpMonthlyAddDiductionError">अधिकतम 5 कटौतियाँ जोड़ सकते हैंं</string>
+    <string name="AddDeductionBtn">अतिरिक्त कटौती जोड़ेंं</string>
+    <string name="SalarySummeryHed">सैलरी सारांश</string>
+    <string name="SalarySummeryTotalMonthlyDeduction">मासिक कुल कटौती</string>
+    <string name="SalarySummeryTotalAnnualDeductions">वार्षिक कुल कटौतीँ</string>
+    <string name="SalarySummeryTakeHomeMonthlySalary">महीने का घर ले जाने योग्य वेतन</string>
+    <string name="SalarySummeryTakeHomeAnnualSalary">साल का घर ले जाने योग्य वेतन</string>
+    <string name="chartIndication1">मासिक कटौती</string>
+    <string name="chartIndication2">वार्षिक कटौती</string>
+    <string name="chartIndication3">मासिक सैलरी</string>
+    <string name="chartIndication4">वार्षिक सैलरी</string>
+
+
+    <string name="empSalaryIncrement">कर्मचारी सैलरी इंक्रीमेंट</string>
+    <string name="EmpAmountRadio">राशि (₹)</string>
+    <string name="EmpPercentageRadio">प्रतिशत (%)</string>
+    <string name="empIncrementAmount">सैलरी इंक्रीमेंट अमाउंट</string>
+    <string name="empIncrementPercent">सैलरी इंक्रीमेंट प्रतिशत (%)</string>
+
 
 </resources>

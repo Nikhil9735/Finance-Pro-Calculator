@@ -1,11 +1,15 @@
 package com.bibekarsoftwaretechnologies.FinancialProCalculator;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
@@ -51,66 +55,77 @@ public class TabActivity extends AppCompatActivity {
         viewPager.setAdapter(new ViewPager2Adapter());
 
         // Set up TabLayoutMediator to sync TabLayout and ViewPager2
+        Typeface customFont = ResourcesCompat.getFont(this, R.font.regular); // Make sure you have this font in res/font
+
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            if (operation.equals("Recurring Deposit (RD)") || operation.equals("Time Deposit (TD)") || operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)")
-                    || operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") ||
-                    operation.equals("Fixed Deposit - TDR (Interest Payout)") || operation.equals("Simple Loan")) {
-                // For RD, TD, MIS, NSC show 4 tabs
+            TextView tabTextView = new TextView(this);
+            tabTextView.setTextSize(17); // Set your desired size
+            tabTextView.setTypeface(customFont); // Apply custom font and style
+            tabTextView.setGravity(Gravity.CENTER);
+
+            if (operation.equals("Recurring Deposit (RD)") || operation.equals("Time Deposit (TD)") ||
+                    operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)") ||
+                    operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") ||
+                    operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)") ||
+                    operation.equals("Simple Loan")) {
+
                 switch (position) {
                     case 0:
-                        tab.setText("INPUT");
+                        tabTextView.setText("INPUT");
                         break;
                     case 1:
-                        tab.setText("CHART");
+                        tabTextView.setText("CHART");
                         break;
                     case 2:
-                        tab.setText("TABLE");
+                        tabTextView.setText("TABLE");
                         break;
                     case 3:
-                        tab.setText("ABOUT");
+                        tabTextView.setText("ABOUT");
                         break;
                 }
-            } else if (operation.equals("Employee Salary")) {
-                // For Employee Salary, show 3 tabs
+
+            } else if (operation.equals(getString(R.string.empSalary))) {
                 switch (position) {
                     case 0:
-                        tab.setText("SALARY");
+                        tabTextView.setText(getString(R.string.empSalaryTab));
                         break;
                     case 1:
-                        tab.setText("SALARY CHART");
+                        tabTextView.setText(getString(R.string.empSalaryChartTab));
                         break;
                 }
-            } else if (operation.equals("Employee Increment")) {
-                // For Employee Salary, show 3 tabs
+
+            } else if (operation.equals(getString(R.string.empSalaryIncrement))) {
                 switch (position) {
                     case 0:
-                        tab.setText("INCREMENT");
+                        tabTextView.setText("INCREMENT");
                         break;
                     case 1:
-                        tab.setText("INCREMENT CHART");
+                        tabTextView.setText("INCREMENT CHART");
                         break;
                 }
+
             } else if (operation.equals("Currency Denomination")) {
-                // For Dinominator operation show 2 tabs (Preset and History)
                 switch (position) {
                     case 0:
-                        tab.setText("COUNTER");
+                        tabTextView.setText("COUNTER");
                         break;
                     case 1:
-                        tab.setText("CASH BREAKDOWN");
+                        tabTextView.setText("CASH BREAKDOWN");
                         break;
                 }
+
             } else if (operation.equals("All Bank Interest Rate (%)")) {
-                // For Interest operation show 2 tabs (Local and Metro)
                 switch (position) {
                     case 0:
-                        tab.setText("SELECT BANK");
+                        tabTextView.setText("SELECT BANK");
                         break;
                     case 1:
-                        tab.setText("ABOUT");
+                        tabTextView.setText("ABOUT");
                         break;
                 }
             }
+
+            tab.setCustomView(tabTextView); // Set custom view for the tab
         }).attach();
     }
 
@@ -139,7 +154,7 @@ public class TabActivity extends AppCompatActivity {
                     default:
                         return new InputFragment();
                 }
-            }  else if (operation.equals("Employee Salary")) {
+            }  else if (operation.equals(getString(R.string.empSalary))) {
                 // For Employee Salary, show 3 tabs
                 switch (position) {
                     case 0:
@@ -149,7 +164,7 @@ public class TabActivity extends AppCompatActivity {
                     default:
                         return new EMPSalaryInput();
                 }
-            }  else if (operation.equals("Employee Increment")) {
+            }  else if (operation.equals(getString(R.string.empSalaryIncrement))) {
                 // For Employee Salary, show 3 tabs
                 switch (position) {
                     case 0:
@@ -206,7 +221,7 @@ public class TabActivity extends AppCompatActivity {
             || operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") ||
                     operation.equals("Fixed Deposit - TDR (Interest Payout)") || operation.equals("Simple Loan")) {
                 return 4; // Show 4 tabs for RD, TD, MIS, NSC
-            } else if (operation.equals("Employee Salary") || operation.equals("Employee Increment")) {
+            } else if (operation.equals(getString(R.string.empSalary)) || operation.equals(getString(R.string.empSalaryIncrement))) {
                 return 2; // Show 3 tabs for Employee Salary
             }  else if (operation.equals("Currency Denomination")) {
                 return 2; // Show 2 tabs for Dinominator

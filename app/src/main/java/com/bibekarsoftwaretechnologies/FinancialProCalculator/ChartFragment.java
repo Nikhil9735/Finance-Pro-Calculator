@@ -233,7 +233,7 @@ public class ChartFragment extends Fragment {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
         // Add DataSet for Num2 if applicable
-        if ("Employee Salary".equals(operation) || "Employee Increment Amount".equals(operation) || "Employee Increment Percentage".equals(operation)) {
+        if (getString(R.string.empSalary).equals(operation) || getString(R.string.empIncrementAmount).equals(operation) || getString(R.string.empIncrementPercent).equals(operation)) {
             ArrayList<Entry> entries4 = new ArrayList<>();
             entries4.add(new Entry(0f, 0f));
             entries4.add(new Entry(5f, value1));
@@ -270,7 +270,7 @@ public class ChartFragment extends Fragment {
         dataSet3.setValueTextSize(9f);
         dataSets.add(dataSet3);
 
-        if ("Employee Salary".equals(operation) || "Employee Increment Amount".equals(operation) || "Employee Increment Percentage".equals(operation)) {
+        if (getString(R.string.empSalary).equals(operation) || getString(R.string.empIncrementAmount).equals(operation) || getString(R.string.empIncrementPercent).equals(operation)) {
             // Add DataSet for Maturity Amount
             ArrayList<Entry> entries3 = new ArrayList<>();
             entries3.add(new Entry(0f, 0f));
@@ -325,17 +325,17 @@ public class ChartFragment extends Fragment {
     }
 
     private void setLabels(String operation) {
-        if ("Employee Salary".equals(operation)) {
-            Label1 = "Monthly Ded.";
-            Label2 = "Annual Ded.";//getString(R.string.SalarySummeryTotalAnnualDeductions);
-            Label3 = "Monthly Salary";
-            Label4 = "Annual Salary";
-        } else if ("Employee Increment Amount".equals(operation)) {
+        if (getString(R.string.empSalary).equals(operation)) {
+            Label1 = getString(R.string.chartIndication1);
+            Label2 = getString(R.string.chartIndication2);//getString(R.string.SalarySummeryTotalAnnualDeductions);
+            Label3 = getString(R.string.chartIndication3);
+            Label4 = getString(R.string.chartIndication4);
+        } else if (getString(R.string.empIncrementAmount).equals(operation)) {
             Label1 = "Current CTC";
             Label2 = "Monthly Increment Amt";
             Label3 = "Annual Increment Amt";
             Label4 = "New CTC";
-        } else if ("Employee Increment Percentage".equals(operation)) {
+        } else if (getString(R.string.empIncrementPercent).equals(operation)) {
             Label1 = "Prev. CTC Percentage";
             Label2 = "";
             Label3 = "";

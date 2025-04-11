@@ -27,7 +27,7 @@
             android:id="@+id/returnRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Return"
+            android:text="@string/btnRadioReturn"
             android:fontFamily="@font/regular"
             android:textSize="15sp"/>
 
@@ -35,7 +35,7 @@
             android:id="@+id/growthRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Growth"
+            android:text="@string/btnRadioGrowth"
             android:fontFamily="@font/regular"
             android:textSize="15sp"/>
     </RadioGroup>

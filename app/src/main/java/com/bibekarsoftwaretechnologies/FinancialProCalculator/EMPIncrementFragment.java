@@ -104,7 +104,7 @@ public class EMPIncrementFragment extends Fragment {
                 // Check selected radio button
                 int selectedId = empIncrementRadioGroup.getCheckedRadioButtonId();
                 if (selectedId == R.id.empIncrementAmtRadioButton) {
-                    mainViewModel.setOperation("Employee Increment Amount");
+                    mainViewModel.setOperation(getString(R.string.empIncrementAmount));
                     // Increment amount calculation
                     float annualIncrementAmount = (currentCtc * incrementPercentage) / 100;
                     float monthylIncrementAmount = annualIncrementAmount / 12;
@@ -130,7 +130,7 @@ public class EMPIncrementFragment extends Fragment {
 
                 } else if (selectedId == R.id.empIncrementPercentageRadioButton) {
 
-                    mainViewModel.setOperation("Employee Increment Percentage");
+                    mainViewModel.setOperation(getString(R.string.empIncrementPercent));
                     IncrementSummeryTakeHomeAnnualIncrement.setText("Increment Percentage");
 //                    IncrementSummeryCurrentCTCHeading.setVisibility(View.GONE);
 //                    IncrementSummeryCurrentCTCResult.setVisibility(View.GONE);

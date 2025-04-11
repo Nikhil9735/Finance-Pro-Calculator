@@ -50,7 +50,7 @@
                 android:id="@+id/empSalaryCTCTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
@@ -59,7 +59,7 @@
                 app:backgroundTint="@drawable/edit_text_line_color"/>
 
             <TextView
-                android:id="@+id/errorInputAmount"
+                android:id="@+id/empSalaryCTCError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -79,6 +79,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="4dp"
                     android:text="@string/EmpBonus"
                     android:textSize="15sp"
                     android:fontFamily="@font/regular"
@@ -102,7 +103,7 @@
                     android:id="@+id/empSalaryAmtRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/EmpAmountRadio"
+                    android:text="@string/EmpAmount"
                     android:layout_marginEnd="60dp"
                     android:fontFamily="@font/regular"
                     android:textSize="15sp"
@@ -121,13 +122,23 @@
                 android:id="@+id/empSalaryBonusTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
                 android:fontFamily="@font/regular"
                 android:maxLength="9"
                 app:backgroundTint="@drawable/edit_text_line_color"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/empSalaryBonusError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/regular"
+                android:textColor="#FF0000"
+                android:layout_marginTop="3dp"
                 android:visibility="gone"/>
 
             <TextView
@@ -146,7 +157,7 @@
                 android:id="@+id/empSalaryMonthlyTaxTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
@@ -155,10 +166,19 @@
                 app:backgroundTint="@drawable/edit_text_line_color"/>
 
             <TextView
+                android:id="@+id/empSalaryMonthlyTaxError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/regular"
+                android:textColor="#FF0000"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
                 android:id="@+id/empSalaryMonthlyEmployerPFHeding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="4dp"
                 android:text="@string/EmpMonthlyEmployerPF"
                 android:textSize="15sp"
@@ -170,7 +190,7 @@
                 android:id="@+id/empSalaryMonthlyEmployerPFTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
@@ -179,10 +199,19 @@
                 app:backgroundTint="@drawable/edit_text_line_color"/>
 
             <TextView
+                android:id="@+id/empSalaryMonthlyEmployerPFError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/regular"
+                android:textColor="#FF0000"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
                 android:id="@+id/empSalaryMonthlyEmployeePFHeding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="4dp"
                 android:text="@string/EmpMonthlyEmployeePF"
                 android:textSize="15sp"
@@ -194,7 +223,7 @@
                 android:id="@+id/empSalaryMonthlyEmployeePFTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
@@ -203,10 +232,19 @@
                 app:backgroundTint="@drawable/edit_text_line_color"/>
 
             <TextView
+                android:id="@+id/empSalaryMonthlyEmployeePFError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/regular"
+                android:textColor="#FF0000"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
                 android:id="@+id/empSalaryMonthlyAddDiduction1Heding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="4dp"
                 android:text="@string/EmpMonthlyAddiDiduction1"
                 android:textSize="15sp"
@@ -218,7 +256,7 @@
                 android:id="@+id/empSalaryAddiDiduction1TextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
@@ -242,7 +280,7 @@
                 android:id="@+id/empSalaryAddiDiduction2TextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rs."
+                android:hint="@string/Rs"
                 android:inputType="numberDecimal"
                 android:textAlignment="textStart"
                 android:digits="0123456789."
