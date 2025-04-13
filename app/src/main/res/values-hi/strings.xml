@@ -47,6 +47,8 @@
     <string name="EmpCTC_zero_alert">कृपया CTC राशि शून्य से अधिक दर्ज करें।</string>
     <string name="EmpCTC_invalid_alert">कृपया सही CTC राशि दर्ज करें।</string>
     <string name="EmpBonus">बोनस (यदि CTC में शामिल हो)</string>
+    <string name="BonusAmt_zero_alert">कृपया बोनस राशि शून्य से अधिक दर्ज करें।</string>
+    <string name="BonusPer_zero_alert">कृपया बोनस प्रतिशत शून्य से अधिक दर्ज करें।</string>
     <string name="bonus_req_alert">यदि आपने बोनस विकल्प चुना है, तो यह फ़ील्ड अनिवार्य है।</string>
     <string name="bonus_invalid_alert">कृपया सही बोनस संख्या दर्ज करें।</string>
     <string name="EmpAmount">बोनस राशि (₹)</string>
@@ -72,17 +74,34 @@
     <string name="SalarySummeryTotalAnnualDeductions">वार्षिक कुल कटौतीँ</string>
     <string name="SalarySummeryTakeHomeMonthlySalary">महीने का घर ले जाने योग्य वेतन</string>
     <string name="SalarySummeryTakeHomeAnnualSalary">साल का घर ले जाने योग्य वेतन</string>
-    <string name="chartIndication1">मासिक कटौती</string>
-    <string name="chartIndication2">वार्षिक कटौती</string>
-    <string name="chartIndication3">मासिक सैलरी</string>
-    <string name="chartIndication4">वार्षिक सैलरी</string>
+    <string name="empSalaryChartIndication1">मासिक कटौती</string>
+    <string name="empSalaryChartIndication2">वार्षिक कटौती</string>
+    <string name="empSalaryChartIndication3">मासिक सैलरी</string>
+    <string name="empSalaryChartIndication4">वार्षिक सैलरी</string>
 
 
     <string name="empSalaryIncrement">कर्मचारी सैलरी इंक्रीमेंट</string>
+    <string name="empSalaryIncrementtab1">इंक्रीमेंट</string>
+    <string name="empSalaryIncrementtab2">इंक्रीमेंट चार्ट</string>
     <string name="EmpAmountRadio">राशि (₹)</string>
     <string name="EmpPercentageRadio">प्रतिशत (%)</string>
     <string name="empIncrementAmount">सैलरी इंक्रीमेंट अमाउंट</string>
     <string name="empIncrementPercent">सैलरी इंक्रीमेंट प्रतिशत (%)</string>
+    <string name="empIncrementChartIndicator1">वर्तमान CTC</string>
+    <string name="empIncrementChartIndicator2">मासिक इंक्रीमेंट राशि</string>
+    <string name="empIncrementChartIndicator3">वार्षिक इंक्रीमेंट राशि</string>
+    <string name="empIncrementChartIndicator4">नई CTC</string>
+
+    <string name="IncrementSummeryHeding">इंक्रीमेंट सारांश</string>
+    <string name="IncrementSummeryMonthlyIncrementAmountHeading">मासिक इंक्रीमेंट राशि</string>
+    <string name="IncrementSummeryAnnualIncrementAmountHeading">वार्षिक इंक्रीमेंट राशि</string>
+    <string name="IncrementSummeryNewCTCAfterIncrementHeading">इंक्रीमेंट के बाद नया CTC</string>
+
+    <string name="empIncrementFeedbackResult">कर्मचारी इंक्रीमेंट प्रतिक्रिया</string>
+    <string name="empIncrementFeedbackOption1">बधाई हो! आपको अच्छा इंक्रीमेंट मिला है।</string>
+    <string name="empIncrementFeedbackOption2">शाबाश! आपका इंक्रीमेंट औसत से ऊपर है।</string>
+    <string name="empIncrementFeedbackOption3">आपका इंक्रीमेंट औसत है। मेहनत जारी रखें!</string>
+
 
 
 </resources>

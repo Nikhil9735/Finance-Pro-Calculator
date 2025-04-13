@@ -326,15 +326,15 @@ public class ChartFragment extends Fragment {
 
     private void setLabels(String operation) {
         if (getString(R.string.empSalary).equals(operation)) {
-            Label1 = getString(R.string.chartIndication1);
-            Label2 = getString(R.string.chartIndication2);//getString(R.string.SalarySummeryTotalAnnualDeductions);
-            Label3 = getString(R.string.chartIndication3);
-            Label4 = getString(R.string.chartIndication4);
+            Label1 = getString(R.string.empSalaryChartIndication1);
+            Label2 = getString(R.string.empSalaryChartIndication2);//getString(R.string.SalarySummeryTotalAnnualDeductions);
+            Label3 = getString(R.string.empSalaryChartIndication3);
+            Label4 = getString(R.string.empSalaryChartIndication4);
         } else if (getString(R.string.empIncrementAmount).equals(operation)) {
-            Label1 = "Current CTC";
-            Label2 = "Monthly Increment Amt";
-            Label3 = "Annual Increment Amt";
-            Label4 = "New CTC";
+            Label1 = getString(R.string.empIncrementChartIndicator1);
+            Label2 = getString(R.string.empIncrementChartIndicator2);
+            Label3 = getString(R.string.empIncrementChartIndicator3);
+            Label4 = getString(R.string.empIncrementChartIndicator4);
         } else if (getString(R.string.empIncrementPercent).equals(operation)) {
             Label1 = "Prev. CTC Percentage";
             Label2 = "";

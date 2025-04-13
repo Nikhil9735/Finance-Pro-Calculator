@@ -97,10 +97,10 @@ public class TabActivity extends AppCompatActivity {
             } else if (operation.equals(getString(R.string.empSalaryIncrement))) {
                 switch (position) {
                     case 0:
-                        tabTextView.setText("INCREMENT");
+                        tabTextView.setText(getString(R.string.empSalaryIncrementtab1));
                         break;
                     case 1:
-                        tabTextView.setText("INCREMENT CHART");
+                        tabTextView.setText(getString(R.string.empSalaryIncrementtab2));
                         break;
                 }
 

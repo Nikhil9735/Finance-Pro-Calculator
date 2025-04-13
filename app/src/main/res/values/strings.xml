@@ -122,6 +122,8 @@
     <string name="EmpCTC_zero_alert">CTC amount cannot be zero.ं</string>
     <string name="EmpCTC_invalid_alert">Please enter valid CTC numbers.</string>
     <string name="EmpBonus">Bonus Included in CTC (Optional)</string>
+    <string name="BonusAmt_zero_alert">Bonus amount cannot be zero.ं</string>
+    <string name="BonusPer_zero_alert">Bonus Percentage cannot be zero.ं</string>
     <string name="bonus_req_alert">Bonus field is mandatory when checked.</string>
     <string name="bonus_invalid_alert">Please enter a valid bonus value.</string>
     <string name="EmpAmount">Bonus Amount (Rs.)</string>
@@ -147,17 +149,10 @@
     <string name="SalarySummeryTotalAnnualDeductions">Total Annual Deductions</string>
     <string name="SalarySummeryTakeHomeMonthlySalary">Take Home Monthly Salary</string>
     <string name="SalarySummeryTakeHomeAnnualSalary">Take Home Annual Salary</string>
-    <string name="chartIndication1">Monthly Ded.</string>
-    <string name="chartIndication2">Annual Ded.</string>
-    <string name="chartIndication3">Monthly Salary</string>
-    <string name="chartIndication4">Annual Salary</string>
-
-    <string name="IncrementSummeryHeding">Increment Summary</string>
-    <string name="EmpIncrementPercentage">Increment Percentage(%)</string>
-    <string name="IncrementSummeryCurrentCTCHeading">Current CTC</string>
-    <string name="IncrementSummeryMonthlyIncrementAmountHeading">Monthly Increment Amount</string>
-    <string name="IncrementSummeryAnnualIncrementAmountHeading">Annual Increment Amount</string>
-    <string name="IncrementSummeryNewCTCAfterIncrementHeading">New CTC after Increment</string>
+    <string name="empSalaryChartIndication1">Monthly Ded.</string>
+    <string name="empSalaryChartIndication2">Annual Ded.</string>
+    <string name="empSalaryChartIndication3">Monthly Salary</string>
+    <string name="empSalaryChartIndication4">Annual Salary</string>
 
 
     <string-array name="term_options">
@@ -190,11 +185,26 @@
     <string name="empSalaryChartTab">SALARY CHART</string>    <!-- Emp salary tab name -->
 
     <string name="empSalaryIncrement">Employee Salary Increment</string>
+    <string name="empSalaryIncrementtab1">INCREMENT</string>
+    <string name="empSalaryIncrementtab2">INCREMENT CHART</string>
     <string name="EmpAmountRadio">Amount (Rs.)</string>
     <string name="EmpPercentageRadio">Percentage (%)</string>
-    <string name="empIncrementAmount">Employee Increment Amount</string>
-    <string name="empIncrementPercent">Employee Increment Percentage</string>
+    <string name="empIncrementAmount">Increment Amount</string>
+    <string name="empIncrementPercent">Increment Percentage (%)</string>
+    <string name="empIncrementChartIndicator1">Current CTC</string>
+    <string name="empIncrementChartIndicator2">Monthly Increment Amt</string>
+    <string name="empIncrementChartIndicator3">Annual Increment Amt</string>
+    <string name="empIncrementChartIndicator4">New CTC</string>
+    <string name="IncrementSummeryNewCTCAfterIncrementHeading">New CTC after Increment</string>
 
+    <string name="IncrementSummeryHeding">Increment Summary</string>
+    <string name="IncrementSummeryMonthlyIncrementAmountHeading">Monthly Increment Amount</string>
+    <string name="IncrementSummeryAnnualIncrementAmountHeading">Annual Increment Amount</string>
+
+    <string name="empIncrementFeedbackResult">Employee Increment Feedback</string>
+    <string name="empIncrementFeedbackOption1">Excellent! You received a significant increment.</string>
+    <string name="empIncrementFeedbackOption2">Good job! Your increment is above average.</string>
+    <string name="empIncrementFeedbackOption3">Your increment is average. Keep up the hard work!</string>
 
 
 </resources>

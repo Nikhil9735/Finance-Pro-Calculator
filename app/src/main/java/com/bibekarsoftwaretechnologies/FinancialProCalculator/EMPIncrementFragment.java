@@ -74,11 +74,11 @@ public class EMPIncrementFragment extends Fragment {
 
         empIncrementRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.empIncrementAmtRadioButton) {
-                empIncrementeditTextHeading.setText("Increment Percentage(%)");
+                empIncrementeditTextHeading.setText(getString(R.string.empIncrementPercent));
                 empIncrementPercentageTextBox.setHint("%");
                 clearAllFields();
             } else if (checkedId == R.id.empIncrementPercentageRadioButton) {
-                empIncrementeditTextHeading.setText("Increment Amount");
+                empIncrementeditTextHeading.setText(getString(R.string.empIncrementAmount));
                 empIncrementPercentageTextBox.setHint("Rs.");
                 clearAllFields();
             }
@@ -131,7 +131,7 @@ public class EMPIncrementFragment extends Fragment {
                 } else if (selectedId == R.id.empIncrementPercentageRadioButton) {
 
                     mainViewModel.setOperation(getString(R.string.empIncrementPercent));
-                    IncrementSummeryTakeHomeAnnualIncrement.setText("Increment Percentage");
+                    IncrementSummeryTakeHomeAnnualIncrement.setText(getString(R.string.empIncrementPercent));
 //                    IncrementSummeryCurrentCTCHeading.setVisibility(View.GONE);
 //                    IncrementSummeryCurrentCTCResult.setVisibility(View.GONE);
                     IncrementSummeryMonthlyIncrementAmountHeading.setVisibility(View.GONE);
@@ -142,13 +142,13 @@ public class EMPIncrementFragment extends Fragment {
                     // Percentage calculation
                     float percentage = (incrementPercentage / currentCtc) * 100;
 
-                    IncrementSummeryCurrentCTCHeading.setText("Employee Increment Feedback");
+                    IncrementSummeryCurrentCTCHeading.setText(getString(R.string.empIncrementFeedbackResult));
                     if (percentage >= 15) {
-                        IncrementSummeryCurrentCTCResult.setText("Excellent! You received a significant increment.");
+                        IncrementSummeryCurrentCTCResult.setText(getString(R.string.empIncrementFeedbackOption1));
                     } else if (percentage >= 10) {
-                        IncrementSummeryCurrentCTCResult.setText("Good job! Your increment is above average.");
+                        IncrementSummeryCurrentCTCResult.setText(getString(R.string.empIncrementFeedbackOption2));
                     } else {
-                        IncrementSummeryCurrentCTCResult.setText("Your increment is average. Keep up the hard work!");
+                        IncrementSummeryCurrentCTCResult.setText(getString(R.string.empIncrementFeedbackOption3));
                     }
 
                     float userInput1 = 0;

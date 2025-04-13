@@ -171,10 +171,24 @@ public class EMPSalaryInput extends Fragment {
                     return false;
                 }
 
+                if (empSalaryRadioGroup.getCheckedRadioButtonId() == R.id.empSalaryAmtRadioButton) {
+                    float input2 = Float.parseFloat(bonusInput);
+                    if (input2 <= 0) {
+                        CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.BonusAmt_zero_alert));
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+                }
+
                 if (empSalaryRadioGroup.getCheckedRadioButtonId() == R.id.empSalaryPercentageRadioButton) {
                     float input2 = Float.parseFloat(bonusInput);
                     if (input2 > 100) {
                         CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.Emp_Bonus_Percentage_alert));
+                        mainViewModel.setResultBoxVisibility(false);
+                        return false;
+                    }
+                    if (input2 <= 0) {
+                        CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.BonusPer_zero_alert));
                         mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
