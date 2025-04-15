@@ -365,21 +365,27 @@ public class EMPSalaryInput extends Fragment {
                 if (input1Str.isEmpty()) {
                     CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_alert));
                     empSalaryCTCTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                     return false;
                 }
 
                 float input1 = Float.parseFloat(input1Str);
                 if (input1 <= 0) {
                     CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_zero_alert));
+                    empSalaryCTCTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
-                    mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                     return false;
                 }
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_invalid_alert));
                 empSalaryCTCTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                 return false;
             }
 
@@ -392,7 +398,9 @@ public class EMPSalaryInput extends Fragment {
                     if (bonusInput.isEmpty()) {
                         CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.bonus_req_alert));
                         empSalaryBonusTextBox.requestFocus();
+                        mainViewModel.setChartBoxVisibility(false);
                         mainViewModel.setResultBoxVisibility(false);
+                        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                         return false;
                     }
 
@@ -400,8 +408,10 @@ public class EMPSalaryInput extends Fragment {
                         float input2 = Float.parseFloat(bonusInput);
                         if (input2 <= 0) {
                             CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.BonusAmt_zero_alert));
+                            empSalaryBonusTextBox.requestFocus();
+                            mainViewModel.setChartBoxVisibility(false);
                             mainViewModel.setResultBoxVisibility(false);
-                            mainViewModel.setResultBoxVisibility(false);
+                            mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                             return false;
                         }
                     }
@@ -410,22 +420,27 @@ public class EMPSalaryInput extends Fragment {
                         float input2 = Float.parseFloat(bonusInput);
                         if (input2 > 100) {
                             CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.Emp_Bonus_Percentage_alert));
+                            empSalaryBonusTextBox.requestFocus();
+                            mainViewModel.setChartBoxVisibility(false);
                             mainViewModel.setResultBoxVisibility(false);
-                            mainViewModel.setResultBoxVisibility(false);
+                            mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                             return false;
                         }
                         if (input2 <= 0) {
                             CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.BonusPer_zero_alert));
+                            empSalaryBonusTextBox.requestFocus();
+                            mainViewModel.setChartBoxVisibility(false);
                             mainViewModel.setResultBoxVisibility(false);
-                            mainViewModel.setResultBoxVisibility(false);
+                            mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                             return false;
                         }
                     }
                 } catch (NumberFormatException e) {
                     CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.bonus_invalid_alert));
                     empSalaryBonusTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
-                    return false;
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);                    return false;
                 }
             }
 
@@ -434,8 +449,9 @@ public class EMPSalaryInput extends Fragment {
             if (empSalaryMonthlyTaxTextBox.getText().toString().isEmpty()) {
                 CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.monthly_tax_req_alert));
                 empSalaryMonthlyTaxTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
-                return false;
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);                return false;
             }
 
             try {
@@ -443,16 +459,18 @@ public class EMPSalaryInput extends Fragment {
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.monthly_tax_invalid_alert));
                 empSalaryMonthlyTaxTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
-                return false;
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);                return false;
             }
 
             // Validate empSalaryMonthlyEmployerPFTextBox
             if (empSalaryMonthlyEmployerPFTextBox.getText().toString().isEmpty()) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError, getString(R.string.employer_pf_req_alert));
                 empSalaryMonthlyEmployerPFTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
-                return false;
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);                return false;
             }
 
             try {
@@ -460,7 +478,9 @@ public class EMPSalaryInput extends Fragment {
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError, getString(R.string.employer_pf_invalid_alert));
                 empSalaryMonthlyEmployerPFTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                 return false;
             }
 
@@ -468,7 +488,9 @@ public class EMPSalaryInput extends Fragment {
             if (empSalaryMonthlyEmployeePFTextBox.getText().toString().isEmpty()) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError, getString(R.string.EmpMonthlyEmployeePF_req_alert));
                 empSalaryMonthlyEmployeePFTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                 return false;
             }
 
@@ -477,7 +499,9 @@ public class EMPSalaryInput extends Fragment {
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError, getString(R.string.EmpMonthlyEmployeePF_invalid_alert));
                 empSalaryMonthlyEmployeePFTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                 return false;
             }
 
@@ -491,21 +515,27 @@ public class EMPSalaryInput extends Fragment {
                 if (input1Str.isEmpty()) {
                     CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_alert));
                     empSalaryCTCTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                     return false;
                 }
 
                 float input1 = Float.parseFloat(input1Str);
                 if (input1 <= 0) {
                     CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_zero_alert));
+                    empSalaryCTCTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
-                    mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                     return false;
                 }
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_invalid_alert));
                 empSalaryCTCTextBox.requestFocus();
+                mainViewModel.setChartBoxVisibility(false);
                 mainViewModel.setResultBoxVisibility(false);
+                mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                 return false;
             }
 
@@ -515,27 +545,35 @@ public class EMPSalaryInput extends Fragment {
                     if (input2Str.isEmpty()) {
                         CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementPercentageEmpty));
                         empSalaryMonthlyTaxTextBox.requestFocus();
+                        mainViewModel.setChartBoxVisibility(false);
                         mainViewModel.setResultBoxVisibility(false);
+                        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                         return false;
                     }
 
                     float input2 = Float.parseFloat(input2Str);
                     if (input2 > 100) {
                         CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementPercentageExceed));
+                        empSalaryMonthlyTaxTextBox.requestFocus();
+                        mainViewModel.setChartBoxVisibility(false);
                         mainViewModel.setResultBoxVisibility(false);
-                        mainViewModel.setResultBoxVisibility(false);
+                        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                         return false;
                     }
                     if (input2 <= 0) {
                         CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementPercentageZero));
+                        empSalaryMonthlyTaxTextBox.requestFocus();
+                        mainViewModel.setChartBoxVisibility(false);
                         mainViewModel.setResultBoxVisibility(false);
-                        mainViewModel.setResultBoxVisibility(false);
+                        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                         return false;
                     }
                 } catch (NumberFormatException e) {
                     CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementPercentageInvalid));
                     empSalaryMonthlyTaxTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                     return false;
                 }
             } else if (checkedId == R.id.empIncrementPercentageRadioButton) {
@@ -544,21 +582,27 @@ public class EMPSalaryInput extends Fragment {
                     if (input2Str.isEmpty()) {
                         CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementAmtEmpty));
                         empSalaryMonthlyTaxTextBox.requestFocus();
+                        mainViewModel.setChartBoxVisibility(false);
                         mainViewModel.setResultBoxVisibility(false);
+                        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                         return false;
                     }
 
                     float input2 = Float.parseFloat(input2Str);
                     if (input2 <= 0) {
                         CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementAmtZero));
+                        empSalaryMonthlyTaxTextBox.requestFocus();
+                        mainViewModel.setChartBoxVisibility(false);
                         mainViewModel.setResultBoxVisibility(false);
-                        mainViewModel.setResultBoxVisibility(false);
+                        mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                         return false;
                     }
                 } catch (NumberFormatException e) {
                     CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.empIncrementAmtInvalid));
                     empSalaryMonthlyTaxTextBox.requestFocus();
+                    mainViewModel.setChartBoxVisibility(false);
                     mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setSelectedRadioButton(R.id.returnRadioButton);
                     return false;
                 }
             }
