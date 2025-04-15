@@ -120,10 +120,10 @@
     <string name="EmpCTC">Cost to Company (CTC)</string>
     <string name="EmpCTC_alert">Please enter your CTC.</string>
     <string name="EmpCTC_zero_alert">CTC amount cannot be zero.ं</string>
-    <string name="EmpCTC_invalid_alert">Please enter valid CTC numbers.</string>
+    <string name="EmpCTC_invalid_alert">Please enter valid CTC.</string>
     <string name="EmpBonus">Bonus Included in CTC (Optional)</string>
-    <string name="BonusAmt_zero_alert">Bonus amount cannot be zero.ं</string>
-    <string name="BonusPer_zero_alert">Bonus Percentage cannot be zero.ं</string>
+    <string name="BonusAmt_zero_alert">Bonus amount cannot be zero.</string>
+    <string name="BonusPer_zero_alert">Bonus Percentage cannot be zero.</string>
     <string name="bonus_req_alert">Bonus field is mandatory when checked.</string>
     <string name="bonus_invalid_alert">Please enter a valid bonus value.</string>
     <string name="EmpAmount">Bonus Amount (Rs.)</string>
@@ -187,10 +187,18 @@
     <string name="empSalaryIncrement">Employee Salary Increment</string>
     <string name="empSalaryIncrementtab1">INCREMENT</string>
     <string name="empSalaryIncrementtab2">INCREMENT CHART</string>
-    <string name="EmpAmountRadio">Amount (Rs.)</string>
-    <string name="EmpPercentageRadio">Percentage (%)</string>
+    <string name="EmpAmountRadio">Find Amount (Rs.)</string>
+    <string name="EmpPercentageRadio">Find Percentage (%)</string>
     <string name="empIncrementAmount">Increment Amount</string>
     <string name="empIncrementPercent">Increment Percentage (%)</string>
+    <string name="empIncrementPercentageEmpty">Please enter your Increment Percentage (%).</string>
+    <string name="empIncrementPercentageZero">Increment Percentage (%) cannot be zero.</string>
+    <string name="empIncrementPercentageInvalid">Please enter a valid Increment Percentage (%).</string>
+    <string name="empIncrementPercentageExceed">Increment Percentage (%) must not exceed 100%.</string>
+    <string name="empIncrementAmtEmpty">Please enter your Increment Amount (Rs).</string>
+    <string name="empIncrementAmtZero">Increment Amount (Rs) cannot be zero.</string>
+    <string name="empIncrementAmtInvalid">Please enter a valid Increment Amount (Rs).</string>
+
     <string name="empIncrementChartIndicator1">Current CTC</string>
     <string name="empIncrementChartIndicator2">Monthly Increment Amt</string>
     <string name="empIncrementChartIndicator3">Annual Increment Amt</string>

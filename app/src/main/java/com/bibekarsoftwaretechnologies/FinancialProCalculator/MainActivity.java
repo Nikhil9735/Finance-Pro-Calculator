@@ -150,10 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Define categories and buttons for each category
         String[][] categories = {
-                {"EMPLOYEE TOOLS", getString(R.string.empSalary), getString(R.string.empSalaryIncrement)},
                 {"BANK TOOLS", "Currency Denomination"},
-                {"POST OFFICE", "Recurring Deposit (RD)", "Time Deposit (TD)", "Monthly Income Scheme (MIS)", "National Savings Certificate (NSC)"},
+                {"EMPLOYEE TOOLS", getString(R.string.empSalary), getString(R.string.empSalaryIncrement)},
                 {"BANK", "Simple Loan", "Fixed Deposit - TDR (Interest Payout)", "Fixed Deposit - STDR (Cumulative)", "Bank Recurring Deposit (RD)", "All Bank Interest Rate (%)"},
+                {"POST OFFICE", "Recurring Deposit (RD)", "Time Deposit (TD)", "Monthly Income Scheme (MIS)", "National Savings Certificate (NSC)"},
                 {"Bank & Post Office Schemes", "Mahila Samman Savings Certificate (MSSC)"}
         };
 

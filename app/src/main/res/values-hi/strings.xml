@@ -83,10 +83,18 @@
     <string name="empSalaryIncrement">कर्मचारी सैलरी इंक्रीमेंट</string>
     <string name="empSalaryIncrementtab1">इंक्रीमेंट</string>
     <string name="empSalaryIncrementtab2">इंक्रीमेंट चार्ट</string>
-    <string name="EmpAmountRadio">राशि (₹)</string>
-    <string name="EmpPercentageRadio">प्रतिशत (%)</string>
-    <string name="empIncrementAmount">सैलरी इंक्रीमेंट अमाउंट</string>
+    <string name="EmpAmountRadio">राशि (₹) निकालें</string>
+    <string name="EmpPercentageRadio">प्रतिशत (%) निकालें</string>
+    <string name="empIncrementAmount">सैलरी इंक्रीमेंट राशि (₹)</string>
     <string name="empIncrementPercent">सैलरी इंक्रीमेंट प्रतिशत (%)</string>
+    <string name="empIncrementPercentageEmpty">कृपया इंक्रीमेंट प्रतिशत (%) दर्ज करें।</string>
+    <string name="empIncrementPercentageZero">कृपया इंक्रीमेंट प्रतिशत (%) शून्य से अधिक दर्ज करें।</string>
+    <string name="empIncrementPercentageInvalid">कृपया सही इंक्रीमेंट प्रतिशत (%) दर्ज करें।</string>
+    <string name="empIncrementPercentageExceed">इंक्रीमेंट प्रतिशत (%) 100% से अधिक नहीं हो सकता।</string>
+    <string name="empIncrementAmtEmpty">कृपया इंक्रीमेंट राशि (₹) दर्ज करें।</string>
+    <string name="empIncrementAmtZero">कृपया इंक्रीमेंट राशि (₹) शून्य से अधिक दर्ज करें।</string>
+    <string name="empIncrementAmtInvalid">कृपया सही इंक्रीमेंट राशि (₹) दर्ज करें।</string>
+
     <string name="empIncrementChartIndicator1">वर्तमान CTC</string>
     <string name="empIncrementChartIndicator2">मासिक इंक्रीमेंट राशि</string>
     <string name="empIncrementChartIndicator3">वार्षिक इंक्रीमेंट राशि</string>
