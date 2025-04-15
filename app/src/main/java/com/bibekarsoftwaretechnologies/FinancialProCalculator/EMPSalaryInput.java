@@ -324,11 +324,8 @@ public class EMPSalaryInput extends Fragment {
                     }
 
 
-                    float annualIncrementAmount = 100 - percentage;
-                    float monthylIncrementAmount = 0;
-
-                    totalAnnualDeductions = monthylIncrementAmount;
-                    takeHomeMonthlySalary = annualIncrementAmount;
+                    totalMonthlyDeduction = 100 - percentage;
+                    takeHomeAnnualSalary = percentage;
 
                     // Update results
                     SalarySummeryTakeHomeAnnualSalaryResult.setText(decimalFormat.format(percentage) + "%");
@@ -368,6 +365,7 @@ public class EMPSalaryInput extends Fragment {
                 if (input1Str.isEmpty()) {
                     CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_alert));
                     empSalaryCTCTextBox.requestFocus();
+                    mainViewModel.setResultBoxVisibility(false);
                     return false;
                 }
 
@@ -375,11 +373,13 @@ public class EMPSalaryInput extends Fragment {
                 if (input1 <= 0) {
                     CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_zero_alert));
                     mainViewModel.setResultBoxVisibility(false);
+                    mainViewModel.setResultBoxVisibility(false);
                     return false;
                 }
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryCTCTextBox, empSalaryCTCError, getString(R.string.EmpCTC_invalid_alert));
                 empSalaryCTCTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 
@@ -392,6 +392,7 @@ public class EMPSalaryInput extends Fragment {
                     if (bonusInput.isEmpty()) {
                         CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.bonus_req_alert));
                         empSalaryBonusTextBox.requestFocus();
+                        mainViewModel.setResultBoxVisibility(false);
                         return false;
                     }
 
@@ -399,6 +400,7 @@ public class EMPSalaryInput extends Fragment {
                         float input2 = Float.parseFloat(bonusInput);
                         if (input2 <= 0) {
                             CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.BonusAmt_zero_alert));
+                            mainViewModel.setResultBoxVisibility(false);
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
@@ -409,10 +411,12 @@ public class EMPSalaryInput extends Fragment {
                         if (input2 > 100) {
                             CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.Emp_Bonus_Percentage_alert));
                             mainViewModel.setResultBoxVisibility(false);
+                            mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
                         if (input2 <= 0) {
                             CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.BonusPer_zero_alert));
+                            mainViewModel.setResultBoxVisibility(false);
                             mainViewModel.setResultBoxVisibility(false);
                             return false;
                         }
@@ -420,6 +424,7 @@ public class EMPSalaryInput extends Fragment {
                 } catch (NumberFormatException e) {
                     CommonMethod.validateInputs(empSalaryBonusTextBox, empSalaryBonusError, getString(R.string.bonus_invalid_alert));
                     empSalaryBonusTextBox.requestFocus();
+                    mainViewModel.setResultBoxVisibility(false);
                     return false;
                 }
             }
@@ -429,6 +434,7 @@ public class EMPSalaryInput extends Fragment {
             if (empSalaryMonthlyTaxTextBox.getText().toString().isEmpty()) {
                 CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.monthly_tax_req_alert));
                 empSalaryMonthlyTaxTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 
@@ -437,6 +443,7 @@ public class EMPSalaryInput extends Fragment {
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryMonthlyTaxTextBox, empSalaryMonthlyTaxError, getString(R.string.monthly_tax_invalid_alert));
                 empSalaryMonthlyTaxTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 
@@ -444,6 +451,7 @@ public class EMPSalaryInput extends Fragment {
             if (empSalaryMonthlyEmployerPFTextBox.getText().toString().isEmpty()) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError, getString(R.string.employer_pf_req_alert));
                 empSalaryMonthlyEmployerPFTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 
@@ -452,6 +460,7 @@ public class EMPSalaryInput extends Fragment {
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployerPFTextBox, empSalaryMonthlyEmployerPFError, getString(R.string.employer_pf_invalid_alert));
                 empSalaryMonthlyEmployerPFTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 
@@ -459,6 +468,7 @@ public class EMPSalaryInput extends Fragment {
             if (empSalaryMonthlyEmployeePFTextBox.getText().toString().isEmpty()) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError, getString(R.string.EmpMonthlyEmployeePF_req_alert));
                 empSalaryMonthlyEmployeePFTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 
@@ -467,6 +477,7 @@ public class EMPSalaryInput extends Fragment {
             } catch (NumberFormatException e) {
                 CommonMethod.validateInputs(empSalaryMonthlyEmployeePFTextBox, empSalaryMonthlyEmployeePFError, getString(R.string.EmpMonthlyEmployeePF_invalid_alert));
                 empSalaryMonthlyEmployeePFTextBox.requestFocus();
+                mainViewModel.setResultBoxVisibility(false);
                 return false;
             }
 

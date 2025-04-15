@@ -154,7 +154,7 @@ public class TabActivity extends AppCompatActivity {
                     default:
                         return new InputFragment();
                 }
-            }  else if (operation.equals(getString(R.string.empSalary))) {
+            }  else if (operation.equals(getString(R.string.empSalary)) || operation.equals(getString(R.string.empSalaryIncrement))) {
                 // For Employee Salary, show 3 tabs
                 switch (position) {
                     case 0:
@@ -164,17 +164,7 @@ public class TabActivity extends AppCompatActivity {
                     default:
                         return new EMPSalaryInput();
                 }
-            }  else if (operation.equals(getString(R.string.empSalaryIncrement))) {
-                // For Employee Salary, show 3 tabs
-                switch (position) {
-                    case 0:
-                        return new EMPIncrementFragment();
-                    case 1:
-                        return new ChartFragment();
-                    default:
-                        return new EMPIncrementFragment();
-                }
-            } else if (operation.equals("Currency Denomination")) {
+            }  else if (operation.equals("Currency Denomination")) {
                 // For Dinominator operation show 2 tabs (Preset and History)
                 switch (position) {
                     case 0:
