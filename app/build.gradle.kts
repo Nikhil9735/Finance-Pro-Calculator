@@ -10,10 +10,15 @@ android {
         applicationId = "com.bibekarsoftwaretechnologies.FinancialProCalculator"
         minSdk = 24
         targetSdk = 34
-        versionCode = 10
-        versionName = "1.0.1"
+        versionCode = 16
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    defaultConfig {
+        // Keep only English and Hindi resources
+        resourceConfigurations.addAll(listOf("en", "hi"))
     }
 
     buildTypes {

@@ -1,10 +1,13 @@
 package com.bibekarsoftwaretechnologies.FinancialProCalculator;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -56,8 +59,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_color_scheme).setOnClickListener(v -> showColorSchemeDialog());
         findViewById(R.id.btn_language).setOnClickListener(v -> showLanguageDialog());
-        findViewById(R.id.btn_suggestion).setOnClickListener(v -> showSuggestionMailDialog());
+        findViewById(R.id.btn_suggestion).setOnClickListener(v -> showSuggestionMailDialog(SettingsActivity.this));
         findViewById(R.id.btn_privacy_policy).setOnClickListener(v -> showPrivacyPolicyDialog());
+
+        findViewById(R.id.btn_upgradeToPremium).setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, UpgradeToPremiumActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        findViewById(R.id.btn_aboutUs).setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, AboutUsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
     }
 
     private void showColorSchemeDialog() {
@@ -250,12 +265,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void showSuggestionMailDialog() {
-        // Inflate the dialog layout
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_sendsuggestionmail, null);
+    public static void showSuggestionMailDialog(Context context) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.dialog_sendsuggestionmail, null);
 
-        // Create the AlertDialog using the default theme
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(dialogView);
         final AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_corners); // Keep this if you want custom corners
@@ -271,11 +285,11 @@ public class SettingsActivity extends AppCompatActivity {
             String message = editTextMessage.getText().toString().trim();
 
             if (!name.isEmpty() && !message.isEmpty()) {
-                String subject = "Suggestion from " + name;
-                new SendSuggestionMail(SettingsActivity.this, subject, message).execute();
+                String subject = "Financial Pro Calculator - " + name;
+                new SendSuggestionMail(context, subject, message).execute();
                 dialog.dismiss();
             } else {
-                Toast.makeText(SettingsActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -283,7 +297,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Get the dialog window
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         // Set the width to wrap content with a maximum value
-        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8); // Set width to 80% of screen width
+        params.width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.8);
         dialog.getWindow().setAttributes(params);
     }
 

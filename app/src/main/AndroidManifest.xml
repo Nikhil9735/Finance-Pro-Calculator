@@ -38,6 +38,24 @@
         </activity>
 
         <activity
+            android:name=".UpgradeToPremiumActivity"
+            android:exported="false"
+            android:parentActivityName=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity"/>
+        </activity>
+
+        <activity
+            android:name=".AboutUsActivity"
+            android:exported="false"
+            android:parentActivityName=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity"/>
+        </activity>
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

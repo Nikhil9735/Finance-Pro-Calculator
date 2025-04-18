@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Base.Theme.MathOperation"
+    tools:context=".UpgradeToPremiumActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        android:theme="@style/Base.Theme.MathOperation"
+        app:titleTextColor="?attr/colorPrimaryFixed" />
+
+    <!-- Premium Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="?attr/logoDrawable"
+            android:contentDescription="@string/premium_title"
+            android:background="@drawable/rounded_corners"
+            android:clipToOutline="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/premium_title"
+            android:textSize="24sp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/bold"/>
+
+        <TextView
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/premium_subtitle"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/regular"/>
+    </LinearLayout>
+
+    <!-- Benefits Section -->
+    <TextView
+        android:id="@+id/benefits_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/premium_benefits"
+        android:textSize="14sp"
+        android:textColor="?attr/colorPrimary"
+        android:fontFamily="@font/bold"
+        android:paddingTop="18dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="200dp"/>
+
+    <!-- Benefits List -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/benefits_section"
+        android:padding="16dp">
+
+        <!-- First Benefit -->
+        <include
+            android:id="@+id/benefit1"
+            layout="@layout/premium_benefit_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
+    </LinearLayout>
+
+    <!-- Upgrade Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_upgrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_above="@+id/btn_restore"
+        android:text="@string/upgrade_now"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="8dp"
+        app:backgroundTint="?attr/colorPrimary"/>
+
+    <!-- Restore Subscription Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_restore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:text="@string/restore_subscription"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:cornerRadius="8dp"
+        app:strokeColor="?attr/colorPrimary"
+        app:strokeWidth="1dp"
+        android:textColor="?attr/colorPrimary"/>
+
+    <!-- Price Info -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/premium_price"
+        android:textSize="14sp"
+        android:textColor="?attr/colorPrimary"
+        android:layout_above="@id/btn_upgrade"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/regular"/>
+
+</RelativeLayout>

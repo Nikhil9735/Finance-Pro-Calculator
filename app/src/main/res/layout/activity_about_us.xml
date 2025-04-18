@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutUsActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        android:theme="@style/Base.Theme.MathOperation"
+        app:titleTextColor="?attr/colorPrimaryFixed" />
+
+    <!-- App Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="?attr/logoDrawable"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/rounded_corners"
+            android:clipToOutline="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="24sp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/slogan_text"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/regular"/>
+    </LinearLayout>
+
+    <!-- About Section -->
+    <TextView
+        android:id="@+id/about_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/about_us"
+        android:textSize="14sp"
+        android:textColor="?attr/colorPrimary"
+        android:fontFamily="@font/bold"
+        android:paddingTop="18dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="200dp"/>
+
+    <!-- About Content Section -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_section"
+        android:layout_above="@+id/version_info"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="8dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Warm Welcome -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_message"
+                android:textSize="15sp"
+                android:textColor="?attr/android:textColorPrimary"
+                android:fontFamily="@font/regular"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <!-- Heart Icon Separator -->
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_heart_divider"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="8dp"
+                app:tint="?attr/colorPrimary" />
+
+            <!-- Support Invitation -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/we_value_feedback"
+                android:textSize="15sp"
+                android:textColor="?attr/android:textColorPrimary"
+                android:fontFamily="@font/regular"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Email Contact -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/email_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email_heading"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorPrimary"
+                        android:fontFamily="@font/regular"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_mail"
+                            app:tint="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="nirvaysofttech@gmail.com"
+                            android:textSize="15sp"
+                            android:textColor="?attr/colorPrimary"
+                            android:fontFamily="@font/regular"
+                            android:layout_marginStart="12dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Version Info -->
+    <LinearLayout
+        android:id="@+id/version_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/developer_info"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/version_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            android:textSize="14sp"
+            android:textColor="?attr/android:textColorPrimary"
+            android:fontFamily="@font/regular"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/copyright"
+            android:textSize="12sp"
+            android:textColor="?attr/android:textColorPrimary"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/regular"/>
+    </LinearLayout>
+
+    <!-- Developer Info -->
+    <LinearLayout
+        android:id="@+id/developer_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/developedby"
+            android:textSize="12sp"
+            android:textColor="?attr/android:textColorPrimary"
+            android:fontFamily="@font/regular"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/DeveloperName"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bold" />
+    </LinearLayout>
+
+</RelativeLayout>

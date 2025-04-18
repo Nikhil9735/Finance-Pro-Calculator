@@ -28,6 +28,7 @@
     <string name="lang_hindi">Hindi</string>
 
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="aboutUs">About Us</string>
     <string name="contact">Contact</string>
     <string name="contactDiaNote">Note: You can send me sponsorship requests, suggestions, or ask for help using this contact form.</string>
     <string name="system_default">System (Default)</string>
@@ -36,7 +37,7 @@
     <string name="App">App</string>
     <string name="About">About</string>
     <string name="developedby">Developed by</string>
-    <string name="DeveloperName">Nirvay Software Technologies</string>
+    <string name="DeveloperName">Nirvay Soft Tech</string>
 
     <!-- Dialog Activity -->
     <string name="App_Language">App Language</string>
@@ -213,6 +214,25 @@
     <string name="empIncrementFeedbackOption1">Excellent! You received a significant increment.</string>
     <string name="empIncrementFeedbackOption2">Good job! Your increment is above average.</string>
     <string name="empIncrementFeedbackOption3">Your increment is average. Keep up the hard work!</string>
+
+
+    <string name="premium_badge">Premium Badge</string>
+    <string name="premium_title">Upgrade to Premium</string>
+    <string name="premium_subtitle">Remove ads</string>
+    <string name="premium_benefits">Premium Benefits</string>
+    <string name="benefit_unlimited">★ No advertisements ★</string>
+    <string name="upgrade_now">Upgrade Now</string>
+    <string name="premium_price"><strike>₹99/month</strike>  <b>₹249 for lifetime</b></string>
+    <string name="restore_subscription">Restore Subscription</string>
+
+    <string name="about_us">About Us</string>
+    <string name="about_content">Financial Pro Calculator is designed to help you with all your financial calculations. Our mission is to provide accurate, easy-to-use tools for professionals and everyday users alike.\n\nWith features like EMI calculation, interest rate conversion, and investment planning, we aim to simplify complex financial mathematics.\n\nAll calculations are performed locally on your device for maximum privacy and security.</string>
+    <string name="version">Version %s</string>
+    <string name="copyright">© 2025 All rights reserved.</string>
+
+    <string name="about_message">Hello,\n\nThank you from the bottom of our hearts for choosing this app. It\'s more than just a download — it’s a bond of trust, and we’re truly grateful for it.\n\nWe’re a small team with a big heart, building each calculator with love, care, and the hope that it makes your day a little easier and your financial journey a little brighter.\n\nWe believe that small steps lead to big changes, and if this app can save you time, bring you clarity, or reduce your stress — then our mission is fulfilled.</string>
+    <string name="we_value_feedback">Got a question? A thought? Or just want to say hello? We’d love to hear from you. You’re not just a user to us — you’re part of our story.</string>
+    <string name="email_heading">Reach out to us</string>
 
 
 </resources>

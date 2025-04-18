@@ -138,6 +138,60 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Menu Item for Language Option -->
+    <LinearLayout
+        android:id="@+id/btn_upgradeToPremium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/btn_language">
+
+        <!-- Horizontal layout for icon and "Language" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_primium"
+                android:contentDescription="@string/premium_title"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <!-- Add this TextView to display selected language -->
+                <TextView
+                    style="@style/textColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/premium_title"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/selected_language_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14.5sp"
+                    style="@style/selectedTextColor"
+                    android:text="@string/premium_price"
+                    android:fontFamily="@font/regular" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
     <!-- Section Heading for About -->
     <TextView
         android:id="@+id/about_section"
@@ -148,7 +202,7 @@
         style="@style/textColor"
         android:fontFamily="@font/bold"
         android:padding="16dp"
-        android:layout_below="@id/btn_language"/>
+        android:layout_below="@id/btn_upgradeToPremium"/>
 
     <!-- Menu Item for Suggestion -->
     <LinearLayout
@@ -240,6 +294,52 @@
         </LinearLayout>
     </LinearLayout>
 
+
+    <!-- Menu Item for Privacy Policy -->
+    <LinearLayout
+        android:id="@+id/btn_aboutUs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_effect"
+        android:layout_below="@id/btn_privacy_policy">
+
+        <!-- Horizontal layout for icon and "Privacy Policy" text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_aboutus"
+                android:contentDescription="@string/aboutUs"
+                style="@style/icColor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/aboutUs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/aboutUs"
+                    android:textSize="17sp"
+                    android:contentDescription="@string/aboutUs"
+                    style="@style/textColor" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
     <!-- Menu Item for Version -->
     <LinearLayout
         android:id="@+id/btn_version"
@@ -250,7 +350,7 @@
         android:clickable="true"
         android:focusable="true"
         android:background="@drawable/ripple_effect"
-        android:layout_below="@id/btn_privacy_policy">
+        android:layout_below="@id/btn_aboutUs">
 
         <!-- Horizontal layout for icon and "Version" text -->
         <LinearLayout
@@ -320,11 +420,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
+                android:fontFamily="@font/bold"
                 android:text="@string/DeveloperName"
-                android:textSize="13sp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/privacy_policy"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"
+                android:textColor="?attr/colorPrimary"
+                android:contentDescription="@string/DeveloperName"
                 style="@style/textColor" />
         </LinearLayout>
     </LinearLayout>

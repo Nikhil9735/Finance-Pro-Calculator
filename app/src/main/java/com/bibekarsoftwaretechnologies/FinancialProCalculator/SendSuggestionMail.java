@@ -18,14 +18,14 @@ public class SendSuggestionMail extends AsyncTask<Void, Void, Boolean> {
     // Email configuration
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
-    private static final String EMAIL = "pollyprojects@gmail.com";
-    private static final String PASSWORD = "ykbz qlqy ayrj shco"; // Use the generated app password here
+    private static final String EMAIL = "noreply.nirvaysofttech@gmail.com";
+    private static final String PASSWORD = "ryng igrp psuj zvuf"; // Use the generated app password here
 
     private Context context;
     private Session session;
 
     // Hardcoded recipient email
-    private static final String RECIPIENT_EMAIL = "mobmasterofficial@gmail.com";
+    private static final String RECIPIENT_EMAIL = "nirvaysofttech@gmail.com";
 
     private String subject;
     private String message;

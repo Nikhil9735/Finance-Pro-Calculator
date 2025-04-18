@@ -1,17 +1,16 @@
-# Please add these rules to your existing keep rules in order to suppress warnings.
-# This is generated automatically by the Android Gradle plugin.
+# Suppress generated warnings
 -dontwarn android.media.LoudnessCodecController$OnLoudnessCodecUpdateListener
 -dontwarn android.media.LoudnessCodecController
 
-# Only what is necessary
--keep class javax.mail.Transport { *; }
--keep class javax.mail.internet.MimeMessage { *; }
--keep class javax.mail.internet.InternetAddress { *; }
--keep class javax.mail.Session { *; }
--keep class javax.mail.PasswordAuthentication { *; }
--keep class javax.mail.Message { *; }
--keep class javax.mail.Authenticator { *; }
+# === JavaMail required classes ===
+-keep class javax.mail.** { *; }
+-keep class javax.mail.internet.** { *; }
+-keep class javax.activation.** { *; }
+-keep class com.sun.mail.** { *; }
 
--keep class javax.activation.DataHandler { *; }
--keep class javax.activation.DataSource { *; }
+-dontwarn javax.mail.**
 -dontwarn javax.activation.**
+-dontwarn com.sun.mail.**
+
+# Keep locale and configuration code
+-keep class **.R$string { *; }
