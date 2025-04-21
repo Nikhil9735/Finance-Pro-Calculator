@@ -1,4 +1,4 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bibekarsoftwaretechnologies.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancialProCalculator.R;
 
 import java.text.DecimalFormat;
 

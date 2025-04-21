@@ -1,11 +1,11 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.bibekarsoftwaretechnologies.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancialProCalculator.R;
 
 public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_DELAY = 2000; // 2 seconds

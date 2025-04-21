@@ -1,4 +1,4 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.bibekarsoftwaretechnologies.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancialProCalculator.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -28,8 +28,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChartFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.app.Activity;
 import android.os.Handler;

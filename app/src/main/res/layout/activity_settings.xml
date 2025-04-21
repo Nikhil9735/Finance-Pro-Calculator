@@ -384,6 +384,7 @@
                     style="@style/textColor" />
 
                 <TextView
+                    android:id="@+id/releaseNotesVersionAndDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -428,6 +429,11 @@
                 android:contentDescription="@string/DeveloperName"
                 style="@style/textColor" />
         </LinearLayout>
+<!--        <include-->
+<!--            layout="@layout/activity_ad_helper"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom" />-->
     </LinearLayout>
 
 </RelativeLayout>

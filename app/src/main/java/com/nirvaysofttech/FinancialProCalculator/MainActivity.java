@@ -1,7 +1,6 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -13,7 +12,6 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,13 +25,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bibekarsoftwaretechnologies.FinancialProCalculator.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.nirvaysofttech.FinancialProCalculator.R;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.navigation.NavigationView;
 
@@ -146,6 +140,28 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 });
             }
+
+            findViewById(R.id.upgradeToPremium).setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, UpgradeToPremiumActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            });
+
+            // Java version
+            Button contactBtn = findViewById(R.id.btn_contact_form);
+            contactBtn.setOnClickListener(v -> {
+                Intent contactIntent = new Intent(this, SettingsActivity.class);
+                startActivity(contactIntent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            });
+
+            Button premiumBtn = findViewById(R.id.btn_premium);
+            premiumBtn.setOnClickListener(v -> {
+                Intent premiumIntent = new Intent(this, UpgradeToPremiumActivity.class);
+                startActivity(premiumIntent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            });
         }
 
         // Define categories and buttons for each category
@@ -181,6 +197,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    // Java
+    public void onDismissClick(View view) {
+        View noticeBoard = findViewById(R.id.notice_board); // Add an ID to your LinearLayout
+        noticeBoard.setVisibility(View.GONE);
     }
 
     private void addCategoryHeader(String categoryName) {

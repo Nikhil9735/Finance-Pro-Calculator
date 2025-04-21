@@ -1,5 +1,6 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ public class UpgradeToPremiumActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeActionContentDescription(R.string.nav_close);
-            getSupportActionBar().setTitle(R.string.upgradeToPremium);
+            getSupportActionBar().setTitle(R.string.premium_title);
         }
 
         // Handle system back button press with animation
@@ -53,6 +54,7 @@ public class UpgradeToPremiumActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         finishWithAnimation();
+        onBackPressed();
         return true;
     }
 
@@ -60,4 +62,14 @@ public class UpgradeToPremiumActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(UpgradeToPremiumActivity.this, SettingsActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish(); // ✅ optional but recommended to clean up
+    }
+
 }

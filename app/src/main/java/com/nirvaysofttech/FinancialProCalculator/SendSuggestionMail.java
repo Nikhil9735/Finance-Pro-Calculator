@@ -1,4 +1,4 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -79,7 +79,7 @@ public class SendSuggestionMail extends AsyncTask<Void, Void, Boolean> {
 
         // Show a toast message after sending the email
         if (context != null) {
-            Toast.makeText(context, success ? "Suggestion sent successfully!" : "Failed to send suggestion.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, success ? "Your message was sent successfully!" : "Oops! Something went wrong, try again.", Toast.LENGTH_LONG).show();
         }
     }
 }

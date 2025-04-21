@@ -11,9 +11,9 @@
     <string name="share">Send to Friends</string>
     <string name="rate">Rate &amp; Review</string>
     <string name="more">Check Out More Apps</string>
-    <string name="upgradeToPremium">Upgrade to Primium</string>
     <string name="share_message">Install %1$s Smart Solutions for Every Finance Need.\n\n%s</string>
 
+    <string name="btnGotIt">OK, got it</string>
     <string name="btncalculate">CALCULATE</string>
     <string name="btnclear">CLEAR</string>
     <string name="btnbankinterest">SEARCH (%)</string>
@@ -30,6 +30,17 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="aboutUs">About Us</string>
     <string name="contact">Contact</string>
+    <string-array name="dropdown_subjectContact">
+        <item>Select Subject</item>
+        <item>Suggestion</item>
+        <item>Improvement</item>
+        <item>Sponsorship</item>
+        <item>Help</item>
+        <item>Issue</item>
+        <item>Queries</item>
+        <item>Appriciation</item>
+        <item>Other</item>
+    </string-array>
     <string name="contactDiaNote">Note: You can send me sponsorship requests, suggestions, or ask for help using this contact form.</string>
     <string name="system_default">System (Default)</string>
     <string name="version_num">1.0.0+20241222</string>
@@ -233,6 +244,16 @@
     <string name="about_message">Hello,\n\nThank you from the bottom of our hearts for choosing this app. It\'s more than just a download — it’s a bond of trust, and we’re truly grateful for it.\n\nWe’re a small team with a big heart, building each calculator with love, care, and the hope that it makes your day a little easier and your financial journey a little brighter.\n\nWe believe that small steps lead to big changes, and if this app can save you time, bring you clarity, or reduce your stress — then our mission is fulfilled.</string>
     <string name="we_value_feedback">Got a question? A thought? Or just want to say hello? We’d love to hear from you. You’re not just a user to us — you’re part of our story.</string>
     <string name="email_heading">Reach out to us</string>
+
+    <string name="release_notes_title">Release Notes</string>
+    <string name="whats_new">What\'s New</string>
+    <string name="close">Close</string>
+    <string name="latest_release_notes">\u0020• Added dark mode support\n\n
+    • Fixed calculation accuracy issues\n\n
+    • Improved app performance by 20%\n\n
+    • Added new currency conversions\n\n
+    • Bug fixes and stability improvements
+    </string>
 
 
 </resources>

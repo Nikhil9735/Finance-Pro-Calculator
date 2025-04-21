@@ -1,33 +1,40 @@
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import com.bibekarsoftwaretechnologies.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancialProCalculator.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private int selectedThemeMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-    private TextView selectedThemeTextView;
-    private TextView selectedLanguageTextView;
+    private TextView selectedThemeTextView, selectedLanguageTextView, selectedVersionAndDateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +59,15 @@ public class SettingsActivity extends AppCompatActivity {
         // Initialize the TextViews
         selectedThemeTextView = findViewById(R.id.selected_theme_text);
         selectedLanguageTextView = findViewById(R.id.selected_language_text);
+        selectedVersionAndDateTextView = findViewById(R.id.releaseNotesVersionAndDate);
+
+        // Load banner ad
+        AdHelper.loadBannerAd(this);
 
         // Update the TextViews with saved preferences
         updateSelectedThemeText();
         updateSelectedLanguageText();
+        updateVersionAndDateText();
 
         findViewById(R.id.btn_color_scheme).setOnClickListener(v -> showColorSchemeDialog());
         findViewById(R.id.btn_language).setOnClickListener(v -> showLanguageDialog());
@@ -64,6 +76,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_upgradeToPremium).setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, UpgradeToPremiumActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        findViewById(R.id.btn_version).setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, ReleaseNotesActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -278,18 +296,54 @@ public class SettingsActivity extends AppCompatActivity {
         EditText editTextName = dialogView.findViewById(R.id.suggestionName);
         EditText editTextMessage = dialogView.findViewById(R.id.suggestionMessage);
         Button buttonSend = dialogView.findViewById(R.id.buttonSend);
+        Spinner mailSubject = dialogView.findViewById(R.id.mailSubject);
+        TextView characterCount = dialogView.findViewById(R.id.characterCountTextView); // Reference to a TextView for the count
+
+        editTextMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                int remaining = 1000 - charSequence.length(); // Assuming maxLength is 1000
+                characterCount.setText(remaining + " characters remaining");
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+
 
         // Set up the Send button
         buttonSend.setOnClickListener(v -> {
             String name = editTextName.getText().toString().trim();
             String message = editTextMessage.getText().toString().trim();
+            String subjectDropdown = mailSubject.getSelectedItem().toString();
 
-            if (!name.isEmpty() && !message.isEmpty()) {
-                String subject = "Financial Pro Calculator - " + name;
+            boolean isValid = true;
+
+            if (name.isEmpty()) {
+                // Add watchers with inline validation (no external error TextView)
+                CommonMethod.addInlineValidationWatcher(editTextName, 15, "Name cannot be empty.", "Max 15 characters");
+                editTextName.setError("Name cannot be empty.");
+                isValid = false;
+            }
+
+            if (message.isEmpty()) {
+                CommonMethod.addInlineValidationWatcher(editTextMessage, 1000, "Message cannot be empty.", "Max 1000 characters");
+                editTextMessage.setError("Message cannot be empty.");
+                isValid = false;
+            }
+
+            if (subjectDropdown.equals("Select Subject")) {
+                CommonMethod.validateSpinner(mailSubject, "Select Subject", "Please select");
+                isValid = false;
+            }
+
+            if (isValid) {
+                String subject = "Financial Pro Calculator - " + name + " has a mail regarding " + subjectDropdown;
                 new SendSuggestionMail(context, subject, message).execute();
                 dialog.dismiss();
-            } else {
-                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -323,5 +377,34 @@ public class SettingsActivity extends AppCompatActivity {
         // Set the width to wrap content with a maximum value
         params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8); // Set width to 80% of screen width
         dialog.getWindow().setAttributes(params);
+    }
+
+    private void updateVersionAndDateText() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String versionName = pInfo.versionName;
+            String buildDate = getString(R.string.build_date); // "19 Apr 2025" format
+            String formattedDate;
+            try {
+                SimpleDateFormat sourceFormat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+                SimpleDateFormat targetFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
+                Date date = sourceFormat.parse(buildDate);
+                formattedDate = targetFormat.format(date); // "20250419"
+            } catch (ParseException e) {
+                e.printStackTrace();
+                formattedDate = "00000000"; // fallback if parsing fails
+            }
+
+            String versionAndDate = versionName + "+" + formattedDate;
+
+            if (selectedVersionAndDateTextView != null) {
+                selectedVersionAndDateTextView.setText("Release Notes - "+"v"+versionAndDate);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            if (selectedVersionAndDateTextView != null) {
+                selectedVersionAndDateTextView.setText("N/A");
+            }
+        }
     }
 }

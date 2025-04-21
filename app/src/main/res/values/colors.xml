@@ -15,6 +15,7 @@
     <color name="headingTextGrey">#808080</color>
 
     <color name="blue">#0b57d0</color>
+    <color name="logoPeach">#FFDAB9</color>
     <color name="darkGreen">#008877</color>
 
     <color name="activeColor">#FF4081</color>  <!-- Example color -->
@@ -23,5 +24,6 @@
 
     <color name="blue2">#2596BE</color>
     <color name="orange">#e28743</color>
+
 
 </resources>

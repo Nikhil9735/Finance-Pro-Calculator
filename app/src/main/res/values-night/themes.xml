@@ -57,4 +57,9 @@
         <item name="android:textColor">#FFFFFF</item> <!-- Example: Black text -->
     </style>
 
+    <style name="ButtonStyle3" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/logoPeach</item> <!-- Example: Green -->
+        <item name="android:textColor">@color/black</item> <!-- Example: Black text -->
+    </style>
+
 </resources>

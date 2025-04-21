@@ -1,5 +1,5 @@
 // ThemeUtils.java
-package com.bibekarsoftwaretechnologies.FinancialProCalculator;
+package com.nirvaysofttech.FinancialProCalculator;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,28 +1,29 @@
+import java.text.SimpleDateFormat
+import java.util.*
+
 plugins {
     alias(libs.plugins.androidApplication)
 }
 
 android {
-    namespace = "com.bibekarsoftwaretechnologies.FinancialProCalculator"
+    namespace = "com.nirvaysofttech.FinancialProCalculator"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.bibekarsoftwaretechnologies.FinancialProCalculator"
+        applicationId = "com.nirvaysofttech.FinancialProCalculator"
         minSdk = 24
         targetSdk = 34
-        versionCode = 16
-        versionName = "1.0.6"
+        versionCode = 17
+        versionName = "1.0.7"
+
+        // Add build date as a string resource
+        resValue("string", "build_date", SimpleDateFormat("dd MMM yyyy", Locale.US).format(Date()))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    defaultConfig {
-        // Keep only English and Hindi resources
-        resourceConfigurations.addAll(listOf("en", "hi"))
-    }
-
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -31,10 +32,13 @@ android {
             )
         }
     }
-    packagingOptions {
-        exclude("META-INF/NOTICE.md")
-        exclude("META-INF/LICENSE.md")
+
+    packaging {
+        resources {
+            excludes += setOf("META-INF/NOTICE.md", "META-INF/LICENSE.md")
+        }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -42,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
