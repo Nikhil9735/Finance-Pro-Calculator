@@ -26,6 +26,8 @@ public class AboutUsActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.about_us);
         }
 
+        AdHelper.loadBannerAd(this);
+
         // Set version info
         TextView versionTextView = findViewById(R.id.version_text);
         try {

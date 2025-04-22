@@ -14,156 +14,176 @@
         android:background="?attr/colorPrimaryDark"
         app:titleTextColor="@android:color/white" />
 
-    <!-- App Logo and Version -->
-    <LinearLayout
-        android:id="@+id/releaseNotesHeader"
+    <!-- Ad Banner at Bottom -->
+    <include
+        layout="@layout/activity_ad_helper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="24dp">
+        android:layout_alignParentBottom="true"/>
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="@string/app_name"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Release Notes"
-            android:textSize="24sp"
-            android:textColor="?attr/colorPrimary"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/bold"/>
-
-        <!-- Version and Date with aligned colons -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <!-- Left column (labels) -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="end">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Version"
-                    android:textSize="16sp"
-                    android:textColor="#808080"
-                    android:fontFamily="@font/bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Released Date"
-                    android:textSize="16sp"
-                    android:textColor="#808080"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/bold"/>
-            </LinearLayout>
-
-            <!-- Middle column (colons) -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":"
-                    android:textSize="16sp"
-                    android:textColor="#808080"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="#808080"/>
-            </LinearLayout>
-
-            <!-- Right column (values) -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="start">
-
-                <TextView
-                    android:id="@+id/txt_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.0.0"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="?attr/android:textColorPrimary"
-                    android:fontFamily="@font/regular"/>
-
-                <TextView
-                    android:id="@+id/txt_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20250419"
-                    android:textSize="16sp"
-                    android:layout_marginTop="7dp"
-                    android:textColor="?attr/android:textColorPrimary"
-                    android:fontFamily="@font/regular"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- What's New Section -->
-    <TextView
-        android:id="@+id/section_whats_new"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="What's New"
-        android:textSize="18sp"
-        android:textColor="?attr/colorPrimary"
-        android:fontFamily="@font/bold"
-        android:layout_below="@id/releaseNotesHeader"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"/>
-
-    <!-- Release Notes Content -->
+    <!-- Main Scrollable Content - placed above ad banner -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/section_whats_new"
-        android:padding="20dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/bottom_ad_view"
+        android:background="?attr/colorPrimaryDark"
         android:scrollbars="none">
 
-        <!-- Feature Item 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical">
 
-            <TextView
+            <!-- App Logo and Version -->
+            <LinearLayout
+                android:id="@+id/releaseNotesHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:text="@string/latest_release_notes"
-                android:textColor="?attr/android:textColorPrimary"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="24dp">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:contentDescription="@string/app_name"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Release Notes"
+                    android:textSize="24sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/bold"/>
+
+                <!-- Version and Date with aligned colons -->
+                <LinearLayout
+                    android:id="@+id/VersionAndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal">
+
+                    <!-- Left column (labels) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="end">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Version"
+                            android:textSize="16sp"
+                            android:textColor="#808080"
+                            android:fontFamily="@font/bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Released Date"
+                            android:textSize="16sp"
+                            android:textColor="#808080"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/bold"/>
+                    </LinearLayout>
+
+                    <!-- Middle column (colons) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:textSize="16sp"
+                            android:textColor="#808080"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:textSize="16sp"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#808080"/>
+                    </LinearLayout>
+
+                    <!-- Right column (values) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <TextView
+                            android:id="@+id/txt_version"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1.0.0"
+                            android:textSize="16sp"
+                            android:layout_marginTop="4dp"
+                            android:textColor="?attr/android:textColorPrimary"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/txt_release_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20250419"
+                            android:textSize="16sp"
+                            android:layout_marginTop="7dp"
+                            android:textColor="?attr/android:textColorPrimary"
+                            android:fontFamily="@font/regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- What's New Section -->
+            <TextView
+                android:id="@+id/section_whats_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What's New"
+                android:textSize="18sp"
+                android:textColor="?attr/colorPrimary"
+                android:fontFamily="@font/bold"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"/>
+
+            <!-- Release Notes Content -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Feature Item 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/latest_release_notes"
+                        android:textColor="?attr/android:textColorPrimary"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
-
 </RelativeLayout>

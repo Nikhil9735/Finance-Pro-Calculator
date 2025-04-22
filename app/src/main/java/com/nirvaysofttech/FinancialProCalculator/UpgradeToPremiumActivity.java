@@ -28,6 +28,8 @@ public class UpgradeToPremiumActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.premium_title);
         }
 
+        AdHelper.loadBannerAd(this);
+
         // Handle system back button press with animation
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override

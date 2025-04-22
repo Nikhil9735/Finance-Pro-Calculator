@@ -31,6 +31,8 @@ public class ReleaseNotesActivity extends AppCompatActivity {
         TextView txtVersion = findViewById(R.id.txt_version);
         TextView txtDate = findViewById(R.id.txt_release_date);
 
+        AdHelper.loadBannerAd(this);
+
         try {
             // Get version name
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
