@@ -24,7 +24,7 @@ public class ReleaseNotesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setTitle(R.string.release_notes_title);
         }
 
         // Set version and date

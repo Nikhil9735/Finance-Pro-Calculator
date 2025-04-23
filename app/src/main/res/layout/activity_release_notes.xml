@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?attr/colorPrimaryDark"
-        app:titleTextColor="@android:color/white" />
+        android:theme="@style/Base.Theme.MathOperation"
+        app:titleTextColor="?attr/colorPrimaryFixed" />
 
     <!-- Ad Banner at Bottom -->
     <include

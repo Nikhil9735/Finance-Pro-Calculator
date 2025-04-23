@@ -23,7 +23,8 @@ public class UpgradeToPremiumActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null) {            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeActionContentDescription(R.string.nav_close);
             getSupportActionBar().setTitle(R.string.premium_title);
         }
@@ -63,15 +64,6 @@ public class UpgradeToPremiumActivity extends AppCompatActivity {
     private void finishWithAnimation() {
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(UpgradeToPremiumActivity.this, SettingsActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        finish(); // ✅ optional but recommended to clean up
     }
 
 }
