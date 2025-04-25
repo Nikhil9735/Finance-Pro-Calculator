@@ -2,6 +2,8 @@ package com.nirvaysofttech.FinancialProCalculator;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -9,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -27,7 +31,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.nirvaysofttech.FinancialProCalculator.R;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
+    private SearchView searchView;
+    private MenuItem searchItem;
+
+    // Constants for SharedPreferences
+    private static final String PREFS_NAME = "AppPrefs";
+    private static final String KEY_NOTICE_DISMISSED = "notice_dismissed";
+    private static final String KEY_APP_VERSION = "app_version";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         ThemeUtils.applySavedTheme(this);
         ThemeUtils.applySavedLanguage(this);
 
+        // Check notice visibility before setting up other views
+        checkNoticeVisibility();
+
         // Get the button container
         buttonContainer = findViewById(R.id.buttonContainer);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -69,26 +82,71 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 drawerLayout,
                 toolbar,
-                R.string.nav_open,  // Optional: String resource for accessibility
-                R.string.nav_close  // Optional: String resource for accessibility
+                R.string.nav_open,
+                R.string.nav_close
         ) {
             @Override
-            public void onDrawerSlide(@NonNull android.view.View drawerView, float slideOffset) {
-                // Move main content to the right while drawer slides
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
                 findViewById(R.id.main_content).setTranslationX(slideOffset * drawerView.getWidth());
             }
         };
         drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();  // Sync the state of the drawer toggle with the drawer
+        toggle.syncState();
 
-        // Navigation Item Listener
+        setupNavigation();
+
+        // Define categories and buttons for each category
+        setupCalculatorButtons();
+    }
+
+    private void checkNoticeVisibility() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersion = prefs.getInt(KEY_APP_VERSION, 0);
+        int currentVersion = getAppVersionCode();
+
+        // Show notice if:
+        // 1. It was never dismissed, OR
+        // 2. The app has been updated
+        boolean shouldShowNotice = !prefs.getBoolean(KEY_NOTICE_DISMISSED, false)
+                || (savedVersion != currentVersion);
+
+        View noticeBoard = findViewById(R.id.notice_board);
+        noticeBoard.setVisibility(shouldShowNotice ? View.VISIBLE : View.GONE);
+
+        // Update saved version if needed
+        if (savedVersion != currentVersion) {
+            prefs.edit()
+                    .putInt(KEY_APP_VERSION, currentVersion)
+                    .putBoolean(KEY_NOTICE_DISMISSED, false) // Reset dismissal on update
+                    .apply();
+        }
+    }
+
+    private int getAppVersionCode() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            return 0;
+        }
+    }
+
+    public void onDismissClick(View view) {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        prefs.edit()
+                .putBoolean(KEY_NOTICE_DISMISSED, true)
+                .apply();
+
+        View noticeBoard = findViewById(R.id.notice_board);
+        noticeBoard.setVisibility(View.GONE);
+    }
+
+    private void setupNavigation() {
         if (navigationView != null) {
             LinearLayout settingsLayout = navigationView.findViewById(R.id.settings);
             if (settingsLayout != null) {
                 settingsLayout.setOnClickListener(v -> {
-                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(this, SettingsActivity.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     drawerLayout.closeDrawer(GravityCompat.START);
                 });
@@ -118,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         startActivity(rateIntent);
                     } catch (ActivityNotFoundException e) {
-                        Toast.makeText(MainActivity.this, "Unable to find market app", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Unable to find market app", Toast.LENGTH_LONG).show();
                     }
                     drawerLayout.closeDrawer(GravityCompat.START);
                 });
@@ -132,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         startActivity(moreIntent);
                     } catch (ActivityNotFoundException e) {
-                        // Fallback to web link if the market app is not found
                         uri = Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName());
                         moreIntent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(moreIntent);
@@ -142,29 +199,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
             findViewById(R.id.upgradeToPremium).setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, UpgradeToPremiumActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, UpgradeToPremiumActivity.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 drawerLayout.closeDrawer(GravityCompat.START);
             });
 
-            // Java version
             Button contactBtn = findViewById(R.id.btn_contact_form);
             contactBtn.setOnClickListener(v -> {
-                Intent contactIntent = new Intent(this, SettingsActivity.class);
-                startActivity(contactIntent);
+                startActivity(new Intent(this, SettingsActivity.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             });
 
             Button premiumBtn = findViewById(R.id.btn_premium);
             premiumBtn.setOnClickListener(v -> {
-                Intent premiumIntent = new Intent(this, UpgradeToPremiumActivity.class);
-                startActivity(premiumIntent);
+                startActivity(new Intent(this, UpgradeToPremiumActivity.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             });
         }
+    }
 
-        // Define categories and buttons for each category
+    private void setupCalculatorButtons() {
         String[][] categories = {
                 {"BANK TOOLS", "Currency Denomination"},
                 {"EMPLOYEE TOOLS", getString(R.string.empSalary), getString(R.string.empSalaryIncrement)},
@@ -173,103 +227,74 @@ public class MainActivity extends AppCompatActivity {
                 {"Bank & Post Office Schemes", "Mahila Samman Savings Certificate (MSSC)"}
         };
 
-        // Define a list of colors to be manually assigned
         String[] buttonColors = {
                 "#0b57d0", "#0b57d0", "#6D214F", "#2C3A47", "#40407a", "#1dd1a1",
                 "#ee5253", "#feca57", "#10ac84", "#8395a7", "#5f27cd", "#54a0ff",
-                //"#00d2d3", "#ff9ff3", "#c8d6e5"
         };
 
         int colorIndex = 0;
 
-        // Add buttons dynamically for each category
         for (int i = 0; i < categories.length; i++) {
             String[] category = categories[i];
-            addCategoryHeader(category[0]); // Add category header (name)
+            addCategoryHeader(category[0]);
             for (int j = 1; j < category.length; j++) {
                 String color = buttonColors[colorIndex++ % buttonColors.length];
                 addButton(category[j], color);
             }
 
-            // ✅ Add AdView after BANK category (index 3 in your list)
             if (i == 3) {
                 AdHelper.loadMidiumSquareAd(this, buttonContainer);
             }
         }
-
-    }
-
-    // Java
-    public void onDismissClick(View view) {
-        View noticeBoard = findViewById(R.id.notice_board); // Add an ID to your LinearLayout
-        noticeBoard.setVisibility(View.GONE);
     }
 
     private void addCategoryHeader(String categoryName) {
-        // Create a TextView for the category name
         TextView header = new TextView(this);
         header.setText(categoryName);
         header.setTextSize(20);
 
-        // Fetch the text color based on the current theme
         TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(android.R.attr.textColorPrimary, typedValue, true); // Use the primary text color attribute
+        getTheme().resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
         int textColor = typedValue.data;
         header.setTextColor(textColor);
 
-        header.setTypeface(ResourcesCompat.getFont(this, R.font.bold)); // Use custom bold font
-        header.setPadding(0, 32, 0, 16); // Add padding for better spacing
-        header.setGravity(android.view.Gravity.CENTER); // Center the text horizontally
+        header.setTypeface(ResourcesCompat.getFont(this, R.font.bold));
+        header.setPadding(0, 32, 0, 16);
+        header.setGravity(android.view.Gravity.CENTER);
 
-        // Set layout parameters for the header
         LinearLayout.LayoutParams headerParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
         header.setLayoutParams(headerParams);
-
-        // Add the header to the container
         buttonContainer.addView(header);
     }
 
     private void addButton(String category, String color) {
-        // Create a button
         Button button = new Button(this);
         button.setText(category);
         button.setTextColor(Color.WHITE);
         button.setAllCaps(false);
-        button.setTextSize(18); // Set larger text size
-
-        // Apply custom font
-        Typeface typeface = ResourcesCompat.getFont(this, R.font.regular); // Replace 'bold' with your font file name
+        button.setTextSize(18);
+        Typeface typeface = ResourcesCompat.getFont(this, R.font.regular);
         button.setTypeface(typeface);
 
-        // Get a mutable copy of the drawable
         Drawable background = ContextCompat.getDrawable(this, R.drawable.curve_box).mutate();
         background.setTint(Color.parseColor(color));
         button.setBackground(background);
 
-        // Set layout parameters with increased height
-        int heightInDp = 50; // Set desired height in dp
-        int heightInPx = (int) (heightInDp * getResources().getDisplayMetrics().density); // Convert dp to px
-
+        int heightInPx = (int) (50 * getResources().getDisplayMetrics().density);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                heightInPx // Set the calculated height in pixels
+                ViewGroup.LayoutParams.MATCH_PARENT, heightInPx
         );
-
-        params.setMargins(0, 12, 0, 12); // Add margins for spacing
+        params.setMargins(0, 12, 0, 12);
         button.setLayoutParams(params);
 
-        // Set click listener
         button.setOnClickListener(v -> openCalculationActivity(category));
-
-        // Add button to the container
         buttonContainer.addView(button);
     }
 
     private void openCalculationActivity(String operation) {
-        // Pass the operation to the MainViewModel
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mainViewModel.setOperation(operation);
 
@@ -279,9 +304,68 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint("Search...");
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterButtons(newText);
+                return true;
+            }
+        });
+
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                restoreAllButtons();
+                return true;
+            }
+        });
+
+        return true;
+    }
+
+    private void filterButtons(String query) {
+        query = query.toLowerCase();
+        for (int i = 0; i < buttonContainer.getChildCount(); i++) {
+            View child = buttonContainer.getChildAt(i);
+            if (child instanceof Button) {
+                Button button = (Button) child;
+                String text = button.getText().toString().toLowerCase();
+                button.setVisibility(text.contains(query) ? View.VISIBLE : View.GONE);
+            } else if (child instanceof TextView) {
+                child.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void restoreAllButtons() {
+        for (int i = 0; i < buttonContainer.getChildCount(); i++) {
+            buttonContainer.getChildAt(i).setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (toggle.onOptionsItemSelected(item)) {
-            return true;  // Handle toggle actions (open/close drawer)
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
