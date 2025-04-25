@@ -145,7 +145,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
-                        android:text="@string/btnGotIt"
+                        android:text="@string/close"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:layout_gravity="center_horizontal"
