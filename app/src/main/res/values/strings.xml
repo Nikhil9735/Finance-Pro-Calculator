@@ -123,6 +123,14 @@
         <item>Utkarsh Small Finance Bank</item>
     </string-array>
 
+    <string name="notes_heading">Notes:</string>
+    <string name="note_effective_date">1. The following interest rates are effective from 19 April 2025.</string>
+    <string name="note_amount_limit">2. The following rates apply to deposits below ₹3 Crore.</string>
+    <string name="note_min_tenure">3. Minimum deposit tenure is 7 days for most banks.</string>
+    <string name="note_tax">4. Interest earned is taxable as per your income slab</string>
+
+    <string name="ShareRatesAsPDF">Share Rates as PDF</string>
+
     <!-- Edit box hint-->
     <string name="Rs">Rs.</string>
     <string name="percentageSymbol">%</string>

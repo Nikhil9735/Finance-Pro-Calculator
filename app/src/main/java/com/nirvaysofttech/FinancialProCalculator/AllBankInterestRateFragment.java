@@ -1,6 +1,20 @@
 package com.nirvaysofttech.FinancialProCalculator;
 
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +25,16 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import com.nirvaysofttech.FinancialProCalculator.R;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,14 +43,11 @@ import java.util.Map;
 
 public class AllBankInterestRateFragment extends Fragment {
 
-    private Button calculateButton;
-    private Button buttonClear;
-    private Spinner ageGroupDropdown;
-    private Spinner selectBankDropdown;
+    private Button calculateButton, buttonClear,  btnShareRates;
+    private Spinner ageGroupDropdown, selectBankDropdown;
     private TableLayout tableLayout;
-    private TextView bankName;
-    private TextView ageGroup;
-    private View resultBox;
+    private TextView bankName, ageGroup;
+    private View resultBox, InterestRateShareBox;
 
     // Fixed Deposit Rates Data - Organized by Bank and Age Group
     private final Map<String, Map<String, List<String[]>>> fdRatesMap = new HashMap<String, Map<String, List<String[]>>>() {{
@@ -1615,15 +1629,20 @@ public class AllBankInterestRateFragment extends Fragment {
         bankName = view.findViewById(R.id.bankName);
         ageGroup = view.findViewById(R.id.selectedAgeGroup);
         resultBox = view.findViewById(R.id.resultBox);
+        InterestRateShareBox = view.findViewById(R.id.InterestRateShareBox);
+        btnShareRates = view.findViewById(R.id.btnShareRates);
 
         // Set up button click listener for 'Calculate'
         calculateButton.setOnClickListener(v -> {
             resultBox.setVisibility(View.VISIBLE);
+            InterestRateShareBox.setVisibility(View.VISIBLE);
             updateFDTable();
         });
 
         // Set up buttonClear functionality
         buttonClear.setOnClickListener(v -> resetDropdownsAndTable());
+
+        btnShareRates.setOnClickListener(v -> createAndSharePDF());
 
         return view;
     }
@@ -1631,16 +1650,20 @@ public class AllBankInterestRateFragment extends Fragment {
     private void updateFDTable() {
         tableLayout.removeAllViews();
 
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+
         // Add the heading row
         TableRow headingRow = new TableRow(getActivity());
         headingRow.setGravity(Gravity.CENTER_VERTICAL);
 
         TextView daysHeadingTextView = new TextView(getActivity());
-        daysHeadingTextView.setText("Days");
+        daysHeadingTextView.setText("Tenure");
         daysHeadingTextView.setPadding(16, 16, 16, 16);
         daysHeadingTextView.setTextSize(18);
         daysHeadingTextView.setGravity(Gravity.CENTER);
-        daysHeadingTextView.setTextColor(getResources().getColor(android.R.color.black));
+        daysHeadingTextView.setTextColor(ContextCompat.getColor(getContext(), typedValue.resourceId));
         daysHeadingTextView.setTypeface(null, Typeface.BOLD);
         daysHeadingTextView.setBackgroundResource(R.drawable.cell_border);
         daysHeadingTextView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1));
@@ -1650,7 +1673,7 @@ public class AllBankInterestRateFragment extends Fragment {
         annualRateHeadingTextView.setPadding(16, 16, 16, 16);
         annualRateHeadingTextView.setTextSize(18);
         annualRateHeadingTextView.setGravity(Gravity.CENTER);
-        annualRateHeadingTextView.setTextColor(getResources().getColor(android.R.color.black));
+        annualRateHeadingTextView.setTextColor(ContextCompat.getColor(getContext(), typedValue.resourceId));
         annualRateHeadingTextView.setTypeface(null, Typeface.BOLD);
         annualRateHeadingTextView.setBackgroundResource(R.drawable.cell_border);
         annualRateHeadingTextView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1));
@@ -1697,10 +1720,263 @@ public class AllBankInterestRateFragment extends Fragment {
         }
     }
 
+    private void createAndSharePDF() {
+        try {
+            String bankName = selectBankDropdown.getSelectedItem().toString().replaceAll("[^a-zA-Z0-9 ]", "");
+            String fileName = bankName + " InterestRates.pdf";
+            File pdfFile = new File(requireContext().getCacheDir(), fileName);
+
+            PdfDocument pdfDocument = new PdfDocument();
+            TextPaint paint = new TextPaint(); // <--- fix here!
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+            PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+            Canvas canvas = page.getCanvas();
+
+            int pageWidth = 595;
+            int tableWidth = 280 + 200;
+            int xStart = (pageWidth - tableWidth) / 2;
+            int yStart = 40;
+            int column1Width = 280;
+            int column2Width = 200;
+            int rowHeight = 31;
+            int currentY = yStart;
+
+            // -------- Draw App Logo ----------
+            Drawable logoDrawable = AppCompatResources.getDrawable(requireContext(), R.drawable.splashlogo_light);
+            if (logoDrawable != null) {
+                Bitmap logoBitmap = Bitmap.createBitmap(logoDrawable.getIntrinsicWidth(), logoDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas tempCanvas = new Canvas(logoBitmap);
+                logoDrawable.setBounds(0, 0, tempCanvas.getWidth(), tempCanvas.getHeight());
+                logoDrawable.draw(tempCanvas);
+
+                int logoWidth = 50;
+                int logoHeight = 50;
+                Bitmap scaledLogo = Bitmap.createScaledBitmap(logoBitmap, logoWidth, logoHeight, false);
+
+                int logoX = (pageWidth - logoWidth) / 2;
+                canvas.drawBitmap(scaledLogo, logoX, currentY, null);
+
+                currentY += logoHeight + 25;
+            }
+
+            // -------- Draw App Name ----------
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paint.setTextSize(20);
+            paint.setTextAlign(Paint.Align.CENTER);
+
+            // Set color to darkGreen for app name
+            paint.setColor(ContextCompat.getColor(requireContext(), R.color.darkGreen));
+            canvas.drawText(getString(R.string.app_name), pageWidth / 2f, currentY, paint);
+
+            // Reset color back to BLACK after drawing app name
+            paint.setColor(Color.BLACK);
+
+            currentY += 35;
+
+            // -------- Draw Bank and Age Group Center ----------
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paint.setTextSize(15);
+            paint.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText(selectBankDropdown.getSelectedItem().toString(), pageWidth / 2f, currentY, paint);
+            currentY += 28;
+            canvas.drawText(ageGroupDropdown.getSelectedItem().toString(), pageWidth / 2f, currentY, paint);
+            currentY += 30;
+
+            paint.setStrokeWidth(1.8f);
+            paint.setTextAlign(Paint.Align.LEFT); // Reset back to left align for table
+
+            // -------- Draw Table Headers ----------
+            canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
+
+            paint.setTextSize(13);
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+            // Draw Header Row
+            canvas.drawLine(xStart, currentY, xStart, currentY + rowHeight, paint);
+            {
+                // Center "Term"
+                paint.setTextAlign(Paint.Align.CENTER);
+                Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+                float x = xStart + (column1Width / 2f);
+                float y = currentY + (rowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
+                canvas.drawText("Tenure", x, y, paint);
+            }
+            canvas.drawLine(xStart + column1Width, currentY, xStart + column1Width, currentY + rowHeight, paint);
+            {
+                // Center "Annual Interest Rate (%)"
+                paint.setTextAlign(Paint.Align.CENTER);
+                Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+                float x = xStart + column1Width + (column2Width / 2f);
+                float y = currentY + (rowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
+                canvas.drawText("Annual Interest Rate (%)", x, y, paint);
+            }
+            canvas.drawLine(xStart + column1Width + column2Width, currentY, xStart + column1Width + column2Width, currentY + rowHeight, paint);
+
+            currentY += rowHeight;
+            canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
+
+            // -------- Draw Table Rows ----------
+            String selectedBank = selectBankDropdown.getSelectedItem().toString();
+            String selectedAgeGroup = ageGroupDropdown.getSelectedItem().toString();
+            List<String[]> selectedRates = fdRatesMap.getOrDefault(selectedBank, new HashMap<>())
+                    .getOrDefault(selectedAgeGroup, new ArrayList<>());
+
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paint.setTextSize(12);
+
+            // Track if we're on the first row of a new page
+            boolean isFirstRowOnNewPage = false;
+
+            for (String[] rate : selectedRates) {
+                // Calculate required height for this row
+                int maxWidth = column1Width - 10;
+                StaticLayout tempLayout = StaticLayout.Builder.obtain(rate[0], 0, rate[0].length(), paint, maxWidth)
+                        .setAlignment(Layout.Alignment.ALIGN_CENTER)
+                        .setLineSpacing(0, 1)
+                        .setIncludePad(false)
+                        .build();
+
+                int requiredRowHeight = (int) Math.max(rowHeight, tempLayout.getHeight() + 10); // Add some padding
+
+                if (currentY + requiredRowHeight > 800) {
+                    pdfDocument.finishPage(page);
+                    page = pdfDocument.startPage(pageInfo);
+                    canvas = page.getCanvas();
+                    currentY = yStart;
+                    isFirstRowOnNewPage = true;
+                }
+
+                // If this is the first row on a new page, draw the top border
+                if (isFirstRowOnNewPage) {
+                    // Draw top border for the table
+                    canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
+                    isFirstRowOnNewPage = false;
+                }
+
+                // Draw cell borders
+                canvas.drawLine(xStart, currentY, xStart, currentY + requiredRowHeight, paint);
+
+                // Draw wrapped text in Term column
+                paint.setTextAlign(Paint.Align.LEFT);
+                StaticLayout staticLayout = StaticLayout.Builder.obtain(rate[0], 0, rate[0].length(), paint, maxWidth)
+                        .setAlignment(Layout.Alignment.ALIGN_CENTER)
+                        .setLineSpacing(0, 1)
+                        .setIncludePad(false)
+                        .build();
+
+                canvas.save();
+                float textX = xStart + (column1Width - staticLayout.getWidth()) / 2f;
+                float textY = currentY + (requiredRowHeight - staticLayout.getHeight()) / 2f;
+                canvas.translate(textX, textY);
+                staticLayout.draw(canvas);
+                canvas.restore();
+
+                canvas.drawLine(xStart + column1Width, currentY, xStart + column1Width, currentY + requiredRowHeight, paint);
+
+                // Center Interest Rate text
+                paint.setTextAlign(Paint.Align.CENTER);
+                Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+                float rateX = xStart + column1Width + (column2Width / 2f);
+                float rateY = currentY + (requiredRowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
+                canvas.drawText(rate[1], rateX, rateY, paint);
+
+                canvas.drawLine(xStart + column1Width + column2Width, currentY, xStart + column1Width + column2Width, currentY + requiredRowHeight, paint);
+
+                currentY += requiredRowHeight;
+                canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
+            }
+
+            // After drawing the table, add notes
+            currentY += 30; // Space after table
+
+            paint.setTextSize(13);
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paint.setTextAlign(Paint.Align.LEFT);
+
+            // Notes Heading
+            canvas.drawText(getString(R.string.notes_heading), xStart, currentY, paint);
+            currentY += 20;
+
+            // Reset to normal style for notes content
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paint.setTextSize(12);
+
+            // Fetch notes from strings.xml
+            String noteEffectiveDate = getString(R.string.note_effective_date);
+            String noteAmountLimit = getString(R.string.note_amount_limit);
+            String noteMinTenure = getString(R.string.note_min_tenure);
+            String noteTax = getString(R.string.note_tax);
+
+            // Draw each note line
+            canvas.drawText(noteEffectiveDate, xStart, currentY, paint);
+            currentY += 18;
+
+            canvas.drawText(noteAmountLimit, xStart, currentY, paint);
+            currentY += 18;
+
+            canvas.drawText(noteMinTenure, xStart, currentY, paint);
+            currentY += 18;
+
+            canvas.drawText(noteTax, xStart, currentY, paint);
+            currentY += 30; // Some extra space before footer
+
+
+            // After drawing the table, add the footer
+            currentY += 30; // Add some space after the table
+
+            // Draw "This report generated by" text
+            paint.setTextSize(12);
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paint.setColor(Color.BLACK);
+            paint.setTextAlign(Paint.Align.CENTER);
+
+            String generatedByText = "This report generated by ";
+            float textWidth = paint.measureText(generatedByText);
+
+            // Draw the static text first
+            canvas.drawText(generatedByText, pageWidth / 2f - (textWidth/2), currentY, paint);
+
+            // Then draw the app name with different styling
+            paint.setColor(ContextCompat.getColor(requireContext(), R.color.darkGreen));
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+            String appName = getString(R.string.app_name);
+            canvas.drawText(appName, pageWidth / 2f + (textWidth/2), currentY, paint);
+
+            // Reset paint properties
+            paint.setUnderlineText(false);
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paint.setColor(Color.BLACK);
+
+            pdfDocument.finishPage(page);
+
+            FileOutputStream fos = new FileOutputStream(pdfFile);
+            pdfDocument.writeTo(fos);
+            fos.close();
+            pdfDocument.close();
+
+            Uri pdfUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "com.nirvaysofttech.FinancialProCalculator.fileprovider",
+                    pdfFile
+            );
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share Interest Rates"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void resetDropdownsAndTable() {
         selectBankDropdown.setSelection(0);
         ageGroupDropdown.setSelection(0);
         resultBox.setVisibility(View.GONE);
+        InterestRateShareBox.setVisibility(View.GONE);
         tableLayout.removeAllViews();
     }
 }

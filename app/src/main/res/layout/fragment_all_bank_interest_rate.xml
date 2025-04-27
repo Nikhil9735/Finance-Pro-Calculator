@@ -74,14 +74,14 @@
                 android:fontFamily="@font/regular"
                 android:spinnerMode="dropdown"
                 android:entries="@array/selectBankDropdown"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="20dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="20dp">
 
                 <Button
                     android:id="@+id/calculateButton"
@@ -108,6 +108,42 @@
                     android:layout_marginStart="8dp"/>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notes_heading"
+                android:textSize="16sp"
+                android:textColor="?attr/android:textColorPrimary"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_effective_date"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_amount_limit"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_min_tenure"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_tax"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
 
         <!-- Container for Result Table -->
@@ -140,7 +176,7 @@
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="2dp"
-                android:textColor="@color/black"
+                android:textColor="?attr/android:textColorPrimary"
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
@@ -150,7 +186,6 @@
                 android:text="Select Age Group"
                 android:fontFamily="@font/regular"
                 android:textSize="15sp"
-                android:textColor="#808080"
                 android:layout_gravity="center_horizontal"/>
 
             <!-- Table for Denomination Breakdown -->
@@ -177,7 +212,7 @@
                         android:gravity="center"
                         android:padding="8dp"
                         android:text=""
-                        android:textColor="@color/black"
+                        android:textColor="?attr/android:textColorPrimary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -189,11 +224,35 @@
                         android:gravity="center"
                         android:padding="8dp"
                         android:text=""
-                        android:textColor="@color/black"
+                        android:textColor="?attr/android:textColorPrimary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
                 </TableRow>
             </TableLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/InterestRateShareBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/curve_box"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnShareRates"
+                style="@style/ButtonStyle1"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="@string/ShareRatesAsPDF"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:fontFamily="@font/regular"
+                android:background="@drawable/curve_box"
+                android:drawableStart="@drawable/ic_share"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
