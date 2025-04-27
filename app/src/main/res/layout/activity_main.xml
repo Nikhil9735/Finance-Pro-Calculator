@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:text="🌟 Welcome to Financial Calculator! 🌟"
                         android:textSize="18sp"
-                        android:textColor="#000000"
+                        android:textColor="?attr/android:textColorPrimary"
                         android:textStyle="bold"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="8dp"/>
@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:text="Thank you for downloading our app! \n\nWe've started with essential financial calculations to help you with your daily needs. This is just the beginning!\n\n📢 Important Notice:\nWe're actively working to add more features based on your needs and feedback.\n\nYour support means everything to us! Please bear with us as we continue to improve."
                         android:textSize="14sp"
-                        android:textColor="#333333"
+                        android:textColor="?attr/android:textColorPrimary"
                         android:lineSpacingExtra="4dp"/>
 
                     <!-- Contact Options -->
@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:text="Have suggestions? We'd love to hear from you!"
                             android:textSize="14sp"
-                            android:textColor="#333333"
+                            android:textColor="?attr/android:textColorPrimary"
                             android:layout_marginBottom="4dp"/>
 
                         <Button
@@ -94,17 +94,33 @@
                             android:textColor="@color/black"
                             android:layout_marginBottom="8dp"/>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Or email directly: nirvaysofttech@gmail.com"
-                            android:textSize="14sp"
-                            android:textColor="#333333"
-                            android:autoLink="email"
-                            android:linksClickable="true"/>
+                            android:orientation="horizontal"
+                            android:layout_marginTop="12dp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Or email directly:"
+                                android:textSize="14sp"
+                                android:textColor="?attr/android:textColorPrimary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" nirvaysofttech@gmail.com"
+                                android:textSize="14sp"
+                                android:textColor="?attr/android:textColorPrimary"
+                                android:linksClickable="true" /> <!--android:autoLink="email" -->
+
                     </LinearLayout>
 
-                    <!-- Premium Upgrade -->
+                </LinearLayout>
+
+                <!-- Premium Upgrade -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +132,7 @@
                             android:layout_height="wrap_content"
                             android:text="Love our app? Support us!"
                             android:textSize="14sp"
-                            android:textColor="#2E7D32"
+                            android:textColor="?attr/android:textColorPrimary"
                             android:textStyle="bold"
                             android:layout_marginBottom="4dp"/>
 
@@ -125,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:text="Upgrade to Premium for an ad-free experience and exclusive features!"
                             android:textSize="14sp"
-                            android:textColor="#333333"
+                            android:textColor="?attr/android:textColorPrimary"
                             android:layout_marginBottom="8dp"/>
 
                         <Button
@@ -195,8 +211,8 @@
 
             <!-- User profile image -->
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="50dp"
                 android:layout_gravity="center"
                 android:src="?attr/logoDrawable"

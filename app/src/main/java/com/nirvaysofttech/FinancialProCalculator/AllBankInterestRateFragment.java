@@ -25,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.core.content.ContextCompat;
 
 import androidx.annotation.NonNull;
@@ -35,10 +37,13 @@ import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AllBankInterestRateFragment extends Fragment {
@@ -135,6 +140,44 @@ public class AllBankInterestRateFragment extends Fragment {
                     new String[]{"More than 1 year 9 months to 3 years", "7.75%"},
                     new String[]{"More than 3 years to 5 years", "7.75%"},
                     new String[]{"More than 5 years to 10 years", "6.60%"}
+            ));
+        }});
+
+        put("Bank of Baroda", new HashMap<String, List<String[]>>() {{
+            put("Adult (Below 60 Years)", Arrays.asList(
+                    new String[]{"7 Days to 14 Days", "4.25%"},
+                    new String[]{"15 Days to 45 Days", "4.50%"},
+                    new String[]{"46 Days to 90 Days", "5.50%"},
+                    new String[]{"91 Days to 180 Days", "5.60%"},
+                    new String[]{"181 Days to 210 Days", "5.75%"},
+                    new String[]{"211 Days to 270 Days", "6.25%"},
+                    new String[]{"271 Days & Above and less than 1 Year", "6.50%"},
+                    new String[]{"1 Year", "6.85%"},
+                    new String[]{"Above 1 Year to 400 Days", "7.00%"},
+                    new String[]{"Above 400 Days to 2 Years", "7.00%"},
+                    new String[]{"Above 2 Years to 3 Years", "7.15%"},
+                    new String[]{"Above 3 Years to 5 Years", "6.80%"},
+                    new String[]{"Above 5 Years to 10 Years", "6.50%"},
+                    new String[]{"Above 10 Years (MACAD Court Order schemes only)", "6.25%"},
+                    new String[]{"BoB Square Drive Deposit Scheme", "7.15%"}
+            ));
+
+            put("Senior Citizen (60 Years and Above)", Arrays.asList(
+                    new String[]{"7 Days to 14 Days", "4.75%"},
+                    new String[]{"15 Days to 45 Days", "5.00%"},
+                    new String[]{"46 Days to 90 Days", "6.00%"},
+                    new String[]{"91 Days to 180 Days", "6.10%"},
+                    new String[]{"181 Days to 210 Days", "6.25%"},
+                    new String[]{"211 Days to 270 Days", "6.75%"},
+                    new String[]{"271 Days & Above and less than 1 Year", "7.00%"},
+                    new String[]{"1 Year", "7.35%"},
+                    new String[]{"Above 1 Year to 400 Days", "7.50%"},
+                    new String[]{"Above 400 Days to 2 Years", "7.50%"},
+                    new String[]{"Above 2 Years to 3 Years", "7.65%"},
+                    new String[]{"Above 3 Years to 5 Years", "7.40%"},
+                    new String[]{"Above 5 Years to 10 Years", "7.50%"},
+                    new String[]{"Above 10 Years (MACAD Court Order schemes only)", "6.75%"},
+                    new String[]{"BoB Square Drive Deposit Scheme", "7.65%"}
             ));
         }});
 
@@ -1727,7 +1770,7 @@ public class AllBankInterestRateFragment extends Fragment {
             File pdfFile = new File(requireContext().getCacheDir(), fileName);
 
             PdfDocument pdfDocument = new PdfDocument();
-            TextPaint paint = new TextPaint(); // <--- fix here!
+            TextPaint paint = new TextPaint();
             PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
             PdfDocument.Page page = pdfDocument.startPage(pageInfo);
             Canvas canvas = page.getCanvas();
@@ -1735,16 +1778,29 @@ public class AllBankInterestRateFragment extends Fragment {
             int pageWidth = 595;
             int tableWidth = 280 + 200;
             int xStart = (pageWidth - tableWidth) / 2;
-            int yStart = 40;
+            int yStart = 30;
             int column1Width = 280;
             int column2Width = 200;
             int rowHeight = 31;
             int currentY = yStart;
+            int bottomMargin = 20; // Bottom margin for each page
+
+            // Track if we're starting a new page and need to draw top border
+            boolean isNewPage = true;
 
             // -------- Draw App Logo ----------
+            if (currentY + 50 + 25 > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
             Drawable logoDrawable = AppCompatResources.getDrawable(requireContext(), R.drawable.splashlogo_light);
             if (logoDrawable != null) {
-                Bitmap logoBitmap = Bitmap.createBitmap(logoDrawable.getIntrinsicWidth(), logoDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Bitmap logoBitmap = Bitmap.createBitmap(logoDrawable.getIntrinsicWidth(),
+                        logoDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                 Canvas tempCanvas = new Canvas(logoBitmap);
                 logoDrawable.setBounds(0, 0, tempCanvas.getWidth(), tempCanvas.getHeight());
                 logoDrawable.draw(tempCanvas);
@@ -1757,23 +1813,79 @@ public class AllBankInterestRateFragment extends Fragment {
                 canvas.drawBitmap(scaledLogo, logoX, currentY, null);
 
                 currentY += logoHeight + 25;
+                isNewPage = false;
             }
 
             // -------- Draw App Name ----------
+            if (currentY + 20 > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
             paint.setTextSize(20);
             paint.setTextAlign(Paint.Align.CENTER);
-
-            // Set color to darkGreen for app name
             paint.setColor(ContextCompat.getColor(requireContext(), R.color.darkGreen));
             canvas.drawText(getString(R.string.app_name), pageWidth / 2f, currentY, paint);
-
-            // Reset color back to BLACK after drawing app name
             paint.setColor(Color.BLACK);
+            currentY += 20;
 
-            currentY += 35;
+            // -------- Draw Slogan or Tagline ----------
+            if (currentY + (int)(15 * 0.85f) > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paint.setTextSize(16 * 0.85f);
+            paint.setColor(Color.BLACK);
+            canvas.drawText(getString(R.string.slogan_text), pageWidth / 2f, currentY, paint);
+            currentY += (int)(15 * 0.85);
+
+            // -------- Draw Divider ----------
+            if (currentY + (int)(30 * 0.85f) > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
+            paint.setStrokeWidth(1.5f * 0.85f);
+            paint.setColor(Color.BLACK);
+            canvas.drawLine(xStart, currentY, xStart + tableWidth, currentY, paint);
+            currentY += (int)(30 * 0.85);
+
+            // -------- Draw Fixed Deposit Interest Rates Report Heading ----------
+            if (currentY + (int)(30 * 0.85f) > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paint.setTextSize(20 * 0.85f);
+            paint.setColor(Color.BLACK);
+            canvas.drawText("Fixed Deposit Interest Rates Report", pageWidth / 2f, currentY, paint);
+            currentY += (int)(30 * 0.85);
 
             // -------- Draw Bank and Age Group Center ----------
+            if (currentY + 28 + 30 > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
             paint.setTextSize(15);
             paint.setTextAlign(Paint.Align.CENTER);
@@ -1782,10 +1894,24 @@ public class AllBankInterestRateFragment extends Fragment {
             canvas.drawText(ageGroupDropdown.getSelectedItem().toString(), pageWidth / 2f, currentY, paint);
             currentY += 30;
 
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paint.setTextSize(16 * 0.85f);
+            String reportDate = "Report generated on: " + new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(new Date());
+            canvas.drawText(reportDate, pageWidth / 2f, currentY, paint);
+            currentY += (int)(30 * 0.85);
+
             paint.setStrokeWidth(1.8f);
-            paint.setTextAlign(Paint.Align.LEFT); // Reset back to left align for table
+            paint.setTextAlign(Paint.Align.LEFT);
 
             // -------- Draw Table Headers ----------
+            if (currentY + rowHeight > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+
             canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
 
             paint.setTextSize(13);
@@ -1793,23 +1919,14 @@ public class AllBankInterestRateFragment extends Fragment {
 
             // Draw Header Row
             canvas.drawLine(xStart, currentY, xStart, currentY + rowHeight, paint);
-            {
-                // Center "Term"
-                paint.setTextAlign(Paint.Align.CENTER);
-                Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-                float x = xStart + (column1Width / 2f);
-                float y = currentY + (rowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
-                canvas.drawText("Tenure", x, y, paint);
-            }
+            paint.setTextAlign(Paint.Align.CENTER);
+            Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+            float x = xStart + (column1Width / 2f);
+            float y = currentY + (rowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
+            canvas.drawText("Tenure", x, y, paint);
             canvas.drawLine(xStart + column1Width, currentY, xStart + column1Width, currentY + rowHeight, paint);
-            {
-                // Center "Annual Interest Rate (%)"
-                paint.setTextAlign(Paint.Align.CENTER);
-                Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-                float x = xStart + column1Width + (column2Width / 2f);
-                float y = currentY + (rowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
-                canvas.drawText("Annual Interest Rate (%)", x, y, paint);
-            }
+            x = xStart + column1Width + (column2Width / 2f);
+            canvas.drawText("Annual Interest Rate (%)", x, y, paint);
             canvas.drawLine(xStart + column1Width + column2Width, currentY, xStart + column1Width + column2Width, currentY + rowHeight, paint);
 
             currentY += rowHeight;
@@ -1824,9 +1941,6 @@ public class AllBankInterestRateFragment extends Fragment {
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
             paint.setTextSize(12);
 
-            // Track if we're on the first row of a new page
-            boolean isFirstRowOnNewPage = false;
-
             for (String[] rate : selectedRates) {
                 // Calculate required height for this row
                 int maxWidth = column1Width - 10;
@@ -1836,24 +1950,24 @@ public class AllBankInterestRateFragment extends Fragment {
                         .setIncludePad(false)
                         .build();
 
-                int requiredRowHeight = (int) Math.max(rowHeight, tempLayout.getHeight() + 10); // Add some padding
+                int requiredRowHeight = (int) Math.max(rowHeight, tempLayout.getHeight() + 10);
 
-                if (currentY + requiredRowHeight > 800) {
+                // Check if we need a new page before drawing this row
+                if (currentY + requiredRowHeight > 842 - bottomMargin) {
                     pdfDocument.finishPage(page);
                     page = pdfDocument.startPage(pageInfo);
                     canvas = page.getCanvas();
                     currentY = yStart;
-                    isFirstRowOnNewPage = true;
+                    isNewPage = true;
                 }
 
-                // If this is the first row on a new page, draw the top border
-                if (isFirstRowOnNewPage) {
-                    // Draw top border for the table
+                // If this is first row on new page, draw top border
+                if (isNewPage) {
                     canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
-                    isFirstRowOnNewPage = false;
+                    isNewPage = false;
                 }
 
-                // Draw cell borders
+                // Draw left border
                 canvas.drawLine(xStart, currentY, xStart, currentY + requiredRowHeight, paint);
 
                 // Draw wrapped text in Term column
@@ -1871,29 +1985,39 @@ public class AllBankInterestRateFragment extends Fragment {
                 staticLayout.draw(canvas);
                 canvas.restore();
 
+                // Draw middle border
                 canvas.drawLine(xStart + column1Width, currentY, xStart + column1Width, currentY + requiredRowHeight, paint);
 
                 // Center Interest Rate text
                 paint.setTextAlign(Paint.Align.CENTER);
-                Paint.FontMetrics fontMetrics = paint.getFontMetrics();
                 float rateX = xStart + column1Width + (column2Width / 2f);
                 float rateY = currentY + (requiredRowHeight / 2f) - ((fontMetrics.ascent + fontMetrics.descent) / 2f);
                 canvas.drawText(rate[1], rateX, rateY, paint);
 
-                canvas.drawLine(xStart + column1Width + column2Width, currentY, xStart + column1Width + column2Width, currentY + requiredRowHeight, paint);
+                // Draw right border
+                canvas.drawLine(xStart + column1Width + column2Width, currentY,
+                        xStart + column1Width + column2Width, currentY + requiredRowHeight, paint);
 
                 currentY += requiredRowHeight;
+
+                // Draw bottom border for the row
                 canvas.drawLine(xStart, currentY, xStart + column1Width + column2Width, currentY, paint);
             }
 
             // After drawing the table, add notes
-            currentY += 30; // Space after table
+            if (currentY + 30 > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+            currentY += 30;
 
             paint.setTextSize(13);
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paint.setColor(ContextCompat.getColor(requireContext(), R.color.darkGreen));
             paint.setTextAlign(Paint.Align.LEFT);
-
-            // Notes Heading
             canvas.drawText(getString(R.string.notes_heading), xStart, currentY, paint);
             currentY += 20;
 
@@ -1901,28 +2025,55 @@ public class AllBankInterestRateFragment extends Fragment {
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
             paint.setTextSize(12);
 
-            // Fetch notes from strings.xml
-            String noteEffectiveDate = getString(R.string.note_effective_date);
-            String noteAmountLimit = getString(R.string.note_amount_limit);
-            String noteMinTenure = getString(R.string.note_min_tenure);
-            String noteTax = getString(R.string.note_tax);
+            String[] notes = {
+                    getString(R.string.note_effective_date),
+                    getString(R.string.note_amount_limit),
+                    getString(R.string.note_min_tenure),
+                    getString(R.string.note_tax)
+            };
 
-            // Draw each note line
-            canvas.drawText(noteEffectiveDate, xStart, currentY, paint);
-            currentY += 18;
+            int bulletRadius = (int)(3 * 0.85);
+            int bulletPadding = (int)(10 * 0.85);
+            for (String note : notes) {
+                if (currentY + (int)(20 * 0.85f) > 842 - bottomMargin) {
+                    pdfDocument.finishPage(page);
+                    page = pdfDocument.startPage(pageInfo);
+                    canvas = page.getCanvas();
+                    currentY = yStart;
+                    isNewPage = true;
+                }
 
-            canvas.drawText(noteAmountLimit, xStart, currentY, paint);
-            currentY += 18;
+                paint.setStyle(Paint.Style.FILL);
+                paint.setColor(ContextCompat.getColor(requireContext(), R.color.darkGreen));
+                canvas.drawCircle(xStart + bulletRadius, currentY + (paint.getTextSize()/2) - bulletRadius, bulletRadius, paint);
 
-            canvas.drawText(noteMinTenure, xStart, currentY, paint);
-            currentY += 18;
+                paint.setColor(Color.BLACK);
+                canvas.drawText(note, xStart + bulletRadius + bulletPadding, currentY + (paint.getTextSize()/2), paint);
+                currentY += (int)(20 * 0.85);
+            }
 
-            canvas.drawText(noteTax, xStart, currentY, paint);
-            currentY += 30; // Some extra space before footer
+            if (currentY + 30 > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
+            currentY += 15;
 
+            // -------- Draw Divider ----------
+            if (currentY + (int)(19 * 0.85f) > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
 
-            // After drawing the table, add the footer
-            currentY += 30; // Add some space after the table
+            paint.setStrokeWidth(1.5f * 0.85f);
+            paint.setColor(Color.BLACK);
+            canvas.drawLine(xStart, currentY, xStart + tableWidth, currentY, paint);
+            currentY += (int)(17 * 0.85);
 
             // Draw "This report generated by" text
             paint.setTextSize(12);
@@ -1933,20 +2084,19 @@ public class AllBankInterestRateFragment extends Fragment {
             String generatedByText = "This report generated by ";
             float textWidth = paint.measureText(generatedByText);
 
-            // Draw the static text first
-            canvas.drawText(generatedByText, pageWidth / 2f - (textWidth/2), currentY, paint);
+            // Final check before drawing footer
+            if (currentY + 20 > 842 - bottomMargin) {
+                pdfDocument.finishPage(page);
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                currentY = yStart;
+                isNewPage = true;
+            }
 
-            // Then draw the app name with different styling
+            canvas.drawText(generatedByText, pageWidth / 2f - (textWidth/2), currentY, paint);
             paint.setColor(ContextCompat.getColor(requireContext(), R.color.darkGreen));
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-
-            String appName = getString(R.string.app_name);
-            canvas.drawText(appName, pageWidth / 2f + (textWidth/2), currentY, paint);
-
-            // Reset paint properties
-            paint.setUnderlineText(false);
-            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            paint.setColor(Color.BLACK);
+            canvas.drawText(getString(R.string.app_name), pageWidth / 2f + (textWidth/2), currentY, paint);
 
             pdfDocument.finishPage(page);
 
@@ -1969,6 +2119,7 @@ public class AllBankInterestRateFragment extends Fragment {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(requireContext(), "Error generating PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

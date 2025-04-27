@@ -8,6 +8,12 @@
     tools:context=".UpgradeToPremiumActivity">
 
     <!-- Toolbar -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80dp" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -49,8 +55,8 @@
 
                 <ImageView
                     android:id="@+id/upgradeToPremiumLogo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="?attr/logoDrawable"
                     android:contentDescription="@string/premium_title"
                     android:background="@drawable/rounded_corners"

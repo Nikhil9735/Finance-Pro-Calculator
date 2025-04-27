@@ -46,8 +46,8 @@
                 android:padding="24dp">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="?attr/logoDrawable"
                     android:contentDescription="@string/app_name"
                     android:background="@drawable/rounded_corners"

@@ -48,7 +48,9 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="?attr/logoDrawable"
+                    android:background="@drawable/rounded_corners"
+                    android:clipToOutline="true"
                     android:contentDescription="@string/app_name"/>
 
                 <TextView
