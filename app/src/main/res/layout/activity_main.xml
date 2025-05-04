@@ -91,14 +91,13 @@
                             android:textSize="14sp"
                             style="@style/ButtonStyle3"
                             android:background="@drawable/curve_box"
-                            android:textColor="@color/black"
-                            android:layout_marginBottom="8dp"/>
+                            android:textColor="@color/black" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="5dp"
                             android:gravity="center_vertical">
 
                             <TextView
@@ -111,7 +110,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=" nirvaysofttech@gmail.com"
+                                android:text="@string/email"
                                 android:textSize="14sp"
                                 android:textColor="?attr/android:textColorPrimary"
                                 android:linksClickable="true" /> <!--android:autoLink="email" -->

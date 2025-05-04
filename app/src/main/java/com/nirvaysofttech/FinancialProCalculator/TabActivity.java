@@ -77,9 +77,6 @@ public class TabActivity extends AppCompatActivity {
                         tabTextView.setText("CHART");
                         break;
                     case 2:
-                        tabTextView.setText("TABLE");
-                        break;
-                    case 3:
                         tabTextView.setText("ABOUT");
                         break;
                 }
@@ -148,8 +145,6 @@ public class TabActivity extends AppCompatActivity {
                     case 1:
                         return new ChartFragment();
                     case 2:
-                        return new TableFragment();
-                    case 3:
                         return new InfoFragment();
                     default:
                         return new InputFragment();
@@ -195,8 +190,6 @@ public class TabActivity extends AppCompatActivity {
                     case 1:
                         return new ChartFragment();
                     case 2:
-                        return new TableFragment();
-                    case 3:
                         return new InfoFragment();
                     default:
                         return new InputFragment();
@@ -210,7 +203,7 @@ public class TabActivity extends AppCompatActivity {
             if (operation.equals("Recurring Deposit (RD)") || operation.equals("Time Deposit (TD)") || operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)")
             || operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") ||
                     operation.equals("Fixed Deposit - TDR (Interest Payout)") || operation.equals("Simple Loan")) {
-                return 4; // Show 4 tabs for RD, TD, MIS, NSC
+                return 3; // Show 4 tabs for RD, TD, MIS, NSC
             } else if (operation.equals(getString(R.string.empSalary)) || operation.equals(getString(R.string.empSalaryIncrement))) {
                 return 2; // Show 3 tabs for Employee Salary
             }  else if (operation.equals("Currency Denomination")) {

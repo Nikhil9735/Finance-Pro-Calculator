@@ -207,9 +207,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (selectedId == R.id.radio_english) {
                 languageCode = "en";
-            } else if (selectedId == R.id.radio_hindi) {
-                languageCode = "hi";
             }
+//            else if (selectedId == R.id.radio_hindi) {
+//                languageCode = "hi";
+//            }
 
             // Save and apply the selected language
             saveLanguagePreference(languageCode);
@@ -234,9 +235,9 @@ public class SettingsActivity extends AppCompatActivity {
             case "en":
                 radioGroup.check(R.id.radio_default_english);
                 break;
-            case "hi":
-                radioGroup.check(R.id.radio_hindi);
-                break;
+//            case "hi":
+//                radioGroup.check(R.id.radio_hindi);
+//                break;
             default:
                 radioGroup.check(R.id.radio_english);
                 break;
@@ -270,9 +271,9 @@ public class SettingsActivity extends AppCompatActivity {
             case "en":
                 languageText = getString(R.string.system_default);
                 break;
-            case "hi":
-                languageText = getString(R.string.lang_hindi);
-                break;
+//            case "hi":
+//                languageText = getString(R.string.lang_hindi);
+//                break;
             default:
                 languageText = getString(R.string.system_default);
                 break;
