@@ -1,4 +1,4 @@
-package com.nirvaysofttech.FinancialProCalculator;
+package com.nirvaysofttech.FinancePro;
 
 import android.graphics.Color;
 import android.text.Editable;

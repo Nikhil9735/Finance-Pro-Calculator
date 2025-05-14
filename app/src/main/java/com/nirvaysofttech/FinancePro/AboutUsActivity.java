@@ -1,6 +1,5 @@
-package com.nirvaysofttech.FinancialProCalculator;
+package com.nirvaysofttech.FinancePro;
 
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -9,46 +8,33 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class ReleaseNotesActivity extends AppCompatActivity {
+public class AboutUsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.applySavedTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_release_notes);
+        setContentView(R.layout.activity_about_us);
 
         // Toolbar setup
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.release_notes_title);
+            getSupportActionBar().setHomeActionContentDescription(R.string.nav_close);
+            getSupportActionBar().setTitle(R.string.about_us);
         }
-
-        // Set version and date
-        TextView txtVersion = findViewById(R.id.txt_version);
-        TextView txtDate = findViewById(R.id.txt_release_date);
 
         AdHelper.loadBannerAd(this);
 
+        // Set version info
+        TextView versionTextView = findViewById(R.id.version_text);
         try {
-            // Get version name
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            txtVersion.setText(pInfo.versionName);
-
-            // OPTION 1: Using string resource from build.gradle.kts
-            String buildDate = getString(R.string.build_date);
-            txtDate.setText(buildDate);
-
-            // OPTION 2: Using BuildConfig (uncomment if using this approach)
-            // txtDate.setText("Released: " + BuildConfig.BUILD_DATE);
-
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            versionTextView.setText(getString(R.string.version, versionName));
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            // Fallback to current date if something goes wrong
-            txtDate.setText(new SimpleDateFormat("MMMM d, yyyy").format(new Date()));
+            versionTextView.setText(R.string.version);
         }
 
         // Handle system back button press with animation
@@ -59,6 +45,7 @@ public class ReleaseNotesActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.email_layout).setOnClickListener(v -> SettingsActivity.showSuggestionMailDialog(AboutUsActivity.this));
     }
 
     @Override

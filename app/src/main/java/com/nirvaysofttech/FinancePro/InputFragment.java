@@ -1,4 +1,4 @@
-package com.nirvaysofttech.FinancialProCalculator;
+package com.nirvaysofttech.FinancePro;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.nirvaysofttech.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancePro.R;
 
 import java.text.DecimalFormat;
 

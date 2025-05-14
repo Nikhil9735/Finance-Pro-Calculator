@@ -87,7 +87,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.nirvaysofttech.FinancialProCalculator.fileprovider"
+            android:authorities="com.nirvaysofttech.FinancePro.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

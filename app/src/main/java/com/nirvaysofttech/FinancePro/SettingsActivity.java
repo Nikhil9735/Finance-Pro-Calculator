@@ -1,4 +1,4 @@
-package com.nirvaysofttech.FinancialProCalculator;
+package com.nirvaysofttech.FinancePro;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,12 +19,11 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import com.nirvaysofttech.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancePro.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

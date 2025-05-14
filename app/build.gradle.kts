@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.nirvaysofttech.FinancialProCalculator"
+    namespace = "com.nirvaysofttech.FinancePro"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.nirvaysofttech.FinancialProCalculator"
+        applicationId = "com.nirvaysofttech.FinancePro"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

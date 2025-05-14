@@ -1,4 +1,4 @@
-package com.nirvaysofttech.FinancialProCalculator;
+package com.nirvaysofttech.FinancePro;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.nirvaysofttech.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancePro.R;
 
 public class InfoFragment extends Fragment {
 

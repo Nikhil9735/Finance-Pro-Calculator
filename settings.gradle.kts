@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Finance Pro Calculator"
+rootProject.name = "Finance Pro"
 include(":app")
  

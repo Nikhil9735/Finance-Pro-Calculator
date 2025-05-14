@@ -1,4 +1,4 @@
-package com.nirvaysofttech.FinancialProCalculator;
+package com.nirvaysofttech.FinancePro;
 
 import android.os.Bundle;
 import android.view.Gravity;
@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.nirvaysofttech.FinancialProCalculator.R;
+import com.nirvaysofttech.FinancePro.R;
 
 public class DenominationBrkFragment extends Fragment {
 
