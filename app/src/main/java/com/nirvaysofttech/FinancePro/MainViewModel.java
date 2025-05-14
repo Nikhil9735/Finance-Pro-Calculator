@@ -10,14 +10,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MainViewModel extends ViewModel {
-    private MutableLiveData<String> operation = new MutableLiveData<>();
-    private MutableLiveData<Float> userInput1 = new MutableLiveData<>();
-    private MutableLiveData<Float> userInput2 = new MutableLiveData<>();
-    private MutableLiveData<Float> value1Result = new MutableLiveData<>();
-    private MutableLiveData<Float> value2Result = new MutableLiveData<>();
-    private MutableLiveData<Float> value3Result = new MutableLiveData<>();
-    private MutableLiveData<Float> value4Result = new MutableLiveData<>();
-    private MutableLiveData<Integer> selectedRadioButtonId = new MutableLiveData<>();
+    private final MutableLiveData<String> operation = new MutableLiveData<>();
+    private final MutableLiveData<Float> userInput1 = new MutableLiveData<>();
+    private final MutableLiveData<Float> userInput2 = new MutableLiveData<>();
+    private final MutableLiveData<Float> value1Result = new MutableLiveData<>();
+    private final MutableLiveData<Float> value2Result = new MutableLiveData<>();
+    private final MutableLiveData<Float> value3Result = new MutableLiveData<>();
+    private final MutableLiveData<Float> value4Result = new MutableLiveData<>();
+    private final MutableLiveData<Integer> selectedRadioButtonId = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isResultBoxVisible = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isChartBoxVisible = new MutableLiveData<>(false);
 
