@@ -2131,7 +2131,7 @@ public class AllBankInterestRateFragment extends Fragment {
 
             Uri pdfUri = FileProvider.getUriForFile(
                     requireContext(),
-                    "com.nirvaysofttech.FinancialProCalculator.fileprovider",
+                    "com.nirvaysofttech.FinancePro.fileprovider",
                     pdfFile
             );
 
