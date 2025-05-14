@@ -2,8 +2,6 @@
     <string name="app_name">Finance Pro</string>
     <string name="email">nirvaysofttech@gmail.com</string>
 
-    <string name="search">Search</string>
-
     <!-- Ads Activity -->
     <string name="admob_square_ad_unit">ca-app-pub-3940256099942544/6300978111</string>
     <string name="admob_banner_ad_unit">ca-app-pub-3940256099942544/6300978111</string> <!-- Test ID -->
