@@ -256,12 +256,8 @@
     <string name="release_notes_title">Release Notes</string>
     <string name="whats_new">What\'s New</string>
     <string name="close">Close</string>
-    <string name="latest_release_notes">\u0020• Added dark mode support\n\n
-    • Fixed calculation accuracy issues\n\n
-    • Improved app performance by 20%\n\n
-    • Added new currency conversions\n\n
-    • Bug fixes and stability improvements
+    <string name="latest_release_notes">\u0020• Fixed: Duplicate icons issue resolved.\n\n
+    • Fixed: Bug causing failure to generate bank interest rate PDF has been fixed.
     </string>
-
 
 </resources>
