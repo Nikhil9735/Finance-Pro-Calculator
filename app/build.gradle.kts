@@ -13,8 +13,8 @@ android {
         applicationId = "com.nirvaysofttech.FinancePro"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "0.0.2"
+        versionCode = 3
+        versionName = "0.0.3"
 
         // Add build date as a string resource
         resValue("string", "build_date", SimpleDateFormat("dd MMM yyyy", Locale.US).format(Date()))
