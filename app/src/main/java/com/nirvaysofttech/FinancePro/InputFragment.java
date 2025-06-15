@@ -256,6 +256,9 @@ public class InputFragment extends Fragment {
             case "Monthly Income Scheme (MIS)":
                 yearlyInterestHeading.setVisibility(View.VISIBLE);
                 yearlyInterestTextView.setVisibility(View.VISIBLE);
+                editText1Heading.setText("Lumpsum Deposit Amount");
+                editText2.setHint("7.4% Currently");
+                yearlyInterestHeading.setText("Monthly Interest");
                 break;
 
             case "National Savings Certificate (NSC)":
