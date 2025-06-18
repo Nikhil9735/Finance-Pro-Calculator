@@ -13,7 +13,7 @@ if (buildInfoFile.exists()) {
     buildInfoFile.inputStream().use { buildInfoProps.load(it) }
 }
 
-val currentVersionCode = 3 // 🔁 Change this when releasing a new version
+val currentVersionCode = 4 // 🔁 Change this when releasing a new version
 val previousVersionCode = buildInfoProps.getProperty("versionCode")?.toIntOrNull()
 var buildDate = buildInfoProps.getProperty("buildDate") ?: ""
 

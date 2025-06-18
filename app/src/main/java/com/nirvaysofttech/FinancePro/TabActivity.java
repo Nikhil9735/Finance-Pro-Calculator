@@ -28,6 +28,8 @@ public class TabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
 
+        AdHelper.loadBannerAd(this);
+
         // Get the operation passed from MainActivity
         operation = getIntent().getStringExtra("operation");
 

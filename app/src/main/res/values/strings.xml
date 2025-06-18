@@ -3,8 +3,8 @@
     <string name="email">nirvaysofttech@gmail.com</string>
 
     <!-- Ads Activity -->
-    <string name="admob_square_ad_unit">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_banner_ad_unit">ca-app-pub-3940256099942544/6300978111</string> <!-- Test ID -->
+    <string name="admob_square_ad_unit">ca-app-pub-1055364350114509/3265553431</string>
+    <string name="admob_banner_ad_unit">ca-app-pub-1055364350114509/5317550441</string> <!-- Test ID -->
 
     <!-- Drawer Activity -->
     <string name="slogan_text">Smart Solutions for Every Finance Need</string>
