@@ -563,17 +563,18 @@ public class BKRDFragment extends Fragment {
         String loanAmt = editTextNumber1.getText().toString().trim();
         String interestRate = editTextNumber2.getText().toString().trim();
         String loanTerm = editTextNumber3.getText().toString().trim();
-        String termUnit = selectedTermUnit = spinner.getSelectedItem().toString();
+        String termUnit = spinner.getSelectedItem().toString();
+        String emiAmt = yearlyInterestResult.getText().toString().trim();
 
-        if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty()) {
-            boolean saved = dbHelper.insertValues(loanAmt, interestRate, loanTerm, termUnit);
+        if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty() && !emiAmt.isEmpty()) {
+            boolean saved = dbHelper.insertValues(loanAmt, interestRate, loanTerm, termUnit, emiAmt);
             if (saved) {
                 Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getActivity(), "Failed to save", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(getActivity(), "Please enter all 3 numbers", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please enter all 3 input", Toast.LENGTH_SHORT).show();
         }
     }
 

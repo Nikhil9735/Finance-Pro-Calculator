@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -20,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String INTEREST_RATE = "interest_rate";
     private static final String LOAN_TERM = "loan_term";
     private static final String TERM_UNIT = "termUnit";
+    private static final String EMI_AMT = "emiAmt";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,7 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 LOAN_AMT + " TEXT, " +
                 INTEREST_RATE + " TEXT, " +
                 LOAN_TERM + " TEXT, " +
-                TERM_UNIT + " TEXT)";
+                TERM_UNIT + " TEXT, " +
+                EMI_AMT + " TEXT)";
         db.execSQL(query);
     }
 
@@ -42,30 +46,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertValues(String loanAmt, String interestRate, String loanTerm, String termUnit) {
+    public boolean insertValues(String loanAmt, String interestRate, String loanTerm, String termUnit, String emiAmt) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(LOAN_AMT, loanAmt);
         cv.put(INTEREST_RATE, interestRate);
         cv.put(LOAN_TERM, loanTerm);
         cv.put(TERM_UNIT, termUnit);
+        cv.put(EMI_AMT, emiAmt);
         long result = db.insert(TABLE_NAME, null, cv);
         return result != -1;
     }
 
-    public List<String> getAllEntries() {
-        List<String> entries = new ArrayList<>();
+    public List<Map<String, String>> getAllEntriesAsMap() {
+        List<Map<String, String>> entries = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
         if (cursor.moveToFirst()) {
             do {
-                String record = "Loan Amount: " + cursor.getString(1) +
-                        ", Interest Rate: " + cursor.getString(2) +
-                        ", Loan Term: " + cursor.getString(3) +
-                        ", Term Unit: " + cursor.getString(4);
-                entries.add(record);
+                Map<String, String> entry = new HashMap<>();
+                entry.put("loan_amt", cursor.getString(1));
+                entry.put("interest_rate", cursor.getString(2));
+                entry.put("loan_term", cursor.getString(3));
+                entry.put("term_unit", cursor.getString(4));
+                entry.put("emi_amt", cursor.getString(5));
+                entries.add(entry);
             } while (cursor.moveToNext());
         }
+
         cursor.close();
         return entries;
     }

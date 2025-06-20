@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/simpleLoanDropdownLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/curve_box"
+    android:elevation="4dp"
+    android:padding="10dp">
+
+    <!-- Centered Heading -->
+    <TextView
+        android:id="@+id/textViewHeadingLoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:fontFamily="@font/bold"
+        android:text="Loan"
+        android:textColor="@color/darkGreen"
+        android:textSize="18sp" />
+
+    <!-- Loan Amount Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="end"
+            android:text="Loan Amount"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text=":"
+            android:textSize="15sp"
+            android:textColor="#808080" />
+
+        <TextView
+            android:id="@+id/loanAmtValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:text="0.00"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+    </LinearLayout>
+
+    <!-- Interest Rate Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="end"
+            android:text="Interest Rate"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text=":"
+            android:textSize="15sp"
+            android:textColor="#808080" />
+
+        <TextView
+            android:id="@+id/interestRateAmtValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:text="0.00"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+    </LinearLayout>
+
+    <!-- Loan Term Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="end"
+            android:text="Loan Term"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text=":"
+            android:textSize="15sp"
+            android:textColor="#808080" />
+
+        <TextView
+            android:id="@+id/loanTermValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:text="0.00"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+    </LinearLayout>
+
+    <!-- EMI Amount Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="end"
+            android:text="EMI Amount"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text=":"
+            android:textSize="15sp"
+            android:textColor="#808080" />
+
+        <TextView
+            android:id="@+id/emiAmtValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:text="0.00"
+            android:textSize="15sp"
+            android:textColor="#808080"
+            android:fontFamily="@font/regular" />
+    </LinearLayout>
+
+    <!-- Button Row with smaller wrap_content buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp"
+        android:layout_marginBottom="10dp">
+
+        <!-- Left button side -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_calculate"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="RECALCULATE"
+                android:textSize="14sp"
+                android:fontFamily="@font/regular"
+                android:background="@drawable/curve_box"
+                style="@style/ButtonStyle1" />
+        </LinearLayout>
+
+        <!-- Colon -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text=":"
+            android:textSize="15sp"
+            android:textColor="#808080" />
+
+        <!-- Right button side -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="DELETE"
+                android:textSize="14sp"
+                android:fontFamily="@font/regular"
+                android:background="@drawable/curve_box"
+                style="@style/ButtonStyle2" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
