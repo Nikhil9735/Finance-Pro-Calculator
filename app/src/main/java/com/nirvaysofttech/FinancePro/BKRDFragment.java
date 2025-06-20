@@ -28,8 +28,11 @@ public class BKRDFragment extends Fragment {
             annualInterestError, totalDepositResult, yearlyInterestHeading, yearlyInterestResult, totalInterestHeading,
             totalInterestResult, maturityAmountHeading, maturityAmountResult, editTextRepaymenetEmiHeading;
     private MainViewModel mainViewModel;
-    private LinearLayout resultBox, simpleLoanDropdownLayout;
-    private Button findInterestRate;
+    private LinearLayout resultBox, SaveAndDocsBox, simpleLoanDropdownLayout;
+    private Button findInterestRate, buttonCalculate, button_saveCalculation;
+    DatabaseHelper dbHelper;
+    // Get the selected term unit
+    String selectedTermUnit = ""; // Declare as String
 
     // Other class-level fields
     private float totalInterest = 0;
@@ -73,6 +76,12 @@ public class BKRDFragment extends Fragment {
         maturityAmountResult = view.findViewById(R.id.maturityAmountResult);
         simpleLoanDropdownLayout = view.findViewById(R.id.simpleLoanDropdownLayout);
         resultBox = view.findViewById(R.id.resultBox);
+        SaveAndDocsBox = view.findViewById(R.id.SaveAndDocsBox);
+        // Set OnClickListener for the Calculate button
+        buttonCalculate = view.findViewById(R.id.button_calculate);
+        button_saveCalculation = view.findViewById(R.id.button_saveCalculation);
+        dbHelper = new DatabaseHelper(getActivity());
+
 
 //        AdHelper.loadBannerAd(this, view); // Load banner ad for fragment
 
@@ -205,19 +214,18 @@ public class BKRDFragment extends Fragment {
             }
         });
 
-        // Set OnClickListener for the Calculate button
-        Button buttonCalculate = view.findViewById(R.id.button_calculate);
-
         CommonMethod.addClearErrorTextWatcher(editTextNumber1, errorTextEditTextNumber1);
         CommonMethod.addClearErrorTextWatcher(editTextNumber2, errorTextEditTextNumber2);
         CommonMethod.addClearErrorTextWatcher(editTextNumber3, errorTextEditTextNumber3);
         CommonMethod.addClearErrorTextWatcher(editTextRepaymenetEmi, errorTextEditTextNumber4);
 
         buttonCalculate.setOnClickListener(v -> calculateRD());
+        button_saveCalculation.setOnClickListener(v -> saveLoanCalculation());
 
         // Observe visibility for resultBox
         mainViewModel.getResultBoxVisibility().observe(getViewLifecycleOwner(), visible -> {
             resultBox.setVisibility(visible ? View.VISIBLE : View.GONE);
+            SaveAndDocsBox.setVisibility(visible ? View.VISIBLE : View.GONE);
         });
 
         // Set OnClickListener for the Reset button
@@ -268,7 +276,7 @@ public class BKRDFragment extends Fragment {
 
             float annualInterestRate = 0.0f;
             if (editTextNumber2.getVisibility() == View.VISIBLE) {
-                annualInterestRate = editTextNumber2.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextNumber2.getText().toString());
+                    annualInterestRate = editTextNumber2.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextNumber2.getText().toString());
             }
 
             // Check visibility of userEnterEMI field before parsing
@@ -277,8 +285,6 @@ public class BKRDFragment extends Fragment {
                 userEnterEMI = editTextRepaymenetEmi.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextRepaymenetEmi.getText().toString());
             }
 
-            // Get the selected term unit
-            String selectedTermUnit = ""; // Declare as String
             if (spinner.getVisibility() == View.VISIBLE) {
                 selectedTermUnit = spinner.getSelectedItem().toString(); // Directly get the selected item as a String
             }
@@ -550,6 +556,24 @@ public class BKRDFragment extends Fragment {
 
         } catch (NumberFormatException e) {
             Toast.makeText(requireContext(), "Invalid input. Please enter numeric values.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveLoanCalculation() {
+        String loanAmt = editTextNumber1.getText().toString().trim();
+        String interestRate = editTextNumber2.getText().toString().trim();
+        String loanTerm = editTextNumber3.getText().toString().trim();
+        String termUnit = selectedTermUnit = spinner.getSelectedItem().toString();
+
+        if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty()) {
+            boolean saved = dbHelper.insertValues(loanAmt, interestRate, loanTerm, termUnit);
+            if (saved) {
+                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Failed to save", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Please enter all 3 numbers", Toast.LENGTH_SHORT).show();
         }
     }
 

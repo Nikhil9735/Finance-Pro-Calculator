@@ -16,6 +16,8 @@
 
     <string name="btncalculate">CALCULATE</string>
     <string name="btnclear">CLEAR</string>
+    <string name="btnsavecalculation">Save This</string>
+    <string name="btnsharecalculation">Share This</string>
     <string name="btnbankinterest">SEARCH (%)</string>
     <string name="btnRadioReturn">Return</string>
     <string name="btnRadioGrowth">Growth</string>
@@ -259,5 +261,7 @@
     <string name="latest_release_notes">\u0020• Fixed: Duplicate icons issue resolved.\n\n
     • Fixed: Bug causing failure to generate bank interest rate PDF has been fixed.
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
