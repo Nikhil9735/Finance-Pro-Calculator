@@ -116,7 +116,7 @@ public class ChartFragment extends Fragment {
                 "Monthly Income Scheme (MIS)".equals(operation) || "National Savings Certificate (NSC)".equals(operation) ||
                 operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") ||
                 operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)") ||
-                operation.equals("Simple Loan")) {
+                operation.equals("Basic Loan")) {
             value1 = 0;
             value4 = 0;
         }

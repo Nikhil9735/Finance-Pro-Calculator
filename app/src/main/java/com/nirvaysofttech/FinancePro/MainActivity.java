@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         String[][] categories = {
                 {"BANK TOOLS", "Currency Denomination"},
                 {"EMPLOYEE TOOLS", getString(R.string.empSalary), getString(R.string.empSalaryIncrement)},
-                {"BANK", "Simple Loan", "Fixed Deposit - TDR (Interest Payout)", "Fixed Deposit - STDR (Cumulative)", "Bank Recurring Deposit (RD)", "All Bank Interest Rate (%)"},
+                {"BANK", "Basic Loan", "Fixed Deposit - TDR (Interest Payout)", "Fixed Deposit - STDR (Cumulative)", "Bank Recurring Deposit (RD)", "All Bank Interest Rate (%)"},
                 {"POST OFFICE", "Recurring Deposit (RD)", "Time Deposit (TD)", "Monthly Income Scheme (MIS)", "National Savings Certificate (NSC)"},
                 {"Bank & Post Office Schemes", "Mahila Samman Savings Certificate (MSSC)"}
         };

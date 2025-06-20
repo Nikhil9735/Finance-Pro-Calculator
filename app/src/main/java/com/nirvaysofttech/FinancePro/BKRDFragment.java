@@ -85,7 +85,7 @@ public class BKRDFragment extends Fragment {
             editText1Heading.setText("Loan Amount");
             if (operation != null) {
                 switch (operation) {
-                    case "Simple Loan":
+                    case "Basic Loan":
                         simpleLoanDropdownLayout.setVisibility(View.VISIBLE);
                         simpleLoanCalculateDropdown.setVisibility(View.VISIBLE);
                         setupSpinner(spinner, R.array.term_options); // Load FD options
@@ -309,7 +309,7 @@ public class BKRDFragment extends Fragment {
 
             if (operation != null) {
                 switch (operation) {
-                    case "Simple Loan":
+                    case "Basic Loan":
 
                         // Calculate monthly interest rate
                         float monthlyInterestRateSimpleLoan = (annualInterestRate / 100f) / 12;
@@ -612,7 +612,7 @@ public class BKRDFragment extends Fragment {
 
         if (operation != null) {
             switch (operation) {
-                case "Simple Loan":
+                case "Basic Loan":
 
                     switch (selectedOption) {
                         case "Monthly Repayment (EMI)":

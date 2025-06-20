@@ -36,37 +36,35 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/bold"
-                    android:text="Simple Loan"
+                    android:text="Basic Loan"
                     android:textColor="@color/darkGreen"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="25dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center">
 
                     <TextView
                         android:id="@+id/loanCalculate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_below="@id/textViewHeading"
-                        android:layout_marginStart="4dp"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/regular"
-                        android:gravity="center_horizontal|end"
-                        android:text="Calculate : "
+                        android:gravity="center_vertical"
+                        android:text="Calculate :"
                         android:textColor="#808080"
                         android:textSize="15sp" />
 
                     <Spinner
                         android:id="@+id/simpleLoanCalculateDropdown"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="2dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/bold"
                         android:gravity="center"
@@ -154,9 +152,9 @@
 
                     <EditText
                         android:id="@+id/editTextNumber2"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2.5"
                         android:digits="0123456789."
                         android:fontFamily="@font/regular"
                         android:hint="%"
@@ -168,13 +166,13 @@
                     <Button
                         android:id="@+id/findInterestRate"
                         style="@style/ButtonStyle1"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_weight="0.5"
                         android:background="@drawable/curve_box"
                         android:fontFamily="@font/regular"
-                        android:text="SEARCH INTEREST %"
-                        android:textSize="13sp" />
+                        android:text="FIND %"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <TextView

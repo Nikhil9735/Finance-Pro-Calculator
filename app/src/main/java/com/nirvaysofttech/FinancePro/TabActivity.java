@@ -69,7 +69,7 @@ public class TabActivity extends AppCompatActivity {
                     operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)") ||
                     operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") ||
                     operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)") ||
-                    operation.equals("Simple Loan")) {
+                    operation.equals("Basic Loan")) {
 
                 switch (position) {
                     case 0:
@@ -184,7 +184,7 @@ public class TabActivity extends AppCompatActivity {
                 }
             }
             else if (operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)") ||
-                    operation.equals("Simple Loan")) {
+                    operation.equals("Basic Loan")) {
                 // For Interest operation show 2 tabs (Local and Metro)
                 switch (position) {
                     case 0:
@@ -204,7 +204,7 @@ public class TabActivity extends AppCompatActivity {
         public int getItemCount() {
             if (operation.equals("Recurring Deposit (RD)") || operation.equals("Time Deposit (TD)") || operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)")
             || operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") ||
-                    operation.equals("Fixed Deposit - TDR (Interest Payout)") || operation.equals("Simple Loan")) {
+                    operation.equals("Fixed Deposit - TDR (Interest Payout)") || operation.equals("Basic Loan")) {
                 return 3; // Show 4 tabs for RD, TD, MIS, NSC
             } else if (operation.equals(getString(R.string.empSalary)) || operation.equals(getString(R.string.empSalaryIncrement))) {
                 return 2; // Show 3 tabs for Employee Salary
