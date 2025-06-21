@@ -1,10 +1,12 @@
 package com.nirvaysofttech.FinancePro;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,11 +36,41 @@ public class BKRDFragment extends Fragment {
     // Get the selected term unit
     String selectedTermUnit = ""; // Declare as String
 
+    public static BKRDFragment instance;
+    private String currentSaveRecordName = null;
+
     // Other class-level fields
     private float totalInterest = 0;
     private float totalDeposit = 0;
     private float maturityAmount = 0;
     private float yearlyInterest = 0;
+
+    public BKRDFragment() {
+        instance = this;
+    }
+
+    public static BKRDFragment getInstance() {
+        return instance;
+    }
+
+    public void loadValuesFromRecalculate(String save_record_nam, String loanAmt, String interestRate, String loanTerm, String termUnit) {
+        editTextNumber1.setText(String.valueOf(loanAmt));
+        editTextNumber2.setText(String.valueOf(interestRate));
+        editTextNumber3.setText(String.valueOf(loanTerm));
+
+        // Set spinner selection based on termUnit
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+        if (adapter != null) {
+            int position = adapter.getPosition(termUnit);
+            if (position >= 0) {
+                spinner.setSelection(position);
+            }
+        }
+
+        // Optionally trigger auto-calculation
+        buttonCalculate.performClick();
+        currentSaveRecordName = save_record_nam; // ✅ Store active record name
+    }
 
     @Nullable
     @Override
@@ -560,22 +592,90 @@ public class BKRDFragment extends Fragment {
     }
 
     private void saveLoanCalculation() {
-        String loanAmt = editTextNumber1.getText().toString().trim();
-        String interestRate = editTextNumber2.getText().toString().trim();
-        String loanTerm = editTextNumber3.getText().toString().trim();
-        String termUnit = spinner.getSelectedItem().toString();
-        String emiAmt = yearlyInterestResult.getText().toString().trim();
+        // Handle update if in recalculation mode
+        if (currentSaveRecordName != null) {
+            String loanAmt = editTextNumber1.getText().toString().trim();
+            String interestRate = editTextNumber2.getText().toString().trim();
+            String loanTerm = editTextNumber3.getText().toString().trim();
+            String termUnit = spinner.getSelectedItem().toString();
+            String emiAmt = String.format("%.2f", yearlyInterest);
 
-        if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty() && !emiAmt.isEmpty()) {
-            boolean saved = dbHelper.insertValues(loanAmt, interestRate, loanTerm, termUnit, emiAmt);
-            if (saved) {
-                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+            if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty() && !emiAmt.isEmpty()) {
+                boolean updated = dbHelper.updateRecord(currentSaveRecordName, loanAmt, interestRate, loanTerm, termUnit, emiAmt);
+                if (updated) {
+                    Toast.makeText(getContext(), currentSaveRecordName + " was updated successfully", Toast.LENGTH_SHORT).show();
+                    if (Bank_LoanSaveFragment.instance != null) {
+                        Bank_LoanSaveFragment.instance.loadAllLoanEntries();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to update " + currentSaveRecordName, Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(getActivity(), "Failed to save", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please enter all 3 inputs", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getActivity(), "Please enter all 3 input", Toast.LENGTH_SHORT).show();
+
+            return; // Skip dialog
         }
+
+        // If not recalculation mode, show save dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View dialogView = inflater.inflate(R.layout.dialog_record_name_save, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_corners);
+        dialog.show();
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8);
+        dialog.getWindow().setAttributes(params);
+
+        EditText input = dialogView.findViewById(R.id.saveRecordNameEditText);
+        Button okButton = dialogView.findViewById(R.id.button_ok);
+        Button cancelButton = dialogView.findViewById(R.id.button_cancel);
+
+        okButton.setOnClickListener(v -> {
+            String name = input.getText().toString().trim().toUpperCase();
+
+            if (name.isEmpty()) {
+                input.setError("Please enter record name.");
+                Toast.makeText(getContext(), "Please enter record name.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (dbHelper.checkNameExists(name)) {
+                input.setError("This name already exists in records.");
+                Toast.makeText(getContext(), "This name already exists in records.", Toast.LENGTH_SHORT).show();
+            } else {
+                String loanAmt = editTextNumber1.getText().toString().trim();
+                String interestRate = editTextNumber2.getText().toString().trim();
+                String loanTerm = editTextNumber3.getText().toString().trim();
+                String termUnit = spinner.getSelectedItem().toString();
+                String emiAmt = String.format("%.2f", yearlyInterest);
+
+                if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty() && !emiAmt.isEmpty()) {
+                    boolean saved = dbHelper.insertValues(name, loanAmt, interestRate, loanTerm, termUnit, emiAmt);
+                    if (saved) {
+                        currentSaveRecordName = name;
+                        Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                        // Refresh Tab 4 records
+                        if (Bank_LoanSaveFragment.instance != null) {
+                            Bank_LoanSaveFragment.instance.loadAllLoanEntries();
+                        }
+
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(getActivity(), "Failed to save", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Please enter all 3 inputs", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void setResultHeadingsVisibility(int visibility) {
@@ -594,6 +694,7 @@ public class BKRDFragment extends Fragment {
 
     private void resetFields() {
         mainViewModel.hideKeyboard(requireContext());
+        currentSaveRecordName = null;
         // Clear all input fields and results
         editTextNumber1.setText("");
         editTextNumber2.setText("");

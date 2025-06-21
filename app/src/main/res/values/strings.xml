@@ -23,6 +23,8 @@
     <string name="btnRadioGrowth">Growth</string>
 
     <!-- Setting Activity -->
+    <string name="record_name_save_text">Enter Record Name</string>
+
     <string name="color_scheme_text">Color Scheme</string>
 
     <string name="language_text">Language</string>

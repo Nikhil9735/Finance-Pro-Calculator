@@ -22,11 +22,17 @@ public class TabActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private String operation; // Store the operation type
+    public static ViewPager2 getViewPager() {
+        return instance.viewPager;
+    }
+
+    private static TabActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+        instance = this; // Initialize the instance
 
         AdHelper.loadBannerAd(this);
 
