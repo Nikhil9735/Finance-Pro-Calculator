@@ -62,4 +62,10 @@
         <item name="android:textColor">@color/black</item> <!-- Example: Black text -->
     </style>
 
+    <style name="CustomEditText" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:hint">?android:textColorHint</item>
+        <item name="android:background">@drawable/edittext_curved_border</item>
+    </style>
+
 </resources>

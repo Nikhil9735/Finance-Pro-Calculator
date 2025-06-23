@@ -12,15 +12,26 @@
 
     <!-- Centered Heading -->
     <TextView
-        android:id="@+id/loanRecordHeading"
+        android:id="@+id/typeOfCalculateHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:fontFamily="@font/bold"
         android:text="Loan"
         android:textColor="@color/darkGreen"
         android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/loanRecordHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:fontFamily="@font/bold"
+        android:text="Loan"
+        android:textColor="@color/darkGreen"
+        android:textSize="16dp" />
 
     <!-- Loan Amount Row -->
     <LinearLayout
@@ -143,7 +154,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingVertical="4dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="8dp">
 
         <TextView
             android:layout_width="0dp"
@@ -182,7 +193,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingVertical="4dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="5dp">
 
         <!-- Left button side -->
         <LinearLayout

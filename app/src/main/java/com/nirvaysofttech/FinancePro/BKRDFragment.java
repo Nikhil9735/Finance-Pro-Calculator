@@ -3,6 +3,8 @@ package com.nirvaysofttech.FinancePro;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +34,16 @@ public class BKRDFragment extends Fragment {
     private MainViewModel mainViewModel;
     private LinearLayout resultBox, SaveAndDocsBox, simpleLoanDropdownLayout;
     private Button findInterestRate, buttonCalculate, button_saveCalculation;
+    String selectedOption = ""; // Declare as String
+    // Check visibility of userEnterEMI field before parsing
+    float userEnterEMI = 0.0f;
+    double annualInterestRatee;
+    // Format the result as "X Years & Y Months (Z Months)"
+    String loanTermResult;
     DatabaseHelper dbHelper;
     // Get the selected term unit
     String selectedTermUnit = ""; // Declare as String
+    private boolean isRecalculating = false;
 
     public static BKRDFragment instance;
     private String currentSaveRecordName = null;
@@ -53,7 +62,17 @@ public class BKRDFragment extends Fragment {
         return instance;
     }
 
-    public void loadValuesFromRecalculate(String save_record_nam, String loanAmt, String interestRate, String loanTerm, String termUnit) {
+    public void loadValuesFromRecalculate(String selectedOption, String save_record_nam, String loanAmt, String interestRate, String loanTerm, String termUnit) {
+        isRecalculating = true; // 🔐 prevent reset temporarily
+        // Set spinner selection based on termUnit
+        ArrayAdapter<String> adapterSelectedOption = (ArrayAdapter<String>) simpleLoanCalculateDropdown.getAdapter();
+        if (adapterSelectedOption != null) {
+            int position = adapterSelectedOption.getPosition(selectedOption);
+            if (position >= 0) {
+                simpleLoanCalculateDropdown.setSelection(position);
+            }
+        }
+
         editTextNumber1.setText(String.valueOf(loanAmt));
         editTextNumber2.setText(String.valueOf(interestRate));
         editTextNumber3.setText(String.valueOf(loanTerm));
@@ -70,6 +89,9 @@ public class BKRDFragment extends Fragment {
         // Optionally trigger auto-calculation
         buttonCalculate.performClick();
         currentSaveRecordName = save_record_nam; // ✅ Store active record name
+
+        // 🕓 Delay turning off the flag to allow dropdown to finish processing
+        new Handler(Looper.getMainLooper()).postDelayed(() -> isRecalculating = false, 200);
     }
 
     @Nullable
@@ -144,7 +166,7 @@ public class BKRDFragment extends Fragment {
 
                                 switch (selectedOption) {
                                     case "Monthly Repayment (EMI)":
-                                        resetFields();
+                                        if (!isRecalculating) resetFields(); // ✅ Only skip this part at the time of recalculation
                                         editText1Heading.setText("Loan Amount");
                                         textViewTerm.setText("Loan Period");
                                         totalDepositHeading.setText("Principal Paid (P)");
@@ -164,7 +186,7 @@ public class BKRDFragment extends Fragment {
                                         break;
 
                                     case "Loan Amount":
-                                        resetFields();
+                                        if (!isRecalculating) resetFields(); // ✅ Only skip this part
                                         editText1Heading.setText("Monthly Repayment (EMI)");
                                         yearlyInterestHeading.setVisibility(View.GONE);
                                         yearlyInterestResult.setVisibility(View.GONE);
@@ -182,7 +204,7 @@ public class BKRDFragment extends Fragment {
                                         break;
 
                                     case "Annual Interest Rate (%)":
-                                        resetFields();
+                                        if (!isRecalculating) resetFields(); // ✅ Only skip this part
                                         editText1Heading.setText("Loan Amount");
                                         totalDepositHeading.setText("Principal Paid (P)");
                                         yearlyInterestHeading.setText("Annual Interest Rate (%)");
@@ -201,7 +223,7 @@ public class BKRDFragment extends Fragment {
                                         errorTextEditTextNumber4.setVisibility(View.VISIBLE);
                                         break;
                                     case "Loan Term":
-                                        resetFields();
+                                        if (!isRecalculating) resetFields(); // ✅ Only skip this part
                                         totalDepositHeading.setText("Principal Paid (P)");
                                         yearlyInterestHeading.setText("Loan Term");
                                         editText2Heading.setVisibility(View.VISIBLE);
@@ -311,8 +333,7 @@ public class BKRDFragment extends Fragment {
                     annualInterestRate = editTextNumber2.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextNumber2.getText().toString());
             }
 
-            // Check visibility of userEnterEMI field before parsing
-            float userEnterEMI = 0.0f;
+
             if (editTextRepaymenetEmi.getVisibility() == View.VISIBLE) {
                 userEnterEMI = editTextRepaymenetEmi.getText().toString().isEmpty() ? 0.0f : Float.parseFloat(editTextRepaymenetEmi.getText().toString());
             }
@@ -321,7 +342,6 @@ public class BKRDFragment extends Fragment {
                 selectedTermUnit = spinner.getSelectedItem().toString(); // Directly get the selected item as a String
             }
 
-            String selectedOption = ""; // Declare as String
             if (simpleLoanCalculateDropdown.getVisibility() == View.VISIBLE) {
                 selectedOption = simpleLoanCalculateDropdown.getSelectedItem().toString();
             }
@@ -374,6 +394,7 @@ public class BKRDFragment extends Fragment {
                                 break;
 
                             case "Loan Amount":
+                                yearlyInterest = principal;
                                 float emiInput = principal; // principal is used as EMI input
                                 float loanAmount;
 
@@ -437,7 +458,7 @@ public class BKRDFragment extends Fragment {
                                 }
 
                                 // Calculate annual interest rate
-                                double annualInterestRatee = ((low + high) / 2.0) * 12;
+                                annualInterestRatee = ((low + high) / 2.0) * 12;
 
                                 setResultHeadingsVisibility(View.GONE);
                                 annualInterestError.setVisibility(View.VISIBLE);
@@ -488,8 +509,6 @@ public class BKRDFragment extends Fragment {
                                 int years = totalMonths / 12;
                                 int months = totalMonths % 12;
 
-                                // Format the result as "X Years & Y Months (Z Months)"
-                                String loanTermResult;
                                 if (years == 0) {
                                     loanTermResult = months + " Months (" + totalMonths + " Months)";
                                 } else if (months == 0) {
@@ -600,12 +619,24 @@ public class BKRDFragment extends Fragment {
             String termUnit = spinner.getSelectedItem().toString();
             String emiAmt = String.format("%.2f", yearlyInterest);
 
+            if (selectedOption.equalsIgnoreCase("Loan Amount")){
+                loanAmt = String.format("%.2f", totalDeposit);
+            } else if (selectedOption.equalsIgnoreCase("Annual Interest Rate (%)")){
+                interestRate = String.format("%.2f", annualInterestRatee);
+                emiAmt = String.format("%.2f", userEnterEMI);
+            } else if (selectedOption.equalsIgnoreCase("Loan Term")){
+                emiAmt = String.format("%.2f", userEnterEMI);
+                loanTerm = String.format(loanTermResult);
+            }
+            
+
             if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty() && !emiAmt.isEmpty()) {
-                boolean updated = dbHelper.updateRecord(currentSaveRecordName, loanAmt, interestRate, loanTerm, termUnit, emiAmt);
+                boolean updated = dbHelper.updateRecord(selectedOption, currentSaveRecordName, loanAmt, interestRate, loanTerm, termUnit, emiAmt);
                 if (updated) {
                     Toast.makeText(getContext(), currentSaveRecordName + " was updated successfully", Toast.LENGTH_SHORT).show();
-                    if (Bank_LoanSaveFragment.instance != null) {
-                        Bank_LoanSaveFragment.instance.loadAllLoanEntries();
+                    Bank_LoanSaveFragment loanSaveFragment = Bank_LoanSaveFragment.instance;
+                    if (loanSaveFragment != null && loanSaveFragment.isAdded()) {
+                        loanSaveFragment.loadAllLoanEntries();
                     }
                 } else {
                     Toast.makeText(getContext(), "Failed to update " + currentSaveRecordName, Toast.LENGTH_SHORT).show();
@@ -655,14 +686,25 @@ public class BKRDFragment extends Fragment {
                 String termUnit = spinner.getSelectedItem().toString();
                 String emiAmt = String.format("%.2f", yearlyInterest);
 
+                if (selectedOption.equalsIgnoreCase("Loan Amount")){
+                    loanAmt = String.format("%.2f", totalDeposit);
+                } else if (selectedOption.equalsIgnoreCase("Annual Interest Rate (%)")){
+                    interestRate = String.format("%.2f", annualInterestRatee);
+                    emiAmt = String.format("%.2f", userEnterEMI);
+                } else if (selectedOption.equalsIgnoreCase("Loan Term")){
+                    emiAmt = String.format("%.2f", userEnterEMI);
+                    loanTerm = String.format(loanTermResult);
+                }
+
                 if (!loanAmt.isEmpty() && !interestRate.isEmpty() && !loanTerm.isEmpty() && !termUnit.isEmpty() && !emiAmt.isEmpty()) {
-                    boolean saved = dbHelper.insertValues(name, loanAmt, interestRate, loanTerm, termUnit, emiAmt);
+                    boolean saved = dbHelper.insertValues(selectedOption, name, loanAmt, interestRate, loanTerm, termUnit, emiAmt);
                     if (saved) {
                         currentSaveRecordName = name;
                         Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
                         // Refresh Tab 4 records
-                        if (Bank_LoanSaveFragment.instance != null) {
-                            Bank_LoanSaveFragment.instance.loadAllLoanEntries();
+                        Bank_LoanSaveFragment loanSaveFragment = Bank_LoanSaveFragment.instance;
+                        if (loanSaveFragment != null && loanSaveFragment.isAdded()) {
+                            loanSaveFragment.loadAllLoanEntries();
                         }
 
                         dialog.dismiss();

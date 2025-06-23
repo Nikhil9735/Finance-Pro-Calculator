@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <!-- Focused state -->
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="#E3F2FD" /> <!-- Light blue background -->
-            <stroke android:width="2dp" android:color="#008877" /> <!-- Blue border -->
+            <solid android:color="?android:colorBackground" /> <!-- dynamic background -->
+            <stroke android:width="2dp" android:color="?attr/colorPrimary" /> <!-- app primary color -->
             <corners android:radius="10dp" />
         </shape>
     </item>
@@ -13,8 +12,8 @@
     <!-- Default state -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF" /> <!-- White background -->
-            <stroke android:width="1dp" android:color="#999999" /> <!-- Grey border -->
+            <solid android:color="?android:colorBackground" />
+            <stroke android:width="1dp" android:color="@color/darkGrey" />
             <corners android:radius="10dp" />
         </shape>
     </item>

@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "FinancialPro";
+    private static final String SELECTED_OPTION = "selectedOption";
     private static final String SAVE_RECORD_NAME = "save_record_name";
     private static final String LOAN_AMT = "loan_amt";
     private static final String INTEREST_RATE = "interest_rate";
@@ -31,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " (" +
+                SELECTED_OPTION + " TEXT, " +
                 SAVE_RECORD_NAME + " TEXT PRIMARY KEY, " +
                 LOAN_AMT + " TEXT, " +
                 INTEREST_RATE + " TEXT, " +
@@ -46,9 +48,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertValues(String save_record_name, String loanAmt, String interestRate, String loanTerm, String termUnit, String emiAmt) {
+    public boolean insertValues(String selectedOption, String save_record_name, String loanAmt, String interestRate, String loanTerm, String termUnit, String emiAmt) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(SELECTED_OPTION, selectedOption);
         cv.put(SAVE_RECORD_NAME, save_record_name);
         cv.put(LOAN_AMT, loanAmt);
         cv.put(INTEREST_RATE, interestRate);
@@ -67,12 +70,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Map<String, String> entry = new HashMap<>();
-                entry.put("save_record_name", cursor.getString(0));
-                entry.put("loan_amt", cursor.getString(1));
-                entry.put("interest_rate", cursor.getString(2));
-                entry.put("loan_term", cursor.getString(3));
-                entry.put("term_unit", cursor.getString(4));
-                entry.put("emi_amt", cursor.getString(5));
+                entry.put("selectedOption", cursor.getString(0));
+                entry.put("save_record_name", cursor.getString(1));
+                entry.put("loan_amt", cursor.getString(2));
+                entry.put("interest_rate", cursor.getString(3));
+                entry.put("loan_term", cursor.getString(4));
+                entry.put("term_unit", cursor.getString(5));
+                entry.put("emi_amt", cursor.getString(6));
                 entries.add(entry);
             } while (cursor.moveToNext());
         }
@@ -95,9 +99,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    public boolean updateRecord(String save_record_name, String loanAmt, String interestRate, String loanTerm, String termUnit, String emiAmt) {
+    public boolean updateRecord(String selectedOption, String save_record_name, String loanAmt, String interestRate, String loanTerm, String termUnit, String emiAmt) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(SELECTED_OPTION, selectedOption);
         cv.put(LOAN_AMT, loanAmt);
         cv.put(INTEREST_RATE, interestRate);
         cv.put(LOAN_TERM, loanTerm);
