@@ -62,7 +62,7 @@ public class BKRDFragment extends Fragment {
         return instance;
     }
 
-    public void loadValuesFromRecalculate(String selectedOption, String save_record_nam, String loanAmt, String interestRate, String loanTerm, String termUnit) {
+    public void loadValuesFromRecalculate(String selectedOption, String save_record_nam, String loanAmt, String interestRate, String loanTerm, String termUnit, String emi_amt) {
         isRecalculating = true; // 🔐 prevent reset temporarily
         // Set spinner selection based on termUnit
         ArrayAdapter<String> adapterSelectedOption = (ArrayAdapter<String>) simpleLoanCalculateDropdown.getAdapter();
@@ -76,6 +76,7 @@ public class BKRDFragment extends Fragment {
         editTextNumber1.setText(String.valueOf(loanAmt));
         editTextNumber2.setText(String.valueOf(interestRate));
         editTextNumber3.setText(String.valueOf(loanTerm));
+        editTextRepaymenetEmi.setText(String.valueOf(emi_amt));
 
         // Set spinner selection based on termUnit
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();

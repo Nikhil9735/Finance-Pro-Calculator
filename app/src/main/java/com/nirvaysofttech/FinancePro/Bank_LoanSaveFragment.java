@@ -78,6 +78,7 @@ public class Bank_LoanSaveFragment extends Fragment {
                 String interestRate = record.get("interest_rate");
                 String loanTerm = record.get("loan_term");
                 String termUnit = record.get("term_unit");
+                String emi_amt = record.get("emi_amt");
 
 
                 // Delay the call to ensure BKRDFragment is attached
@@ -85,7 +86,7 @@ public class Bank_LoanSaveFragment extends Fragment {
                     BKRDFragment bkrdFragment = BKRDFragment.getInstance();
                     if (bkrdFragment != null && bkrdFragment.isAdded()) {
                         bkrdFragment.loadValuesFromRecalculate(
-                                selectedOption, save_record_name, loanAmt, interestRate, loanTerm, termUnit
+                                selectedOption, save_record_name, loanAmt, interestRate, loanTerm, termUnit, emi_amt
                         );
                     }
                 }, 200); // Delay enough to let the fragment attach
