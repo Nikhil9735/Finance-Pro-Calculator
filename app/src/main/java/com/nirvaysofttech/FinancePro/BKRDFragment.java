@@ -78,10 +78,24 @@ public class BKRDFragment extends Fragment {
 //        editTextNumber3.setText(String.valueOf(loanTerm));
 //        editTextRepaymenetEmi.setText(String.valueOf(emi_amt));
 
-        if (selectedOption.equalsIgnoreCase("Loan Amount    ")) {
+        if (selectedOption.equalsIgnoreCase("Monthly Repayment (EMI)")) {
+            editTextNumber1.setText(String.valueOf(loanAmt));
+            editTextNumber2.setText(String.valueOf(interestRate));
+            editTextNumber3.setText(String.valueOf(loanTerm));
+        } else if (selectedOption.equalsIgnoreCase("Loan Amount")) {
             editTextNumber1.setText(String.valueOf(emi_amt));
             editTextNumber2.setText(String.valueOf(interestRate));
             editTextNumber3.setText(String.valueOf(loanTerm));
+        } else if (selectedOption.equalsIgnoreCase("Annual Interest Rate (%)")) {
+            editTextRepaymenetEmi.setVisibility(View.VISIBLE);
+            editTextNumber1.setText(String.valueOf(loanAmt));
+            editTextNumber3.setText(String.valueOf(loanTerm));
+            editTextRepaymenetEmi.setText(String.valueOf(emi_amt));
+        } else if (selectedOption.equalsIgnoreCase("Loan Term")) {
+            editTextRepaymenetEmi.setVisibility(View.VISIBLE);
+            editTextNumber1.setText(String.valueOf(loanAmt));
+            editTextNumber2.setText(String.valueOf(interestRate));
+            editTextRepaymenetEmi.setText(String.valueOf(emi_amt));
         }
 
         // Set spinner selection based on termUnit
