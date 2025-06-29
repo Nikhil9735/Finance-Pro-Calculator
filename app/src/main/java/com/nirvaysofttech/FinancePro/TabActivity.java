@@ -73,9 +73,7 @@ public class TabActivity extends AppCompatActivity {
 
             if (operation.equals("Recurring Deposit (RD)") || operation.equals("Time Deposit (TD)") ||
                     operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)") ||
-                    operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") ||
-                    operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)") ||
-                    operation.equals("Basic Loan")) {
+                    operation.equals("Mahila Samman Savings Certificate (MSSC)")) {
 
                 switch (position) {
                     case 0:
@@ -87,11 +85,33 @@ public class TabActivity extends AppCompatActivity {
                     case 2:
                         tabTextView.setText("ABOUT");
                         break;
-                    case 3:
+                }
+
+            } else if (operation.equals("Bank Recurring Deposit (RD)") ||
+                    operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)")) {
+                switch (position) {
+                    case 0:
+                        tabTextView.setText("INPUT");
+                        break;
+                    case 1:
+                        tabTextView.setText("CHART");
+                        break;
+                    case 2:
+                        tabTextView.setText("ABOUT");
+                        break;
+                }
+            } else if (operation.equals("Basic Loan")) {
+                switch (position) {
+                    case 0:
+                        tabTextView.setText("INPUT");
+                        break;
+                    case 1:
+                        tabTextView.setText("CHART");
+                        break;
+                    case 2:
                         tabTextView.setText("RECORDS");
                         break;
                 }
-
             } else if (operation.equals(getString(R.string.empSalary))) {
                 switch (position) {
                     case 0:
@@ -192,8 +212,19 @@ public class TabActivity extends AppCompatActivity {
                         return new AllBankInterestRateFragment();
                 }
             }
-            else if (operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)") ||
-                    operation.equals("Basic Loan")) {
+            else if (operation.equals("Basic Loan")) {
+                switch (position) {
+                    case 0:
+                        return new BKRDFragment();
+                    case 1:
+                        return new ChartFragment();
+                    case 2:
+                        return new Bank_LoanSaveFragment();
+                    default:
+                        return new InputFragment();
+                }
+            }
+            else if (operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") || operation.equals("Fixed Deposit - TDR (Interest Payout)")) {
                 // For Interest operation show 2 tabs (Local and Metro)
                 switch (position) {
                     case 0:
@@ -202,8 +233,6 @@ public class TabActivity extends AppCompatActivity {
                         return new ChartFragment();
                     case 2:
                         return new InfoFragment();
-                    case 3:
-                        return new Bank_LoanSaveFragment();
                     default:
                         return new InputFragment();
                 }
@@ -214,15 +243,17 @@ public class TabActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             if (operation.equals("Recurring Deposit (RD)") || operation.equals("Time Deposit (TD)") || operation.equals("Monthly Income Scheme (MIS)") || operation.equals("National Savings Certificate (NSC)")
-            || operation.equals("Mahila Samman Savings Certificate (MSSC)") || operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") ||
-                    operation.equals("Fixed Deposit - TDR (Interest Payout)") || operation.equals("Basic Loan")) {
-                return 4; // Show 4 tabs for RD, TD, MIS, NSC
+            || operation.equals("Mahila Samman Savings Certificate (MSSC)")) {
+                return 3; // Show 4 tabs for RD, TD, MIS, NSC
             } else if (operation.equals(getString(R.string.empSalary)) || operation.equals(getString(R.string.empSalaryIncrement))) {
                 return 2; // Show 3 tabs for Employee Salary
             }  else if (operation.equals("Currency Denomination")) {
                 return 2; // Show 2 tabs for Dinominator
             } else if (operation.equals("All Bank Interest Rate (%)")) {
                 return 2; // Show 2 tabs for Interest
+            } else if (operation.equals("Basic Loan") || operation.equals("Bank Recurring Deposit (RD)") || operation.equals("Fixed Deposit - STDR (Cumulative)") ||
+                    operation.equals("Fixed Deposit - TDR (Interest Payout)")){
+                return 3;
             }
             return 4; // Default to 4 tabs
         }
