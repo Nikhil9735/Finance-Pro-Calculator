@@ -73,10 +73,16 @@ public class BKRDFragment extends Fragment {
             }
         }
 
-        editTextNumber1.setText(String.valueOf(loanAmt));
-        editTextNumber2.setText(String.valueOf(interestRate));
-        editTextNumber3.setText(String.valueOf(loanTerm));
-        editTextRepaymenetEmi.setText(String.valueOf(emi_amt));
+//        editTextNumber1.setText(String.valueOf(loanAmt));
+//        editTextNumber2.setText(String.valueOf(interestRate));
+//        editTextNumber3.setText(String.valueOf(loanTerm));
+//        editTextRepaymenetEmi.setText(String.valueOf(emi_amt));
+
+        if (selectedOption.equalsIgnoreCase("Loan Amount    ")) {
+            editTextNumber1.setText(String.valueOf(emi_amt));
+            editTextNumber2.setText(String.valueOf(interestRate));
+            editTextNumber3.setText(String.valueOf(loanTerm));
+        }
 
         // Set spinner selection based on termUnit
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
@@ -311,9 +317,11 @@ public class BKRDFragment extends Fragment {
     private void calculateRD() {
         String operation = mainViewModel.getOperation().getValue();
 
-        // Call the validation method
-        if (!validateInputsNum(operation)) {
-            return; // Exit if validation fails
+        if(!isRecalculating){
+            // Call the validation method
+            if (!validateInputsNum(operation)) {
+                return; // Exit if validation fails
+            }
         }
 
         // Format the results
